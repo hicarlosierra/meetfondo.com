@@ -88,7 +88,7 @@ Cuando se elija uno: dejarlo solo en `LIST` (script junto al `<video>` en `index
 
 Elige la más pequeña que cubra la pantalla (ancho real en píxeles, con densidad hasta 2×). Un móvil en horizontal no pasa de 1920. Con «reducir movimiento» o ahorro de datos no se descarga ningún vídeo: se queda el póster.
 
-Todas con tope de bitrate y una limpieza suave de grano, para que pesen lo justo y el grano no se convierta en bloques. Pesos: 1920 entre 5,8 y 8 MB; 2560 entre 9,5 y 11 MB; móvil entre 5,5 y 7 MB; móvil SD alrededor de 3 MB.
+Calidad máxima: sin limpieza de grano, CRF 18-19 y topes altos de bitrate. Cueva y mar (originales 4K) van en móvil a su resolución real, 1216×2160. Pesos aproximados: 1920 entre 9 y 19 MB; 2560 unos 20-23 MB; móvil entre 12 y 17 MB; móvil SD (solo conexión lenta) unos 3 MB. Empiezan a reproducirse en cuanto llegan los primeros segundos (faststart).
 
 - buzo: original 1280×720 (las versiones 1920 y móvil están reescaladas; es el límite de ese archivo).
 - cueva: original 4K.
@@ -99,7 +99,7 @@ Todas con tope de bitrate y una limpieza suave de grano, para que pesen lo justo
 
 **Cabecera sobre el vídeo.** Cada vídeo lleva en `main.js` (`VIDEO_LUM`) un mapa 24×24 con la luminosidad mediana de todo el bucle, de la versión horizontal y de la de móvil. La cabecera usa ese mapa para ponerse blanca o negra: elige lo que mejor se lee durante la mayor parte del vídeo y no parpadea con cada plano. Si se cambia un vídeo, hay que regenerar su mapa (ffmpeg a 4 fps, celdas de 24×24, mediana en el tiempo, raíz cuadrada en base64).
 
-**Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -x264-params aq-mode=3 -crf 20 -maxrate 5000k -bufsize 10000k -pix_fmt yuv420p -movflags +faststart -vf "hqdn3d=1.5:1.5:4:4,scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
+**Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3:deblock=-1,-1 -crf 18 -maxrate 12000k -bufsize 24000k -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
 
 ## Página de viaje · `viajes/costa-brava/`
 
