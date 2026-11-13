@@ -19,8 +19,6 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-  <link rel="preload" href="assets/video/hero-buzo-poster.webp" as="image" fetchpriority="high" media="(min-aspect-ratio: 4/5)">
-  <link rel="preload" href="assets/video/hero-buzo-poster-movil.webp" as="image" fetchpriority="high" media="(max-aspect-ratio: 4/5)">
   <link rel="stylesheet" href="css/styles.css">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
@@ -136,23 +134,36 @@
 
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
-    <!-- Vídeo en bucle, sin sonido. El script de debajo elige la versión (horizontal o recorte vertical
-         para móvil) antes de cargar nada. Con «reducir movimiento» o ahorro de datos se queda el póster. -->
-    <video class="hero__img hero__video" muted loop playsinline autoplay preload="none" poster="assets/video/hero-buzo-poster.webp"
-      aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video
-      data-src="assets/video/hero-buzo-1280.mp4" data-src-hd="assets/video/hero-buzo-1920.mp4" data-src-movil="assets/video/hero-buzo-movil.mp4" data-poster-movil="assets/video/hero-buzo-poster-movil.webp"></video>
+    <!-- Vídeo en bucle, sin sonido. PRUEBAS: en cada carga sale uno de los tres al azar
+         (sin repetir el anterior). Para ver uno en concreto: ?video=buzo, ?video=cueva o ?video=pared.
+         El script elige además la versión (1920, 1280 o recorte vertical para móvil) antes de cargar nada.
+         Con «reducir movimiento» o ahorro de datos se queda el póster. -->
+    <video class="hero__img hero__video" muted loop playsinline autoplay preload="none"
+      aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video></video>
     <script>
       (function (v) {
+        var VIDEOS = ['buzo', 'cueva', 'pared'];
+        var name, last = null;
+        try { last = sessionStorage.getItem('fondo-hero-video'); } catch (e) {}
+        var m = location.search.match(/[?&]video=([a-z]+)/);
+        if (m && VIDEOS.indexOf(m[1]) > -1) name = m[1];
+        else {
+          var pool = VIDEOS.filter(function (n) { return n !== last; });
+          name = pool[Math.floor(Math.random() * pool.length)];
+        }
+        try { sessionStorage.setItem('fondo-hero-video', name); } catch (e) {}
+        v.setAttribute('data-video', name);
+        var base = 'assets/video/hero-' + name;
         var portrait = matchMedia('(max-aspect-ratio: 4/5)').matches;
-        if (portrait) v.poster = v.getAttribute('data-poster-movil');
+        v.poster = base + (portrait ? '-poster-movil.webp' : '-poster.webp');
         var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var save = navigator.connection && navigator.connection.saveData;
+        var c = navigator.connection, save = c && c.saveData;
         if (reduce || save) { v.removeAttribute('autoplay'); return; }
-        v.preload = 'auto';
-        // 1920 solo si la pantalla de verdad lo aprovecha (ancho × densidad > 1400 px) y la conexión no es lenta
-        var c = navigator.connection, slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
+        // 1920 solo si la pantalla lo aprovecha (ancho × densidad > 1400 px) y la conexión no es lenta
+        var slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
         var hd = !portrait && !slow && innerWidth * (devicePixelRatio || 1) > 1400;
-        v.src = v.getAttribute(portrait ? 'data-src-movil' : (hd ? 'data-src-hd' : 'data-src'));
+        v.preload = 'auto';
+        v.src = base + (portrait ? '-movil.mp4' : (hd ? '-1920.mp4' : '-1280.mp4'));
       })(document.currentScript.previousElementSibling);
     </script>
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>

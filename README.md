@@ -72,11 +72,14 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Vídeo del hero (home)
 
-- Tres versiones, H.264 sin audio: `hero-buzo-1920.mp4` (6,8 MB, pantallas grandes o retina), `hero-buzo-1280.mp4` (4,6 MB, portátiles) y `hero-buzo-movil.mp4` (recorte vertical 960×1080, 3,6 MB). El original es 1280×720: la de 1920 está reescalada con lanczos y un enfoque suave, que se ve mejor que dejar que el navegador estire. Con conexión 2G/3G se usa la de 1280.
-- Un script pegado al `<video>` elige la versión antes de cargar nada. Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster (primer fotograma).
-- Se pausa cuando sale de pantalla.
+- **Modo pruebas:** hay tres vídeos y en cada carga sale uno al azar, sin repetir el anterior. Para ver uno concreto: `?video=buzo`, `?video=cueva` o `?video=pared` al final de la dirección. Cuando elijáis uno, se deja solo ese en la lista `VIDEOS` del `<script>` junto al `<video>` y se borran los demás de `assets/video/`.
+- Cada vídeo tiene tres versiones, H.264 sin audio: `-1920.mp4` (pantallas grandes o retina), `-1280.mp4` (portátiles o conexión lenta) y `-movil.mp4` (recorte vertical 960×1080 para móviles en vertical), más sus pósters (primer fotograma).
+  - buzo: original 1280×720, la de 1920 reescalada. 6,8 / 4,6 / 3,6 MB.
+  - cueva: original 4K. 7,2 / 2,4 / 4,3 MB.
+  - pared: original 1920×1080 a 60 fps, pasado a 30 fps. 5,8 / 2,9 / 3,6 MB.
+- Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster. Se pausa cuando sale de pantalla.
 - La cabecera mide el fotograma que se ve en cada momento para ponerse blanca o negra. Si cambia por el propio vídeo (sin scroll), espera 1,2 s antes de cambiar, para que no parpadee.
-- Para cambiar el vídeo: exportar con `ffmpeg -i original.mp4 -an -c:v libx264 -preset veryfast -crf 26 -pix_fmt yuv420p -movflags +faststart -vf scale=1280:720 hero-buzo-1280.mp4` y el recorte con `-vf crop=ih*8/9:ih,scale=640:720`.
+- Exportar un vídeo nuevo: `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3 -crf 20 -pix_fmt yuv420p -movflags +faststart -vf scale=1920:1080:flags=lanczos hero-NOMBRE-1920.mp4` (y lo mismo a 1280×720 y con `crop` vertical 8:9 escalado a 960×1080 para el móvil).
 
 ## Página de viaje · `viajes/costa-brava/`
 
