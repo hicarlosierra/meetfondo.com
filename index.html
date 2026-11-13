@@ -134,38 +134,72 @@
 
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
-    <!-- Vídeo en bucle, sin sonido. PRUEBAS: en cada carga sale uno de los cuatro al azar
-         (sin repetir el anterior). Para ver uno en concreto: ?video=buzo, ?video=cueva, ?video=pared o ?video=mar.
-         El script elige además la versión (1920, 1280 o recorte vertical para móvil) antes de cargar nada.
+    <!-- Vídeo en bucle, sin sonido.
+         PRUEBAS: seis vídeos. En cada carga sale uno al azar (sin repetir el anterior) y los puntos
+         de la izquierda cambian entre ellos. ?video=NOMBRE abre uno concreto.
+         El script elige la versión según la pantalla antes de cargar nada:
+           horizontal → 2560 (pantallas muy grandes, si el vídeo la tiene), 1920 o 1280;
+           vertical   → móvil 1080×1920 o 720×1280 (pantallas pequeñas o conexión lenta).
          Con «reducir movimiento» o ahorro de datos se queda el póster. -->
     <video class="hero__img hero__video" muted loop playsinline autoplay preload="none"
       aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video></video>
     <script>
       (function (v) {
-        var VIDEOS = ['buzo', 'cueva', 'pared', 'mar'];
-        var name, last = null;
-        try { last = sessionStorage.getItem('fondo-hero-video'); } catch (e) {}
-        var m = location.search.match(/[?&]video=([a-z]+)/);
-        if (m && VIDEOS.indexOf(m[1]) > -1) name = m[1];
-        else {
-          var pool = VIDEOS.filter(function (n) { return n !== last; });
-          name = pool[Math.floor(Math.random() * pool.length)];
-        }
-        try { sessionStorage.setItem('fondo-hero-video', name); } catch (e) {}
-        v.setAttribute('data-video', name);
-        var base = 'assets/video/hero-' + name;
-        var portrait = matchMedia('(max-aspect-ratio: 4/5)').matches;
-        v.poster = base + (portrait ? '-poster-movil.webp' : '-poster.webp');
+        var LIST = [
+          { id: 'buzo',      name: 'Buzo en el barco',  sizes: [1280, 1920] },
+          { id: 'cueva',     name: 'Salida de la cueva', sizes: [1280, 1920, 2560] },
+          { id: 'pared',     name: 'Junto a la pared',  sizes: [1280, 1920] },
+          { id: 'mar',       name: 'Mar',               sizes: [1280, 1920, 2560] },
+          { id: 'santorini', name: 'Santorini',         sizes: [1280, 1920] },
+          { id: 'playa',     name: 'Playa',             sizes: [1280, 1920] }
+        ];
+        var ids = LIST.map(function (x) { return x.id; });
+        var c = navigator.connection;
         var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var c = navigator.connection, save = c && c.saveData;
-        if (reduce || save) { v.removeAttribute('autoplay'); return; }
-        // 1920 solo si la pantalla lo aprovecha (ancho × densidad > 1400 px) y la conexión no es lenta
+        var save = c && c.saveData;
         var slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
-        var hd = !portrait && !slow && innerWidth * (devicePixelRatio || 1) > 1400;
-        v.preload = 'auto';
-        v.src = base + (portrait ? '-movil.mp4' : (hd ? '-1920.mp4' : '-1280.mp4'));
+        var dpr = Math.min(devicePixelRatio || 1, 2);   // más de 2× no se nota en vídeo y pesa mucho más
+
+        // Qué archivo necesita esta pantalla
+        var file = function (item) {
+          var base = 'assets/video/hero-' + item.id;
+          var portrait = innerHeight > innerWidth * 1.25;
+          if (portrait) {
+            var big = !slow && innerWidth * dpr >= 700;
+            return { src: base + (big ? '-movil.mp4' : '-movil-sd.mp4'), poster: base + '-poster-movil.webp' };
+          }
+          // ancho en píxeles reales que cubre el vídeo (object-fit: cover, 16:9)
+          var need = Math.max(innerWidth, innerHeight * 16 / 9) * dpr;
+          // la más pequeña que cubra la pantalla (con un 15 % de margen); si ninguna llega, la mayor
+          var size = item.sizes[item.sizes.length - 1];
+          for (var i = 0; i < item.sizes.length; i++) if (item.sizes[i] >= need * 0.85) { size = item.sizes[i]; break; }
+          if (Math.max(innerWidth, innerHeight) < 1100 && size > 1920) size = 1920;   // móvil en horizontal
+          if (slow) size = 1280;
+          return { src: base + '-' + size + '.mp4', poster: base + '-poster.webp' };
+        };
+        var play = function (id) {
+          var item = LIST[Math.max(0, ids.indexOf(id))];
+          var f = file(item);
+          v.setAttribute('data-video', item.id);
+          v.poster = f.poster;
+          try { sessionStorage.setItem('fondo-hero-video', item.id); } catch (e) {}
+          if (reduce || save) { v.removeAttribute('autoplay'); v.removeAttribute('src'); v.load(); return; }
+          v.preload = 'auto';
+          v.src = f.src;
+          var p = v.play(); if (p && p.catch) p.catch(function () {});
+        };
+
+        // Primera carga: ?video=NOMBRE o uno al azar distinto del anterior
+        var m = location.search.match(/[?&]video=([a-z]+)/), last = null;
+        try { last = sessionStorage.getItem('fondo-hero-video'); } catch (e) {}
+        var first = m && ids.indexOf(m[1]) > -1 ? m[1] : null;
+        if (!first) { var pool = ids.filter(function (n) { return n !== last; }); first = pool[Math.floor(Math.random() * pool.length)]; }
+        play(first);
+        window.fondoHeroVideo = { list: LIST, play: play };
       })(document.currentScript.previousElementSibling);
     </script>
+    <!-- PRUEBAS: selector de vídeo. Quitar este <nav> (y su bloque en main.js y styles.css) al elegir uno. -->
+    <nav class="vpick" aria-label="Vídeo del hero (pruebas)" data-vpick></nav>
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>
     <h1 class="hero__title">
       <span class="sr-only">Fondo. Viajes de buceo para los que quieren algo más que inmersiones.</span>

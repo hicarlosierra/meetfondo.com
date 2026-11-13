@@ -72,15 +72,34 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Vídeo del hero (home)
 
-- **Modo pruebas:** hay cuatro vídeos y en cada carga sale uno al azar, sin repetir el anterior. Para ver uno concreto: `?video=buzo`, `?video=cueva`, `?video=pared` o `?video=mar` al final de la dirección. Cuando elijáis uno, se deja solo ese en la lista `VIDEOS` del `<script>` junto al `<video>` y se borran los demás de `assets/video/`.
-- Cada vídeo tiene tres versiones, H.264 sin audio: `-1920.mp4` (pantallas grandes o retina), `-1280.mp4` (portátiles o conexión lenta) y `-movil.mp4` (recorte vertical 960×1080 para móviles en vertical), más sus pósters (primer fotograma).
-  - buzo: original 1280×720, la de 1920 reescalada. 6,8 / 4,6 / 3,6 MB.
-  - cueva: original 4K. 7,2 / 2,4 / 4,3 MB.
-  - pared: original 1920×1080 a 60 fps, pasado a 30 fps. 5,8 / 2,9 / 3,6 MB.
-  - mar: original 4K de 28 s, recortado a un bucle de 8 s sin corte (fundido de 1,5 s del final al principio). El agua apenas se deja comprimir, así que va con bitrate limitado (6 / 4 / 3,5 Mbps): 6,1 / 4,0 / 3,5 MB.
-- Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster. Se pausa cuando sale de pantalla.
-- La cabecera mide el fotograma que se ve en cada momento para ponerse blanca o negra. Si cambia por el propio vídeo (sin scroll), espera 1,2 s antes de cambiar, para que no parpadee.
-- Exportar un vídeo nuevo: `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3 -crf 20 -pix_fmt yuv420p -movflags +faststart -vf scale=1920:1080:flags=lanczos hero-NOMBRE-1920.mp4` (y lo mismo a 1280×720 y con `crop` vertical 8:9 escalado a 960×1080 para el móvil).
+**Modo pruebas.** Hay seis vídeos: buzo, cueva, pared, mar, santorini y playa. En cada carga sale uno al azar (sin repetir el anterior) y los puntos de la izquierda del hero cambian entre ellos. Al cambiar, la dirección pasa a `?video=NOMBRE`, así se puede pasar el enlace de uno concreto. El nombre del vídeo activo aparece 2,5 s al cargar y al cambiar.
+
+Cuando se elija uno: dejarlo solo en `LIST` (script junto al `<video>` en `index.html`), quitar el `<nav class="vpick">`, el bloque «1c» de `main.js` y el bloque «PRUEBAS · Selector» de `styles.src.css`, y borrar de `assets/video/` los demás vídeos.
+
+**Versiones.** H.264 sin audio, en bucle. El script elige la versión antes de cargar nada:
+
+| Versión | Para | Notas |
+|---|---|---|
+| `-2560.mp4` | Pantallas 1440p, 4K y retina grandes | Solo cueva y mar (originales en 4K) |
+| `-1920.mp4` | Full HD y portátiles retina | |
+| `-1280.mp4` | Portátiles pequeños o conexión lenta | |
+| `-movil.mp4` | Móvil y tablet en vertical | Recorte 9:16 a 1080×1920 |
+| `-movil-sd.mp4` | Móvil con conexión lenta | 720×1280 |
+
+Elige la más pequeña que cubra la pantalla (ancho real en píxeles, con densidad hasta 2×). Un móvil en horizontal no pasa de 1920. Con «reducir movimiento» o ahorro de datos no se descarga ningún vídeo: se queda el póster.
+
+Todas con tope de bitrate y una limpieza suave de grano, para que pesen lo justo y el grano no se convierta en bloques. Pesos: 1920 entre 5,8 y 8 MB; 2560 entre 9,5 y 11 MB; móvil entre 5,5 y 7 MB; móvil SD alrededor de 3 MB.
+
+- buzo: original 1280×720 (las versiones 1920 y móvil están reescaladas; es el límite de ese archivo).
+- cueva: original 4K.
+- pared: original 1920×1080 a 60 fps, pasado a 30.
+- mar: original 4K de 28 s → bucle de 8 s sin corte (fundido de 1,5 s del final al principio).
+- santorini: original 1920×1080 de 21 s → bucle de 12 s desde el segundo 8 (ya con la roca en plano), con fundido.
+- playa: original 1920×1080 de 17 s → bucle de 12 s con fundido.
+
+**Cabecera sobre el vídeo.** Cada vídeo lleva en `main.js` (`VIDEO_LUM`) un mapa 24×24 con la luminosidad mediana de todo el bucle, de la versión horizontal y de la de móvil. La cabecera usa ese mapa para ponerse blanca o negra: elige lo que mejor se lee durante la mayor parte del vídeo y no parpadea con cada plano. Si se cambia un vídeo, hay que regenerar su mapa (ffmpeg a 4 fps, celdas de 24×24, mediana en el tiempo, raíz cuadrada en base64).
+
+**Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -x264-params aq-mode=3 -crf 20 -maxrate 5000k -bufsize 10000k -pix_fmt yuv420p -movflags +faststart -vf "hqdn3d=1.5:1.5:4:4,scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
 
 ## Página de viaje · `viajes/costa-brava/`
 

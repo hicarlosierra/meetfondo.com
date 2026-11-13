@@ -64,9 +64,36 @@
       maps.set(img, grid);
       return grid;
     };
-    // Mapa del fotograma actual de un vídeo (se rehace como mucho cada 250 ms)
+    /* Vídeos del hero: en vez de leer cada fotograma (el tono iría siempre un poco tarde y
+       cambiaría con cada plano), cada vídeo trae un mapa 24×24 con la luminosidad mediana de
+       todo el bucle (d = versión horizontal, m = recorte vertical de móvil). Así cada elemento
+       de la cabecera toma el tono que mejor se lee durante la mayor parte del vídeo y no
+       parpadea. Se generan con ffmpeg (ver README). Si un vídeo no tiene mapa, se lee el
+       fotograma actual. */
+    const VIDEO_LUM = {
+      buzo: { d: 'PCxCWl9yeHZ8aUw9KiEgHiUpJCwtZVa6LygzV2t2eXh8XCssIBoZGSMhIy0qQZCiIx0qQm14enhvTSgiJxwaGBwhIDAgJKekIRkqMGp4fHJfXCMdJRkXHhweIiYlMpWPICIpOmh5fXJxJx0aHhsZIh8eISUcOZ9yHycuNl92dnN3LiIhGhwfIR4fHikoPlx7FR4oNU93eHRoNiofIxsdGh4ZGCUnTmZyGiMsNll3eHVsMi0bHhcYFxYaGiQqRmRmIisxQEp3d3VeSCshGhsVFRQWGyAjOF1fJi01SFJxeXVePyohGRgVFRMVGyMhM0tSJi0zOENyeXRhMSgiGRYVFRQYFyAkKThQJicvN0Zld2ZaMykmGBUUFBMVExcgICVCJCYvMkhccklcOCwrFhQUExMTExMbGx4+IScvMkZZWUBbSjInGBYUExMTEhITFRs8HyYwN0JPSk9QVTEnGBUUExISEhISFBg6ISw0OUJVSEpaWTEpHBQTExISEhESFB4vHyk0PEpXTEtWTyUuHBUTEhIRERERFBgfHio2PVNVSUNHUCclHRMSExIRERARExcuHSw3QVlfUEpITDYiFhYUEhERERERERQfHDI5QVFfYlFVV0grGxMTEREQEBAQERQqIzQ8REloZFdLVU0zHRMSERAQEBAQEBczJS82QVFraVFTW0wlFxMRERAQEBAQEBc5JC81QFhtcWBWYF8tFRIREBAQEBAQEBU7KzEySVdycGVkY2AsFhIREBAQEBAQEBg5', m: 'eHp7e3hmYFM7NjMzKykoKBweGx4hGBkbeHx8emtaSDorKCUnIx4eHx4aGBgXGRcYdHZxcV5AQSsoISAfGCMkHRwaGBYXGBcWdGxwXj9BOSUhJB0aHiAlJRwYGBgXFhYXaXB0YikkIyQhHxsbGRwgHhgYGRcXGBkccXV3azQtKCEfGh0gIR0cGBobGBcXGx4ccHZtPTQzLiklIiAcHh8gHRsXFxcYGRoXVHNuUjEwMTMqJh8aGxsaGRgWFxYXFhYWcW9hcDQ0OjUpKCgZGRkXFxgZGBcVFRUVY2prUFUwLyspJiQhGhwZFxgXFxUUFBQVbGtiVUAvLCsoJCQfGhoZGRcXFRUUFBQUb2NdUDEtMCspKSooHxkXFxYVFBUVFBQUW2dgRkQvKywtKSkrIRsVFRQUFBQUFBQUQFdcSkY9Piw0KSYqJBgXFRQVFBQUFBMTRklWWF5QRDw5LColHRkYFRUUFRQUExMTUFlRYl5WW0ksLC0pJCIgFRQVFBMTExMTRElOV1tLPyoiKykvKCYfFxUUExQTExMSMT9PVVhRNjcpJi0oIh8eFxcUFBQSEhMTOzxDUFc5SjsyKiUjHhYUFRQTExMTEhISTVNQV11fV0Q+PyQlHh0WFxISExISExIRVFFIRlpWT0c7PCwsHRsXExQTEhISEhIRQ01TUVBSWV9UNTsiGhcXGBMTEhESEREQXldVYWJjX2hkQj8kGRYUExMRERERERAQZ2RdZGViZGVkUjMiFxQUFBMRERIREBAQ' },
+      cueva: { d: 'CAkLDhASFRgbHiElKCoqKiknJSIgHhwaCQsNEBMVGR0gJCgsLzExMC4sKickIR8cCw0QEhYaHyMpLTI2ODk5ODczLywpJiIfDRASFRofJSsyOD1AQUFCQT87NzIuKiYiDhEUGR4lLDU8QkdLTE1OTUpFPzk0LiklDxIXHCMrNz1FTVNXWltcW1hRSUE7NC0oERUaICcxP0dRV2BnbG1ubWlgVUxBOTErExgdJCw4SVRhZ295gYKDhH9vY1VIPjYuFRogKDNCVWR2eoqSoKClqaKGcl9QRDoxGR4kLDhMY22bprO4vcDAvrWkgGtZSj41GyEmMjtScYWavsfIycnHxL+yknliUEE3GyIpOEJRc5eYvMvMzMvKx8S8rY9tVkU6GyIsPFRYe4+fu8rLzMvKyMW/t6d6W0g7GyItPlZme4mov8bJysnIxsO/uK2HYEs9HCIuPlFkdYmot7/DxcXDwsC8tquQZE0+HCMuO0hXZXWFmKy5vr6+vbq2r6WRZ08/HCMsNUBLWGZyfoygsLS1s6+on5OAZE9AGyIpMDlDTVhjbnmFlKGlopyUi39wXk5BGyAmLDQ8RU5XYGp1gIqQkIyGfnNnWUxAGh4kKS83PkZOVl5ocXuBgoB7dGpgVUk/GR0hJiwyOT9GTVVdZm5zdXRwa2JZUEY+GBsfJCkuNDo/RkxUW2NoampnYltUTEM8FxoeIiYrMDU7QEVMU1ldX19dWlVOR0A6FhkcHyQoLDE2O0BFS1BUVlZVU09JQz44', m: 'EhMUFBUXGBkZGhscHR4fICEiJCUnJygpFRYYGRocHR4fICEiIyQlJygpKywuLy8wGhwdHyAhIiQmKCkrLC0xMTEzNTY3Nzg4HyEjJCYoKiwuMTM1Njk9PD0+QEBAQUFBJCcpKy8yNDc4Oj0+QEJFRUdISktLTExNKy4zNzk6PD4/Q0dJSk1OUFJUVldZWVpbMDQ6P0FDRUlMUFNUVlhbXWBjZmdpa2xtODxCSExPUlZbYGNkZGdqaW5zdnl+gIGCQUdNVFhdX2dtc3l9eHiBhomMjpKYn6CfSlJZYWlmZ22FkqGiqamosLW3ubO5vLy/UlddaICSgIGLkJ2uvsLExsfHyMfIycnJTFlhbn6Sn5WLjZOmt8TIysvLzMzMzMzLU15xeIWLk5eZnqSsssHIycrLy8vLzMzMZ2hyeYCHi5Cena2wu8HExcbHyMnJysrKY2lvc3l/ho2ZpKuwtLi7vb/BwsPExMXFVltfZGhtcnh9g4eMkpmgp62zt7m8vb6+S09TV1pfY2htcHR4e4CDh4yRmKCmq7CyQkVJTFBTV1pdYWVoa29ydnl9gYWJjZKYPD5BREdKTVBTVllbXmFkZ2tucXR4e3+CNjk7PUBCREdKTE9RVFZZXF5hZWhrbnBzMjQ2ODo8PkBCREdJS05QUlVXWl1gYmVoLi8xMzU3OTs9PkBCREZISk1PUlRWWVteKiwuLzEzNDY4Ojs9P0BCREZISkxOUVNVKCkqLC0vMDI0NTc4Ojs9PkBBQ0VHSUtM' },
+      pared: { d: 'OD1DTVlwwuLj4dfMyb24t7Wxq6Sem5aSNTk/SVRmp9La19DGwbSvr66ppaCblpOOMzY8RE9glLK/w8S7t66pqKejn5uWk4+LMDQ4QEpZgaKtsratr6iioqKdmZaTjouILjE1PEVTcZWfp62ipaKcnJyXlJKPi4iEKy4zOUFNYoeRmaWam5mVlZSRj42LiIOBKSwyNz5GV3eFj5qVkZKPj46LiomGg4B9KCowNTtBT2Z5hJCOiYqIiIeFhIOBgH15JyktMzg+SFtueoWHgoaCgYGAf359fHp1JygqMTU7Q1JhbXp+fIB7ent8e3p5eHZyJygpLTM3PktXY3N4cnlvcXN0dXRzc3FuJycoKjA2OkNOXWxvaGJQZGttb3Bvb25rJycnKS0zNj9GVF9ZVEk5UGVnaWtqamppJycnKCswMzlASlA6QjQkQVxiY2ZnZ2ZkJycnJyktMTU7QkdGQy8nMVZdX2JiYmFhKCcnJygqLjI4PEJERUI3R1ZZWl5eXl5eKSgnJycpKy81OD0/QURGR1BVVllaWlpaKikoJycoKS0yNTg7PkFCRUxSU1ZXV1dXKSkoJiYnKCswMjY4Oz5CRUpPUVJUVFRUKCgoJyYmJykuMDI1ODw/QUhMTk9QUVFRKSkoJyYmJigsLjAzNzk7P0dJS0xNTk5OKiooKCYmJigrLC4wNDY4PUNISUpLS0tLKispKCcnJicqLC0uMTU3Oj5DRkhJSkpKKywrKCcmJicqKywtMDI1OTw/REZGSEhI', m: '0s/Ly8rJyMK+vLq4t7i4t7e2tbSzsbGvzcrGxMLBwby1s7Kwr6+ur6+vr6yqqamnwLy6ubi2uLSwrKqqqaioqKiop6alpKKgtKysra6sr62opaSjoqGhoqOjoqCfnp2brKWgoKKipaWinpycnJubnJ2cnJuZl5aVo6GYl5iZmpubmJWUlZWVlZaWlZSTkZGQnpyVj4+PkJGRkZCPjo+Pj4+Pjo2MjIuKkpKQiYiIiYqKi4mJiIiIiImIiIeGhoWFhoiJgICBgoSEhoSCgoCBgYGCgYGAgICAe3x/dnd7fX+AgIB+enp6ent7e3t7e3x8dXh5dXBwc3V3eXZxaW5wc3Rzc3NzdHR1cHVwcmpoZ2doX1tMTUZYZmlqa2tsbW1uZV5QXFpPU1hWQ0A4OjpBUlVcZGVlZ2hoUkU3NkE8QUs4KCYjJCwrPUFPX2BhYmJjR0hFQ0dDQTw0KicmJyorMS1AWltdXV1eQ0VDQ0ZFREVFPzkzNzs/REtTV1dYWFlaPj5AP0BBQUJERkZFRkdISEtNUVVUVVVWOTo6Ozw9Pj9AQkJDQkNER0lKTE9RUlJTNjc4ODk6Oz0+P0BBQkNERUZJSUtNT09QMzQ1Njc4OTo7PD0+P0BBQUNHSElKS01NMTIyNDY3Nzg4OTk6Ozw+P0JFRkhJSUpLLy8wMTIzNDU2Njc4OTo7PT9AQkRGR0hILS4uLzAxMjM0NTY2Nzg5Ojw8PkBBQkRFLC0tLi8vMDEyMzQ1NTY3OTo7Ozw9P0BB' },
+      mar: { d: 'f35/fn+CgIB+gX1+gn55eXd2c3Rzcm9vent8eX19fX17foF/enh2dnt8d3h4d3l1fH18fXx2foB8fn16eHp3d3d2dnJvcW9wgX5/f31+ent5dnp6cm90dXNvcXFta2xvbm1xc3Bta2xrbGxqbGt0bGlrZ2NcW15ab2xrbmhoam5wbm5sbW1raGhmZWJgYV1YZ2ZoanVzbmppaW1tcm1ycm5sbGVfZGFeamxyc3N4dXFucXJ1e3Rvc3NsaWxlaGhic3VwcHV2eXd0cXFzdXFubWpnZmBiZGFjbm5vbHBwcnZxcWpsbmdlZWRgXGBkZmhjbmxvcG5ta21ra2psamhkamxhYmFhaGFlbm1va2pnZGRpZmdlamprY2ZjYF5hZmRiamloZGNmaWdnaWpoaGZjYmNjZWFjYmBfbmxsa2RmY2dkaWRhYGVpZGZjZV5hXF9bbWpnZmZjYWNmZmNdY2VgZ2RXW1tcWltWZWdkZ2ZlZWRma2dpZV5eXmdfWlxaW1lWZWJiZWNeYGJeZ2dpZ15bXGJbXFpcXVNRZGNjYmJkYGBhYVpbWFxeY2BgXVtgV1VWY2FiXVpZWltdW15eX2BhY2JeW1ZXVFBQX1xgZF5VXF1eWVRbWlRVVVleXVpUUVBPW1pYXFpfYlxaWFZaXFZRUVlZWlZYS05RVllZXVxXWVdaXVtcWl9dWVVUU1FUVVBUVVVTUldSU1lUUVJaWk9UV1JRVFZOVE1IVlRUU1JYWVNUVVdWVFBSTVBRSkdLUElL', m: 'fX+AgoKBf31+e32CgoOAgH9+eHp6eXl4e3l8fn+AgIOAgH97fHp5dnp4d3V1dnZ3fXt7fH5/fX5+fXl4dnd6e3t4d3Z2eHl3eXl5dHZ4enx7fXt5dHNycG9xcnR0dnd3ampsbmtsbGxtbWxpamtsa2xtcXFzc25rdG9ucW9tbmxqa25ra25vbW5ubmxsbWlna2pnaGdrbW1sbnBucHFwb21uc29vcXJzb25xc3Jyc3JydXZ3e3t6dnR1cnJwcHVzdnN0c3Rxcm52c3N1dXN3cXFxdG1ubW5scG92c29sbWxtb2tram9ta2dnZWNlY2NjbGlubGppam1ubWxpaGpqaWhnZ2VmaGtpaWtmZWVqaGZkZmZmZmlvbmloaWlqaWNjampmZ2poaGZqaWhpa2llYmZmZmZhYWRkY2ZmZ2pmX2FkY19iZF5iY2NnaGtqZWRmaGdqaWpjYmJeYGBfY2RkZWRhYmBhZWdpZ2VmZ2xpaGdmaWlraGZlYllaXl1eYFpjYl9hZ2ZjZWVmaGxqa2hgXl5cW1xcXFxeY19fYmNhW1xbX1taV1hWWVtfX11gYWJjX1pfXFlVWmBcXF9iXl5dYGFeYWVjYGFlXVxcWVdVU1VXWFtcXVxaV1RXU1JUVVNWWlhZWlpaVldSWFlgXF1bW1dUVVJNUlFTV15cXV1fW1taXFxcWltZXGFeXV1dWllXVVNTUVJVU1NTV1tXVFpaVVBST1JWWFNWVVRUUlNQWFZVVlZYVVZWVFBPUVRTT1FQ' },
+      santorini: { d: 'v8jN0dTX2Nra2tjX1tTRzsrHwr65tK6lxMvQ1NfZ2tzd3Nva2NbTz8zIxMC7trCox87S1tnb3d7f3t3c2tjV0c7KxcG8uLKry9HW2dve3+Dh4N7d29rX08/Lx8K9uLOtztPY297g4eLj4eDe3NzZ1NHMx8O/urSv0Nba3eDi4+Tl466u2dza19LOysXBu7aw09jc4OLk5ebm23Zwn93a1tXQy8fCvbix1dre4OPl5+joyEtBa9Xb1tLRzcjDvriy0dvf4uTm6Onjo0g+RpjCytPRzMfCvbiyr8nR0tPT1t/JY0A9QV5+gNLRy8bBvLexha3AxMPExs+xQjg8SUlAPrDPysbBvLaxYqq9wMLExcOlRTY4QkNAOIexsrSzsaqiLY62vMDCw76jQzk8RUA/RHqeop+gnZeRIGOws7i6vLikRzxBR0ZASY6XoJyYkYyIHkOZrLS2uLalSEBATUtGS4+XmZiWkIqFHS2MpKyvsrGiVkdHT1JXaIyVlZGQi4iEHCF2pKqqsKuUZU5OYWNrdYqPko+LiIJ+Hy5moKakp6Nvc1tVb2xweoOEioyIhH55ITiEkp2aiox2e2Jhb3V4e4GDg4iDfnl0IzZ/h5GDcHhxe2tmb2Jrdn+CgX56d3RwKE92iot7cmxYeGpna2Frdn1+fHZ0b2xnLmeBioh0b2RRdm1naV5mcXVzdXNtaWdgPnZ7g4N0al1TcmlkZFNVYGlsbWpoZWFaXFpxfXVwaF9ZbWdgXkxRTEtoZGFeXVlT', m: '2tra2tnZ2djY2NfX19fW1dTT09LRz87N3d3c3Nzb29vb2trZ2djY19bV1NTS0dDP39/f3t7e3d3d3dzb2tra2djX1tXU09LR4eHg4ODg3t7e3d3c3Nvb2trZ2NfW1dTS4+Pi4uHh4N/f397e3dzc3dzb2tnY19XU5eXl5OPivaObnazL2NLd3d3c29va2dfW5+bm5uSyg1xfVWeHkZG43t7d3NvZ2NfW6Ojo59BqTUdMQT0/QVSEu9ne3dzb2dfV6ubFuZFFRklLPzs7PEBLc5CoucHGy8TH6MF/bkxCPT9CQjw4OT9ISlJjdH6Agnx/yqBPSUY2Njk8QTs4OkJWSUtKQkI/PDw8vZlNU0U1NDc3Ojc4OUFFQkBDRj8/ODs3uY5SSjxAOTo4Ojs8PkdFQzw+Rj1BQkFAsZdVTkZBPDw+REE/QEpLR0NFRj9CRkRCsJdbUkhHP0E9REA/S09SS0xQS0RHSkpLqpltXk1NR0dFSUdGTlBVVFJSVE5bYWVoo4t+bGBTT05OUUtNXmBgY2JhYGJvcHN1el56eGtkXVhVV1VUa21taW1sbW1zdXd6hGBxfXVoY2FeX2FjbG5wcXJ2dnl2eHl7c2SBfnZwbWlkYmVmbW5vaWFhYGtzc3V2VEx+fHZwa2lnaGRobmlsaWJfXWhxdHR3TkBvenRzbmppZ2FpbGVoaGBZZGRvb3BxV0duc3Vva2ZlZF1lZ2FgYlVNVFVaXWFiW09XbW5qZ2djYVdiYlxWU0xHSktFRUlX' },
+      playa: { d: 'LCYzSUBqj5OXm5qfo6uoqq2ws7W2t7i4SUAwNTpfh5OXmp6ho6iqsbC4tbe4ubm6WEtQRTxJb36SmZ+ipKmus7zIubi6uru9Y19ga1hQSlp0e4yhpKmttLjEuru8vb6+YWprd2xIPDVlbXiRlJOYr7e/vL6+w8fCYWxqWnhRQD1RZWx0gISKmLG6vr/AxcbDaWNdZWlxVXVTVGRkZniAiIuVpLzBwsLCbHp5enljZJmwiWZbW2VxgoOLiZW/wsPCdIJ9moJzXo+silxYV19sbXd/gYSitMDDdnRJZH9jSk5WWl5RXVxgZWp2enqHj5WlbHhnN2pOM0tOL1FGgmxXZWNpeHN4gYaJX21UN19gYmtURFlkg2BWWmhkaW1wdnt/aG1xX0pZgo5zblNSVF1uWGZuaGVpcnN0mq+ghIFlf3VkX2RVQWtuUFtvY19gZGxzkICKmJSKf3RiV3Jue4N0YmRxdXZ3e36ErLGgpZqUhoJ3bW5wcHNxc3h8foF+jouOZ3p/Z3N6hXh5b3OgmXxxb3V7fH+DhoiKjp+ad2Bpa2NybmqEmoV8dnl/gICDhYaHa3pwYVldXWJocICVc3Rydnd5eHl8f4GBW1tZV1pbWltbeK+de3VzcXJ0dHR4eXt7UVJWV1VTVlhfbZd3bmtubnBxcXBxdHZ4WFNUU1JTVVptrKFvbm9wbm5ubm1tbnB6TU9QUFFRXGd9lXRsbW5vcHBtaWhqa3p1S01NT09PWHN3f3d/hH5/gXdxaWdcUVAv', m: 'jo+PkZKTlJWWm52bmZqam5yeoKGio6WrfYKIj5KTlJaXmZqampucoaChoaKio6aoVW1zc3d/hYuTl5iZmpueoqGhoqKjpKaoQEFOV1VUZ3FxeXh7fYCDlaChoaKjpKaoPzpFKyUzRF9qZ2xsbXF2dImQlJSTlJWUNDdFSzY4RUVNXGdhZmlqbnBzdnh+hICBak9JaHB8cVVbSkhRXF1fbWlkYmNhaWt7dWdTZH6mr7KtsK2OZF1hcmBcW1hcWl1hb3RLRmufpaKxsKWLfUdRcWJVWlhXVlheQ05RNTlZXV9WS0ZXaWBzUzRCWHNgUVJYMjAvQU5HTEtXSiouNDtLW044S3GSe3FqWGVdfY5LTEBYZEZBRFZRUGxSaHlzkIVhdZBgorRtdG1xe3l0ZWhRQ0xPUFhCXV1bcnxzoINjbWJac3xlQV13WVNSYE44N1lnmXx5jn5rZ2hXZHJRRGODZ2xqbn1ue4mSloh1hY54f398b3BocWt9Z3BocW1idHxzi4qBhnhwenx6c21zb2tqcJmpppWVl5GAcWtuY2RkYWZ0d217b2Bhanh+hY2Wo5qIXFxcX2BfZnFkanp/c2VxiaGXg3dtdnNyWlpaW1tbXFxdWV1oiae0xb+qkHx7fXt3VFVWWFlZV1dbY2JibIeSkX90cXFubGpqVFVVVldYYmVtboKqurisfHBsb21vbWxuUlRhYmBpbG13e4uRkH50bWxqa21sbG1rUFVUYnByc3J8fn6AeXt0eHt8fYSEf35/' }
+    };
+    const decodedLum = {};
+    const videoKey = (v) => (/-movil/.test(v.currentSrc || v.getAttribute('src') || v.poster || '') ? 'm' : 'd');
     const vmaps = new WeakMap();
     const lumMapVideo = (v) => {
+      const id = v.dataset.video, key = videoKey(v);
+      const enc = VIDEO_LUM[id] && VIDEO_LUM[id][key];
+      if (enc) {
+        const k = id + key;
+        if (!decodedLum[k]) {
+          const bin = atob(enc), g = new Float32Array(N * N);
+          for (let i = 0; i < N * N; i++) { const x = bin.charCodeAt(i) / 255; g[i] = x * x; }
+          decodedLum[k] = g;
+        }
+        return decodedLum[k];
+      }
+      // sin mapa: fotograma actual (como mucho cada 250 ms)
       if (v.readyState < 2 || !v.videoWidth) return null;
       const now = performance.now();
       const c = vmaps.get(v);
@@ -90,7 +117,9 @@
       if (!grid) return null;
       const r = img.getBoundingClientRect();
       const cs = getComputedStyle(img);
-      const nw = isVideo ? img.videoWidth : img.naturalWidth, nh = isVideo ? img.videoHeight : img.naturalHeight;
+      const vk = isVideo && videoKey(img);
+      const nw = isVideo ? (img.videoWidth || (vk === 'm' ? 1080 : 1920)) : img.naturalWidth;
+      const nh = isVideo ? (img.videoHeight || (vk === 'm' ? 1920 : 1080)) : img.naturalHeight;
       const s = cs.objectFit === 'cover' ? Math.max(r.width / nw, r.height / nh) : Math.min(r.width / nw, r.height / nh);
       const [px, py] = cs.objectPosition.split(' ').map((v) => parseFloat(v) / 100);
       const dw = nw * s, dh = nh * s;
@@ -140,9 +169,9 @@
     // Cada elemento vota con 15 puntos: gana el tono legible sobre más superficie
     const XS = [0.08, 0.29, 0.5, 0.71, 0.92], YS = [0.3, 0.5, 0.7];
     /* Con el scroll el cambio es inmediato. Si lo de detrás cambia solo (el vídeo),
-       el nuevo tono tiene que mantenerse 1,2 s antes de aplicarse: así el texto no
+       el nuevo tono tiene que mantenerse 0,7 s antes de aplicarse: así el texto no
        parpadea con cada plano. */
-    const HOLD = 1200;
+    const HOLD = 700;
     const pend = new WeakMap();
     let instant = true;
     const update = () => {
@@ -221,11 +250,48 @@
          El <script> junto al vídeo ya decidió si carga y qué versión.
      ======================================================================= */
   $$('[data-hero-video]').forEach((v) => {
-    if (!v.getAttribute('src')) return;               // movimiento reducido o ahorro de datos: póster
-    const play = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    const play = () => { if (!v.getAttribute('src')) return; const p = v.play(); if (p && p.catch) p.catch(() => {}); };
     new IntersectionObserver(([e]) => (e.isIntersecting ? play() : v.pause()), { threshold: 0.01 }).observe(v);
     document.addEventListener('visibilitychange', () => { if (!document.hidden && v.getBoundingClientRect().bottom > 0) play(); });
   });
+
+  /* =======================================================================
+     1c. PRUEBAS · Selector de vídeo del hero (puntos a la izquierda)
+         Un punto por vídeo; al pulsar cambia el vídeo y la dirección
+         (?video=NOMBRE), para poder pasar el enlace de uno concreto.
+     ======================================================================= */
+  (() => {
+    const nav = $('[data-vpick]');
+    const api = window.fondoHeroVideo;
+    const v = $('[data-hero-video]');
+    if (!nav || !api || !v) return;
+    const btns = api.list.map((item, i) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'vpick__dot';
+      b.dataset.id = item.id;
+      b.setAttribute('aria-label', `Vídeo ${i + 1}: ${item.name}`);
+      b.innerHTML = `<span class="vpick__label" aria-hidden="true">${String(i + 1).padStart(2, '0')} · ${item.name}</span>`;
+      b.addEventListener('click', () => {
+        if (v.dataset.video === item.id) return;
+        api.play(item.id);
+        btns.forEach((x) => x.setAttribute('aria-current', String(x === b)));
+        flash();
+        const url = new URL(location.href);
+        url.searchParams.set('video', item.id);
+        history.replaceState(null, '', url);
+        dispatchEvent(new Event('resize'));          // la cabecera vuelve a mirar el fondo
+      });
+      nav.appendChild(b);
+      return b;
+    });
+    // El nombre del vídeo activo se ve 2,5 s al cargar y al cambiar (en móvil no hay hover)
+    let flashT = 0;
+    const flash = () => { nav.classList.add('is-flash'); clearTimeout(flashT); flashT = setTimeout(() => nav.classList.remove('is-flash'), 2500); };
+    const sync = () => { btns.forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === v.dataset.video))); flash(); };
+    if (document.documentElement.classList.contains('is-loading')) document.addEventListener('fondoloader:hide', sync, { once: true });
+    else sync();
+  })();
 
   /* =======================================================================
      2. «GIF» del faro: secuencia de fotos (1,5 s por foto, fundido 300 ms).

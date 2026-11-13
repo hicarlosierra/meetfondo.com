@@ -976,3 +976,34 @@ html.is-loading .hero__title { transform: translateY(18%); }
   .vcierre__text { grid-area: text; align-self: end; }
   .vcierre__links { grid-area: links; align-self: end; margin: 0 0 0 clamp(0px, 5cqi, 72px); }
 }
+
+
+/* =========================================================================
+   PRUEBAS · Selector de vídeo del hero (quitar al elegir uno)
+   Puntos blancos en vertical, a la izquierda y centrados en el hero.
+   Con ratón, al pasar por encima aparece el nombre del vídeo.
+   ========================================================================= */
+.vpick {
+  position: absolute; z-index: 2; left: calc(var(--pad-x) - 14px); top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column;
+}
+.vpick__dot {
+  position: relative; display: grid; place-items: center; width: 36px; height: 36px;
+  filter: drop-shadow(0 0 3px rgb(0 0 0 / 0.35));
+}
+.vpick__dot::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  border: 1.5px solid var(--blanco); background: transparent;
+  transition: background-color 0.2s, transform 0.25s var(--ease-out);
+}
+.vpick__dot[aria-current="true"]::before { background: var(--blanco); transform: scale(1.25); }
+.vpick__dot:hover::before { transform: scale(1.25); }
+.vpick__label {
+  position: absolute; left: 36px; top: 50%; transform: translate(-4px, -50%);
+  white-space: nowrap; color: var(--blanco); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.25s var(--ease-out);
+}
+.vpick__dot:hover .vpick__label, .vpick__dot:focus-visible .vpick__label { opacity: 1; transform: translate(0, -50%); }
+.vpick__dot:focus-visible { outline-offset: -4px; }
+@media (max-width: 899px) { .vpick__dot { width: 40px; height: 40px; } .vpick { left: calc(var(--pad-x) - 16px); } }
+.vpick.is-flash .vpick__dot[aria-current="true"] .vpick__label { opacity: 1; transform: translate(0, -50%); }
