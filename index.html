@@ -135,7 +135,7 @@
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
     <!-- Vídeo en bucle, sin sonido.
-         PRUEBAS: seis vídeos. En cada carga sale uno al azar (sin repetir el anterior) y los puntos
+         PRUEBAS: seis vídeos. Por defecto sale el primero (buzo) y los puntos
          de la izquierda cambian entre ellos. ?video=NOMBRE abre uno concreto.
          El script elige la versión según la pantalla antes de cargar nada:
            horizontal → 2560 (pantallas muy grandes, si el vídeo la tiene), 1920 o 1280;
@@ -182,19 +182,15 @@
           var f = file(item);
           v.setAttribute('data-video', item.id);
           v.poster = f.poster;
-          try { sessionStorage.setItem('fondo-hero-video', item.id); } catch (e) {}
           if (reduce || save) { v.removeAttribute('autoplay'); v.removeAttribute('src'); v.load(); return; }
           v.preload = 'auto';
           v.src = f.src;
           var p = v.play(); if (p && p.catch) p.catch(function () {});
         };
 
-        // Primera carga: ?video=NOMBRE o uno al azar distinto del anterior
-        var m = location.search.match(/[?&]video=([a-z]+)/), last = null;
-        try { last = sessionStorage.getItem('fondo-hero-video'); } catch (e) {}
-        var first = m && ids.indexOf(m[1]) > -1 ? m[1] : null;
-        if (!first) { var pool = ids.filter(function (n) { return n !== last; }); first = pool[Math.floor(Math.random() * pool.length)]; }
-        play(first);
+        // Primera carga: ?video=NOMBRE o, por defecto, el primero de la lista (buzo)
+        var m = location.search.match(/[?&]video=([a-z]+)/);
+        play(m && ids.indexOf(m[1]) > -1 ? m[1] : ids[0]);
         window.fondoHeroVideo = { list: LIST, play: play };
       })(document.currentScript.previousElementSibling);
     </script>
