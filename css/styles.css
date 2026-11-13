@@ -983,19 +983,20 @@ html.is-loading .hero__title { transform: translateY(18%); }
    Puntos blancos en vertical, a la izquierda y centrados en el hero.
    ========================================================================= */
 .vpick {
-  position: absolute; z-index: 2; left: calc(var(--pad-x) - 14px); top: 50%; transform: translateY(-50%);
+  position: absolute; z-index: 2; left: calc(var(--pad-x) - 10px); top: 50%; transform: translateY(-50%);
   display: flex; flex-direction: column;
 }
+/* Círculo = vídeo disponible; X = el que se está viendo. Sin textos ni efectos al pasar el ratón. */
 .vpick__dot {
-  position: relative; display: grid; place-items: center; width: 36px; height: 36px;
-  filter: drop-shadow(0 0 3px rgb(0 0 0 / 0.35));
+  position: relative; display: grid; place-items: center; width: 26px; height: 22px;
+  filter: drop-shadow(0 0 2px rgb(0 0 0 / 0.35));
 }
-.vpick__dot::before {
-  content: ""; width: 8px; height: 8px; border-radius: 50%;
-  border: 1.5px solid var(--blanco); background: transparent;
-  transition: background-color 0.2s, transform 0.25s var(--ease-out);
+.vpick__dot::before, .vpick__dot::after { content: ""; position: absolute; left: 50%; top: 50%; }
+.vpick__dot::before { width: 6px; height: 6px; border: 1px solid var(--blanco); border-radius: 50%; transform: translate(-50%, -50%); }
+.vpick__dot[aria-current="true"]::before, .vpick__dot[aria-current="true"]::after {
+  width: 9px; height: 1.25px; border: 0; border-radius: 0; background: var(--blanco);
 }
-.vpick__dot[aria-current="true"]::before { background: var(--blanco); transform: scale(1.25); }
-.vpick__dot:hover::before { transform: scale(1.25); }
+.vpick__dot[aria-current="true"]::before { transform: translate(-50%, -50%) rotate(45deg); }
+.vpick__dot[aria-current="true"]::after { transform: translate(-50%, -50%) rotate(-45deg); }
 .vpick__dot:focus-visible { outline-offset: -4px; }
-@media (max-width: 899px) { .vpick__dot { width: 40px; height: 40px; } .vpick { left: calc(var(--pad-x) - 16px); } }
+@media (max-width: 899px) { .vpick__dot { height: 28px; } }
