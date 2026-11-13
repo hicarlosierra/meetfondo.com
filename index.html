@@ -140,7 +140,7 @@
          para móvil) antes de cargar nada. Con «reducir movimiento» o ahorro de datos se queda el póster. -->
     <video class="hero__img hero__video" muted loop playsinline autoplay preload="none" poster="assets/video/hero-buzo-poster.webp"
       aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video
-      data-src="assets/video/hero-buzo-1280.mp4" data-src-movil="assets/video/hero-buzo-movil.mp4" data-poster-movil="assets/video/hero-buzo-poster-movil.webp"></video>
+      data-src="assets/video/hero-buzo-1280.mp4" data-src-hd="assets/video/hero-buzo-1920.mp4" data-src-movil="assets/video/hero-buzo-movil.mp4" data-poster-movil="assets/video/hero-buzo-poster-movil.webp"></video>
     <script>
       (function (v) {
         var portrait = matchMedia('(max-aspect-ratio: 4/5)').matches;
@@ -149,7 +149,10 @@
         var save = navigator.connection && navigator.connection.saveData;
         if (reduce || save) { v.removeAttribute('autoplay'); return; }
         v.preload = 'auto';
-        v.src = v.getAttribute(portrait ? 'data-src-movil' : 'data-src');
+        // 1920 solo si la pantalla de verdad lo aprovecha (ancho × densidad > 1400 px) y la conexión no es lenta
+        var c = navigator.connection, slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
+        var hd = !portrait && !slow && innerWidth * (devicePixelRatio || 1) > 1400;
+        v.src = v.getAttribute(portrait ? 'data-src-movil' : (hd ? 'data-src-hd' : 'data-src'));
       })(document.currentScript.previousElementSibling);
     </script>
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>

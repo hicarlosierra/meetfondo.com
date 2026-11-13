@@ -72,7 +72,7 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Vídeo del hero (home)
 
-- `assets/video/hero-buzo-1280.mp4` (horizontal, 1280×720) y `hero-buzo-movil.mp4` (recorte vertical 640×720 para móviles en vertical). H.264 sin audio, unos 2 MB y 1,3 MB.
+- Tres versiones, H.264 sin audio: `hero-buzo-1920.mp4` (6,8 MB, pantallas grandes o retina), `hero-buzo-1280.mp4` (4,6 MB, portátiles) y `hero-buzo-movil.mp4` (recorte vertical 960×1080, 3,6 MB). El original es 1280×720: la de 1920 está reescalada con lanczos y un enfoque suave, que se ve mejor que dejar que el navegador estire. Con conexión 2G/3G se usa la de 1280.
 - Un script pegado al `<video>` elige la versión antes de cargar nada. Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster (primer fotograma).
 - Se pausa cuando sale de pantalla.
 - La cabecera mide el fotograma que se ve en cada momento para ponerse blanca o negra. Si cambia por el propio vídeo (sin scroll), espera 1,2 s antes de cambiar, para que no parpadee.
