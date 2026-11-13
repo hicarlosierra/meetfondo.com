@@ -70,6 +70,10 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 - **Seguridad.** Con «reducir movimiento» pasa a un fundido simple. Si el JS no llega a cargar, el loader se aparta solo a los 9 s.
 - **Ajustes.** Tiempos, efecto líquido y salida, en el bloque 1 de `js/loader.js`.
 
+## Escala tipográfica
+
+Nueve roles para toda la web, al final de `styles.src.css` (bloque «ESCALA TIPOGRÁFICA»), en desktop / móvil: Display 72/40, Titular 44/26, Título 32/24, Entradilla 24/20, Cuerpo L 18/17, Cuerpo 16, Pequeño 14, Etiqueta 12 (Semibold, mayúsculas, +6 %) y Mono 12 (DM Mono, solo números y fechas). Solo Inter (Instrument Sans ya no se usa) y tres pesos principales: Light para entradillas, Regular para texto y Medium para títulos, con Semibold/Bold para énfasis. Los titulares bajo el hero van en Medium, como el manifiesto. Fuera de escala, a propósito: el título del hero del viaje, «¿Empezamos?», «Good things take depth.» del footer, el manifiesto y el wordmark.
+
 ## Vídeo del hero (home)
 
 **Modo pruebas.** Hay seis vídeos: buzo, cueva, pared, mar, santorini y playa. Por defecto sale el primero (buzo) y los puntos de la izquierda del hero cambian entre ellos. Al cambiar, la dirección pasa a `?video=NOMBRE`, así se puede pasar el enlace de uno concreto.
