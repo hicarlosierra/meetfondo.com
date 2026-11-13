@@ -89,7 +89,7 @@ Inventado como placeholder, pendiente de validar: plan por horas de cada día, p
 - Se publica desde la rama `main`, carpeta raíz. Cada push actualiza la web en uno o dos minutos.
 - `.nojekyll` evita que GitHub procese la web con Jekyll: sirve los archivos tal cual.
 - Versión en pruebas: lleva `<meta name="robots" content="noindex, nofollow">` para que no salga en Google. Quitarlo al lanzar.
-- La imagen para compartir (WhatsApp, LinkedIn, X) es `assets/img/og-fondo.jpg`, 1200×630. `og:image` y `og:url` llevan la URL completa: si cambia la dirección (dominio propio), hay que cambiarlas también.
+- La imagen para compartir (WhatsApp, LinkedIn, X) es `assets/img/og-fondo.jpg`, 1200×630. `og:image` y `og:url` llevan la URL completa (https://meetfondo.com/). Si cambia el dominio, hay que cambiarlas también. El archivo `CNAME` es el del dominio propio: no borrarlo.
 
 ## Pendiente
 
