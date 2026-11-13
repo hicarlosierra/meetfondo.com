@@ -271,12 +271,10 @@
       b.className = 'vpick__dot';
       b.dataset.id = item.id;
       b.setAttribute('aria-label', `Vídeo ${i + 1}: ${item.name}`);
-      b.innerHTML = `<span class="vpick__label" aria-hidden="true">${String(i + 1).padStart(2, '0')} · ${item.name}</span>`;
       b.addEventListener('click', () => {
         if (v.dataset.video === item.id) return;
         api.play(item.id);
         btns.forEach((x) => x.setAttribute('aria-current', String(x === b)));
-        flash();
         const url = new URL(location.href);
         url.searchParams.set('video', item.id);
         history.replaceState(null, '', url);
@@ -285,12 +283,7 @@
       nav.appendChild(b);
       return b;
     });
-    // El nombre del vídeo activo se ve 2,5 s al cargar y al cambiar (en móvil no hay hover)
-    let flashT = 0;
-    const flash = () => { nav.classList.add('is-flash'); clearTimeout(flashT); flashT = setTimeout(() => nav.classList.remove('is-flash'), 2500); };
-    const sync = () => { btns.forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === v.dataset.video))); flash(); };
-    if (document.documentElement.classList.contains('is-loading')) document.addEventListener('fondoloader:hide', sync, { once: true });
-    else sync();
+    btns.forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === v.dataset.video)));
   })();
 
   /* =======================================================================

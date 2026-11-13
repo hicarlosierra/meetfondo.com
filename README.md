@@ -72,7 +72,7 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Vídeo del hero (home)
 
-**Modo pruebas.** Hay seis vídeos: buzo, cueva, pared, mar, santorini y playa. En cada carga sale uno al azar (sin repetir el anterior) y los puntos de la izquierda del hero cambian entre ellos. Al cambiar, la dirección pasa a `?video=NOMBRE`, así se puede pasar el enlace de uno concreto. El nombre del vídeo activo aparece 2,5 s al cargar y al cambiar.
+**Modo pruebas.** Hay seis vídeos: buzo, cueva, pared, mar, santorini y playa. En cada carga sale uno al azar (sin repetir el anterior) y los puntos de la izquierda del hero cambian entre ellos. Al cambiar, la dirección pasa a `?video=NOMBRE`, así se puede pasar el enlace de uno concreto.
 
 Cuando se elija uno: dejarlo solo en `LIST` (script junto al `<video>` en `index.html`), quitar el `<nav class="vpick">`, el bloque «1c» de `main.js` y el bloque «PRUEBAS · Selector» de `styles.src.css`, y borrar de `assets/video/` los demás vídeos.
 
