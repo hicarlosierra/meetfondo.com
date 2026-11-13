@@ -19,7 +19,8 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 
-  <link rel="preload" href="assets/img/hero-buceadores.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="assets/video/hero-buzo-poster.webp" as="image" fetchpriority="high" media="(min-aspect-ratio: 4/5)">
+  <link rel="preload" href="assets/video/hero-buzo-poster-movil.webp" as="image" fetchpriority="high" media="(max-aspect-ratio: 4/5)">
   <link rel="stylesheet" href="css/styles.css">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
@@ -91,9 +92,9 @@
     <a href="#cartas" data-tone="dark">Cartas</a>
   </nav>
   <!-- Móvil: próximo viaje en el centro -->
-  <a class="site-header__next site-header__next--m" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+  <a class="site-header__next site-header__next--m" href="viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
   <div class="site-header__right">
-    <a class="site-header__next site-header__next--d" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+    <a class="site-header__next site-header__next--d" href="viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
     <button class="site-header__lang" type="button" aria-label="Cambiar idioma. Idioma actual: español" data-tone="dark">ES</button>
     <button class="site-header__menu" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" data-menu-open data-tone="dark">
       <svg viewBox="0 0 22.6 13.2" aria-hidden="true"><path d="M0 0.94H22.6M0 12.24H22.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -118,7 +119,7 @@
   </nav>
   <div class="mmenu__extra">
     <p class="mmenu__eyebrow">PRÓXIMO VIAJE</p>
-    <a class="mmenu__next" href="#guia"><span class="mmenu__next-text">Costa Brava, Jun 27</span><span class="mmenu__arrow" aria-hidden="true">↗</span></a>
+    <a class="mmenu__next" href="viajes/costa-brava/"><span class="mmenu__next-text">Costa Brava, Jun 27</span><span class="mmenu__arrow" aria-hidden="true">↗</span></a>
     <ul class="mmenu__social" role="list">
       <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
       <li><a href="#" data-todo="enlace de WhatsApp">WhatsApp</a></li>
@@ -135,8 +136,23 @@
 
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
-    <img class="hero__img" src="assets/img/hero-buceadores.webp" width="1125" height="750" alt="Dos buceadores descienden en aguas azules" fetchpriority="high" decoding="async">
-    <div class="hero__shade" aria-hidden="true" data-theme="dark"></div>
+    <!-- Vídeo en bucle, sin sonido. El script de debajo elige la versión (horizontal o recorte vertical
+         para móvil) antes de cargar nada. Con «reducir movimiento» o ahorro de datos se queda el póster. -->
+    <video class="hero__img hero__video" muted loop playsinline autoplay preload="none" poster="assets/video/hero-buzo-poster.webp"
+      aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video
+      data-src="assets/video/hero-buzo-1280.mp4" data-src-movil="assets/video/hero-buzo-movil.mp4" data-poster-movil="assets/video/hero-buzo-poster-movil.webp"></video>
+    <script>
+      (function (v) {
+        var portrait = matchMedia('(max-aspect-ratio: 4/5)').matches;
+        if (portrait) v.poster = v.getAttribute('data-poster-movil');
+        var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var save = navigator.connection && navigator.connection.saveData;
+        if (reduce || save) { v.removeAttribute('autoplay'); return; }
+        v.preload = 'auto';
+        v.src = v.getAttribute(portrait ? 'data-src-movil' : 'data-src');
+      })(document.currentScript.previousElementSibling);
+    </script>
+    <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>
     <h1 class="hero__title">
       <span class="sr-only">Fondo. Viajes de buceo para los que quieren algo más que inmersiones.</span>
       <svg class="hero__wordmark" aria-hidden="true" viewBox="0 0 1376 436" preserveAspectRatio="xMidYMax meet" data-ink><use href="#wordmark"/></svg>
@@ -195,7 +211,7 @@
       </div>
 
       <div class="viajes__strip" data-strip>
-        <a class="postal" id="postal-0" href="#guia" data-follow-area>
+        <a class="postal" id="postal-0" href="viajes/costa-brava/" data-follow-area>
           <img class="postal__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
           <span class="postal__labels"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
           <span class="postal__title">Costa Brava</span>
@@ -305,7 +321,7 @@
     <div class="guia__panel guia__panel--photo">
       <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="Barcas de pesca en la orilla, Tossa de Mar" loading="lazy" decoding="async">
     </div>
-    <a class="guia__panel guia__panel--dest" href="#campamento" data-follow-area>
+    <a class="guia__panel guia__panel--dest" href="viajes/costa-brava/" data-follow-area>
       <span class="guia__media">
         <img class="guia__img" src="assets/img/mascara.webp" width="736" height="981" alt="" loading="lazy" decoding="async">
         <span class="oval oval--light guia__oval" data-follow aria-hidden="true"><span>Lista de espera</span></span>
@@ -319,7 +335,7 @@
       <p class="guia__desc">Tossa es un pueblo de pescadores con muralla medieval, calas de agua clara y praderas de posidonia a pocos minutos en barco. Aquí hacemos nuestro primer campamento: cuatro días para aprender a bucear con calma, comer bien y volver con un grupo con el que seguir bajando.</p>
       <div class="guia__foot">
         <p class="guia__details">Campamento Open Water<br>17-20 jun 2027 · 10&nbsp;plazas · 990&nbsp;€</p>
-        <a class="cta" href="#campamento">Ver el campamento <span aria-hidden="true">↗</span></a>
+        <a class="cta" href="viajes/costa-brava/">Ver el campamento <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -390,7 +406,7 @@
       <div class="campamento__foot">
         <p class="campamento__meta">Tossa de Mar · 17-20 jun 2027</p>
         <p class="campamento__body">Cuatro días para sacarte el Open Water en calas del Mediterráneo. Teoría por la mañana, inmersiones por la tarde y cena juntos cada noche. Diez plazas, 990&nbsp;€, reserva con 300&nbsp;€.</p>
-        <a class="cta" href="#reserva">Ver el campamento <span aria-hidden="true">↗</span></a>
+        <a class="cta" href="viajes/costa-brava/">Ver el campamento <span aria-hidden="true">↗</span></a>
       </div>
     </div>
     <img class="campamento__img" src="assets/img/carrera.webp" width="736" height="1308" alt="Dos personas corren hacia el mar al atardecer" loading="lazy" decoding="async">

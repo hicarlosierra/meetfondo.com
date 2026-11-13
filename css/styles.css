@@ -697,3 +697,282 @@ html.is-loading .hero__title { transform: translateY(18%); }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   .marquee__track { animation: none; }
 }
+
+
+/* =========================================================================
+   VÍDEO DEL HERO (home)
+   Mismo encuadre que la foto. El póster se ve mientras carga y se queda
+   si el sistema pide reducir movimiento o ahorrar datos.
+   ========================================================================= */
+.hero__video { background: var(--negro); }
+
+
+/* =========================================================================
+   PÁGINA DE VIAJE · viajes/costa-brava/
+   Mismo sistema que la home: rejilla de 12 columnas desde 900 px, tamaños
+   fluidos de 390 a 1440 y los mismos componentes (eyebrow, acordeón,
+   rowlink, óvalo, cabecera, menú y footer).
+   ========================================================================= */
+.page-viaje .eyebrow { order: 0; }
+.eyebrow--light { color: var(--blanco); }
+.eyebrow--light .dot { background: var(--blanco); }
+#dias, #empezamos, #preguntas { scroll-margin-top: var(--header-h); }
+
+/* ---------- Datos (resumen y ficha) ---------- */
+.facts { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--g); }
+.facts__item { border-top: 1px solid var(--negro); padding: 16px 0 clamp(20px, max(calc(17.4px + 0.6667cqi), 1.875cqi), 30px); min-width: 0; }
+.facts__item:nth-last-child(-n + 2) { border-bottom: 1px solid var(--negro); }
+.facts__label { font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+.facts dd { margin: 0; }
+.facts__value { display: block; margin-top: clamp(8px, max(calc(6.8857px + 0.2857cqi), 0.7639cqi), 12.2222px); font-weight: 500; font-size: clamp(22px, max(calc(18.2857px + 0.9524cqi), 2.2222cqi), 35.5556px); line-height: 1.05; letter-spacing: -0.035em; }
+.facts__note { display: block; margin-top: clamp(6px, max(calc(4.5143px + 0.381cqi), 0.6944cqi), 11.1111px); font-size: clamp(13px, max(calc(12.6286px + 0.0952cqi), 0.9722cqi), 15.5556px); line-height: 1.35; color: var(--negro-64); }
+
+/* ---------- Enlaces en fila (como «¿Te vienes?») ---------- */
+.rowlinks .rowlink { padding-right: 0; }
+.rowlink__arrow--down { transition: transform 0.25s var(--ease-out); }
+.rowlink:hover .rowlink__arrow--down { transform: translateY(4px); }
+@media (min-width: 900px) {
+  .rowlinks { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--g); }
+}
+
+/* ---------- 01 · Hero del viaje ----------
+   «Costa Brava» va de margen a margen y apoya a 32 px del borde (20 en móvil).
+   El tamaño sale del ancho: el texto mide 5,152 em de tinta (Inter 3.19, -4,5 %);
+   en móvil va en dos líneas y manda «Costa» (2,47 em).
+   line-height 0,73 = la caja abraza las mayúsculas (base de las letras = borde inferior). */
+.vhero {
+  --tw: 5.152;
+  --cap: 40svh;
+  position: relative; overflow: hidden; height: 100svh; min-height: 360px;
+  background: var(--negro); color: var(--blanco);
+}
+.vhero__img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; object-position: 56% 78%; transform: scale(1.1); transform-origin: 56% 82%;
+}
+.vhero__shade { position: absolute; inset: auto 0 0; height: 64%; background: linear-gradient(180deg, rgb(0 0 0 / 0), rgb(0 0 0 / 0.45)); }
+.vhero__content {
+  position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: clamp(20px, max(calc(15.5429px + 1.1429cqi), 2.2222cqi), 35.5556px);
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "kicker oval" "lead oval" "facts facts" "title title";
+}
+.vhero__kicker { grid-area: kicker; }
+.vhero__lead { grid-area: lead; margin-top: 14px; font-weight: 300; font-style: italic; font-size: clamp(24px, max(calc(21.0286px + 0.7619cqi), 2.2222cqi), 35.5556px); line-height: 1.17; letter-spacing: -0.03em; }
+.vhero__oval { grid-area: oval; align-self: center; width: clamp(220px, 21cqi, 303px); transition: background-color 0.25s, color 0.25s; }
+.vhero__oval:hover { background: var(--blanco); color: var(--azul); }
+.vhero__facts { grid-area: facts; display: flex; justify-content: space-between; gap: 16px; margin-top: clamp(28px, max(calc(23.5429px + 1.1429cqi), 2.7778cqi), 44.4444px); font-weight: 600; font-size: 12px; letter-spacing: 0.06em; }
+.vhero__title {
+  grid-area: title; margin: clamp(20px, max(calc(17.0286px + 0.7619cqi), 1.9444cqi), 31.1111px) 0 0 -0.05em;
+  font-weight: 400; font-size: min(calc((var(--cw) - 2 * var(--mx)) / var(--tw)), var(--cap));
+  line-height: 0.73; letter-spacing: -0.045em; white-space: nowrap;
+}
+@media (max-width: 899px) {
+  .vhero__oval { display: none; }
+  .vhero__fact-mid { display: none; }
+}
+@media (max-width: 899px) and (orientation: portrait) {
+  .vhero { --tw: 2.47; --cap: 30svh; }
+  .vhero__img { transform: scale(1.32); transform-origin: 54% 100%; }
+  .vhero__title { white-space: normal; }
+  .vhero__title > span:not(.sr-only) { display: block; }
+  .vhero__w2 { margin: 0.1em 0 0 -0.03em; }
+}
+
+/* ---------- 02 · Resumen ---------- */
+.vresumen { display: grid; row-gap: clamp(32px, max(calc(20.1143px + 3.0476cqi), 4.4444cqi), 71.1111px); padding: clamp(48px, max(calc(30.1714px + 4.5714cqi), 6.6667cqi), 106.6667px) var(--pad-x) clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px); }
+.vresumen__text { margin-top: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px); font-weight: 400; font-size: clamp(24px, max(calc(16.5714px + 1.9048cqi), 3.0556cqi), 48.8889px); line-height: 1.08; letter-spacing: -0.03em; }
+.vresumen__text strong { font-weight: 600; }
+@media (min-width: 900px) {
+  .vresumen { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); }
+  .vresumen__intro { grid-column: 1 / 6; }
+  .vresumen__facts { grid-column: 7 / 13; }
+  .vresumen__links { grid-column: 1 / -1; }
+}
+
+/* ---------- 03 · Día a día (acordeón de la home + fecha) ---------- */
+.vdias__note { margin-top: 16px; max-width: 30ch; font-size: clamp(14px, max(calc(13.2571px + 0.1905cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.acc__main { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.acc__meta { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+@media (min-width: 900px) {
+  .acc__main { flex-direction: row; justify-content: space-between; align-items: center; gap: var(--g); padding-right: clamp(12px, 2.2cqi, 32px); }
+  .acc__meta { flex: none; }
+}
+
+/* ---------- 04 · Perfil del viaje (gráfico) ---------- */
+.vperfil { display: grid; row-gap: 32px; padding: clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px) var(--pad-x); }
+.vperfil__title { margin-top: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px); font-weight: 500; font-size: clamp(32px, max(calc(26.0571px + 1.5238cqi), 3.3333cqi), 53.3333px); line-height: 1.04; letter-spacing: -0.03em; }
+.vperfil__body { margin-top: clamp(16px, max(calc(10.0571px + 1.5238cqi), 2.2222cqi), 35.5556px); max-width: 36ch; font-size: clamp(14px, max(calc(13.2571px + 0.1905cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.vperfil__chart {
+  overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none;
+  margin-inline: calc(var(--pad-x) * -1); padding-inline: var(--pad-x);
+}
+.vperfil__chart::-webkit-scrollbar { display: none; }
+.vperfil__chart:focus-visible { outline-offset: -2px; }
+.vperfil__svg { width: 100%; min-width: 720px; height: auto; overflow: visible; }
+.vperfil__hint { margin-top: -16px; font-family: var(--font-mono); font-size: 12px; color: var(--negro-64); }
+.pf-grid path { fill: none; stroke: var(--negro-16); stroke-width: 1; }
+.pf-surface { fill: none; stroke: var(--negro); stroke-width: 1; }
+.pf-axis text, .pf-labels text { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; fill: var(--negro); }
+.pf-axis .pf-end { text-anchor: end; fill: var(--negro-64); }
+.pf-labels text { text-anchor: middle; }
+.pf-labels .pf-name { font-size: 10px; fill: var(--negro-64); }
+.pf-fill path { fill: var(--celeste); }
+.pf-line path { fill: none; stroke: var(--azul); stroke-width: 2; }
+.pf-dot circle { fill: var(--azul); }
+.vperfil__seal ellipse { fill: none; stroke: var(--azul); stroke-width: 1.5; }
+.vperfil__seal text { font-family: var(--font); font-weight: 700; font-size: 18px; letter-spacing: -0.04em; text-anchor: middle; fill: var(--azul); }
+/* Entrada: las inmersiones se dibujan de izquierda a derecha al llegar al gráfico */
+.js .vperfil__dives { clip-path: inset(-20px 100% -20px 0); transition: clip-path 1.6s var(--ease-out); }
+.js .vperfil__seal { opacity: 0; transition: opacity 0.5s linear 1.3s; }
+.js .vperfil__chart.is-in .vperfil__dives { clip-path: inset(-20px 0 -20px 0); }
+.js .vperfil__chart.is-in .vperfil__seal { opacity: 1; }
+@media (min-width: 900px) {
+  .vperfil { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); }
+  .vperfil__intro { grid-column: 1 / 5; }
+  .vperfil__chart { grid-column: 5 / 13; overflow: visible; margin: 0; padding: 0; }
+  .vperfil__svg { min-width: 0; }
+  .vperfil__hint { display: none; }
+}
+
+/* ---------- 05 · Una nota nuestra ---------- */
+.vnota { display: grid; row-gap: 24px; padding: clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px) var(--pad-x); }
+.vnota__quote { margin: 0; }
+.vnota__text { font-size: clamp(22px, max(calc(18.2857px + 0.9524cqi), 2.2222cqi), 35.5556px); line-height: 1.12; letter-spacing: -0.015em; }
+.vnota__sign { margin-top: clamp(24px, max(calc(21.0286px + 0.7619cqi), 2.2222cqi), 35.5556px); font-size: 14px; line-height: 1.55; }
+.vnota__sign strong { font-weight: 600; }
+.vnota__sign span { color: var(--negro-64); }
+.vnota__small, .vnota__big { margin: 0; }
+.vnota__small { width: 62%; margin-top: 24px; }
+.vnota__small img { width: 100%; aspect-ratio: 332 / 442; object-fit: cover; }
+.vnota__small figcaption { margin-top: 16px; font-size: 16px; line-height: 1.4; white-space: nowrap; }
+.vnota__big img { width: 100%; aspect-ratio: 680 / 820; max-height: 85svh; object-fit: cover; }
+@media (min-width: 900px) {
+  .vnota { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); row-gap: 0; }
+  .vnota__kicker { grid-column: 1 / 6; grid-row: 1; align-self: start; padding-top: 6px; }
+  .vnota__quote { grid-column: 7 / 13; grid-row: 1; }
+  .vnota__small { grid-column: 1 / 4; grid-row: 2; width: auto; margin-top: clamp(64px, 6.67cqi, 96px); }
+  .vnota__big { grid-column: 7 / 13; grid-row: 2; margin-top: clamp(64px, 6.67cqi, 96px); }
+  .vnota__big img { max-height: none; }
+}
+
+/* ---------- 06 · Dónde pasa (carrusel) ---------- */
+.vdonde { --lw: min(76cqi, 320px); padding: clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px) 0; background: var(--mantequilla); }
+.vdonde__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-inline: var(--pad-x); }
+.vdonde__title { margin-top: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px); font-weight: 500; font-size: clamp(40px, max(calc(28.1143px + 3.0476cqi), 5cqi), 80px); line-height: 1; letter-spacing: -0.035em; }
+.vdonde__nav { display: none; gap: 16px; flex: none; }
+.vbtn { display: grid; place-items: center; width: 72px; height: 44px; border: 1px solid var(--negro); border-radius: 50%; font-weight: 500; font-size: 18px; transition: background-color 0.2s, color 0.2s, opacity 0.2s; }
+.vbtn:hover:not(:disabled) { background: var(--negro); color: var(--mantequilla); }
+.vbtn:disabled { opacity: 0.3; cursor: default; }
+.vdonde__track {
+  display: flex; gap: var(--g); margin-top: clamp(32px, max(calc(20.1143px + 3.0476cqi), 4.4444cqi), 71.1111px);
+  overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+  padding-inline: var(--pad-x); scroll-padding-inline: var(--pad-x); scrollbar-width: none;
+}
+.vdonde__track::-webkit-scrollbar { display: none; }
+.lugar { flex: 0 0 var(--lw); scroll-snap-align: start; display: flex; flex-direction: column; padding: clamp(12px, max(calc(7.5429px + 1.1429cqi), 1.6667cqi), 26.6667px) clamp(12px, max(calc(7.5429px + 1.1429cqi), 1.6667cqi), 26.6667px) clamp(20px, max(calc(15.5429px + 1.1429cqi), 2.2222cqi), 35.5556px); background: var(--blanco); }
+.lugar__img { width: 100%; aspect-ratio: 368 / 440; object-fit: cover; }
+.lugar__meta { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; font-weight: 600; font-size: 12px; letter-spacing: 0.06em; }
+.lugar__num { font-family: var(--font-mono); font-weight: 400; letter-spacing: 0; }
+.lugar__title { margin-top: clamp(16px, max(calc(14.5143px + 0.381cqi), 1.3889cqi), 22.2222px); font-weight: 500; font-size: clamp(26px, max(calc(23.7714px + 0.5714cqi), 2.2222cqi), 35.5556px); line-height: 1; letter-spacing: -0.035em; }
+.lugar__text { margin-top: 12px; font-size: clamp(14px, max(calc(13.2571px + 0.1905cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+@media (min-width: 900px) {
+  .vdonde { --lw: min(28.9cqi, 560px); }
+  .vdonde__nav { display: flex; }
+}
+
+/* ---------- 07 · Por qué la Costa Brava ---------- */
+.vporque__media { position: relative; aspect-ratio: 390 / 520; max-height: 85svh; width: 100%; overflow: hidden; background: var(--azul); color: var(--blanco); }
+.vporque__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; }
+.vporque__caption {
+  position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: clamp(20px, max(calc(9.6px + 2.6667cqi), 3.3333cqi), 53.3333px);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.vporque__coords { font-weight: 300; font-size: clamp(32px, max(calc(27.5429px + 1.1429cqi), 3.0556cqi), 48.8889px); line-height: 1; letter-spacing: -0.03em; }
+.vporque__data { font-weight: 600; font-size: 12px; line-height: 1.6; letter-spacing: 0.06em; }
+@media (max-width: 899px) { .vporque__data > span { display: block; } .vporque__sep { display: none !important; } }
+.vporque__text { padding: clamp(48px, max(calc(30.1714px + 4.5714cqi), 6.6667cqi), 106.6667px) var(--pad-x); font-weight: 500; font-size: clamp(28px, min(clamp(30px, max(calc(14.4px + 4cqi), 5cqi), 80px), 10svh), 72px); line-height: 1; letter-spacing: -0.035em; }
+.vporque__muted { color: var(--gris); }
+@media (min-width: 900px) {
+  .vporque__media { aspect-ratio: 1440 / 760; max-height: none; }
+  .vporque__caption { flex-direction: row; justify-content: space-between; align-items: flex-end; }
+}
+
+/* ---------- 08 · Resumen del viaje ---------- */
+.vficha { display: grid; row-gap: clamp(40px, max(calc(31.0857px + 2.2857cqi), 4.4444cqi), 71.1111px); padding: clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px) var(--pad-x); }
+.vficha__title { margin-top: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px); font-weight: 500; font-size: clamp(32px, max(calc(26.0571px + 1.5238cqi), 3.3333cqi), 53.3333px); line-height: 1.04; letter-spacing: -0.03em; }
+.vficha__body { margin: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px) 0 8px; max-width: 34ch; font-size: clamp(14px, max(calc(13.2571px + 0.1905cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.vficha__lists { display: grid; row-gap: clamp(32px, calc(42.9714px - 0.7619cqi), 40px); }
+.vficha__side { display: flex; flex-direction: column; gap: 32px; }
+.incl__label { margin-bottom: 15px; font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+.incl__list { border-bottom: 1px solid var(--negro); }
+.incl__list li { display: grid; grid-template-columns: 24px 1fr; column-gap: 16px; padding: 16px 0; border-top: 1px solid var(--negro); font-size: clamp(15px, max(calc(14.6286px + 0.0952cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.incl__list strong { font-weight: 600; }
+.incl__sign { font-family: var(--font-alt); font-size: 24px; line-height: 1; }
+.acomp { display: flex; flex-direction: column; padding: clamp(20px, max(calc(18.5143px + 0.381cqi), 1.6667cqi), 26.6667px); background: var(--celeste); }
+.acomp__label { font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+.acomp__title { margin-top: 12px; max-width: 12em; font-weight: 500; font-size: clamp(26px, max(calc(23.7714px + 0.5714cqi), 2.2222cqi), 35.5556px); line-height: 1; letter-spacing: -0.035em; }
+.acomp__text { margin-top: 20px; font-size: clamp(15px, max(calc(14.6286px + 0.0952cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.acomp__foot { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--negro); }
+.acomp__text { margin-bottom: 24px; }
+.acomp__price { font-weight: 500; font-size: clamp(26px, max(calc(23.7714px + 0.5714cqi), 2.2222cqi), 35.5556px); line-height: 1; letter-spacing: -0.035em; }
+.acomp__per { font-weight: 600; font-size: 12px; letter-spacing: 0.08em; }
+.vficha__photo { margin: 0; display: flex; flex-direction: column; }
+.vficha__photo img { width: 100%; aspect-ratio: 332 / 420; object-fit: cover; }
+.vficha__photo figcaption { margin-top: 16px; font-size: 16px; line-height: 1.4; }
+.vficha__details { display: grid; gap: var(--g); }
+.detalle { padding: clamp(20px, max(calc(18.5143px + 0.381cqi), 1.6667cqi), 26.6667px); border: 1px solid var(--negro); }
+.detalle__title { font-weight: 500; font-size: clamp(26px, max(calc(23.7714px + 0.5714cqi), 2.2222cqi), 35.5556px); line-height: 1; letter-spacing: -0.035em; }
+.detalle__text { margin-top: 16px; font-size: clamp(15px, max(calc(14.6286px + 0.0952cqi), 1.1111cqi), 17.7778px); line-height: 1.5; }
+.detalle__rows { margin: 32px 0 0; border-bottom: 1px solid var(--negro-16); }
+.detalle__rows div { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-top: 1px solid var(--negro-16); font-size: 14px; line-height: 1.35; }
+.detalle__rows dt { font-weight: 600; }
+.detalle__rows dd { margin: 0; text-align: right; }
+@media (max-width: 899px) {
+  .vficha__photo { width: 62%; }
+}
+@media (min-width: 900px) {
+  .vficha { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); row-gap: 0; }
+  .vficha__intro { grid-column: 1 / 4; grid-row: 1; }
+  .vficha__facts { grid-column: 5 / 13; grid-row: 1; }
+  .vficha__lists { grid-column: 5 / 13; grid-row: 2; grid-template-columns: 1fr 1fr; column-gap: var(--g); margin-top: clamp(40px, 4.44cqi, 64px); }
+  .vficha__photo { grid-column: 1 / 4; grid-row: 2; margin-top: calc(clamp(40px, 4.44cqi, 64px) + 30px); }
+  .vficha__photo img { flex: 1 1 0; min-height: 280px; aspect-ratio: auto; }
+  .vficha__details { grid-column: 5 / 13; grid-row: 3; grid-template-columns: 1fr 1fr; margin-top: clamp(40px, 4.44cqi, 64px); }
+  .detalle--buceo { grid-row: span 2; }
+}
+
+/* ---------- 09 · Preguntas (acordeón sin números) ---------- */
+.vfaq { display: grid; row-gap: 32px; padding: clamp(56px, max(calc(41.1429px + 3.8095cqi), 6.6667cqi), 106.6667px) var(--pad-x); }
+.vfaq__title { margin-bottom: 8px; font-weight: 500; font-size: clamp(32px, max(calc(26.0571px + 1.5238cqi), 3.3333cqi), 53.3333px); line-height: 1.04; letter-spacing: -0.03em; }
+.acc--faq .acc__head { grid-template-columns: 1fr auto; column-gap: 16px; min-height: clamp(64px, max(calc(61.0286px + 0.7619cqi), 5cqi), 80px); padding: 14px 0; }
+.acc--faq .acc__title, .acc--faq .acc__item.is-open .acc__title { font-family: var(--font); font-weight: 500; font-size: clamp(18px, max(calc(15.7714px + 0.5714cqi), 1.6667cqi), 26.6667px); line-height: 1.2; letter-spacing: -0.015em; }
+.acc--faq .acc__item.is-open { background: none; }
+.acc--faq .acc__inner { padding: 0; }
+.acc--faq .acc__item.is-open .acc__inner { padding-bottom: clamp(20px, max(calc(17.0286px + 0.7619cqi), 1.9444cqi), 31.1111px); }
+.acc--faq .acc__body { font-family: var(--font); font-size: clamp(15px, max(calc(14.6286px + 0.0952cqi), 1.1111cqi), 17.7778px); line-height: 1.5; max-width: 36em; }
+@media (min-width: 900px) {
+  .vfaq { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); }
+  .vfaq__intro { grid-column: 1 / 6; }
+  .acc--faq { grid-column: 7 / 13; align-self: start; }
+  .acc--faq .acc__inner { grid-template-columns: 1fr; }
+}
+
+/* ---------- 10 · ¿Empezamos? ---------- */
+.vcierre { padding: clamp(12px, max(calc(4.5714px + 1.9048cqi), 2.2222cqi), 35.5556px) calc(var(--edge) + clamp(12px, max(calc(4.5714px + 1.9048cqi), 2.2222cqi), 35.5556px)) clamp(24px, max(calc(21.0286px + 0.7619cqi), 2.2222cqi), 35.5556px); }
+.vcierre__block { display: grid; row-gap: clamp(16px, max(calc(13.0286px + 0.7619cqi), 1.6667cqi), 26.6667px); padding: clamp(32px, max(calc(23.0857px + 2.2857cqi), 3.8889cqi), 62.2222px) clamp(24px, max(calc(12.1143px + 3.0476cqi), 3.8889cqi), 62.2222px); background: var(--azul); color: var(--blanco); overflow: hidden; }
+.vcierre__block > * { min-width: 0; }
+.vcierre__title { margin-left: -0.05em; font-weight: 500; font-size: min(clamp(44px, max(calc(12.8px + 8cqi), 8.8889cqi), 142.2222px), 12cqi); line-height: 1.05; letter-spacing: -0.055em; }
+.vcierre__text { max-width: 26em; font-size: clamp(16px, max(calc(15.2571px + 0.1905cqi), 1.25cqi), 20px); line-height: 1.5; }
+.vcierre__links { margin-top: 16px; }
+.vcierre .rowlink { border-color: var(--blanco); padding-right: 0; }
+@media (min-width: 900px) {
+  .vcierre__block {
+    min-height: clamp(480px, 41.7cqi, 600px);
+    grid-template-columns: 1fr 1fr; grid-template-rows: auto auto 1fr;
+    grid-template-areas: "kicker kicker" "title title" "text links"; column-gap: var(--g);
+  }
+  .vcierre__kicker { grid-area: kicker; }
+  .vcierre__title { grid-area: title; }
+  .vcierre__text { grid-area: text; align-self: end; }
+  .vcierre__links { grid-area: links; align-self: end; margin: 0 0 0 clamp(0px, 5cqi, 72px); }
+}

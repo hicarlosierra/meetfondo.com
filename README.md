@@ -70,6 +70,20 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 - **Seguridad.** Con «reducir movimiento» pasa a un fundido simple. Si el JS no llega a cargar, el loader se aparta solo a los 9 s.
 - **Ajustes.** Tiempos, efecto líquido y salida, en el bloque 1 de `js/loader.js`.
 
+## Vídeo del hero (home)
+
+- `assets/video/hero-buzo-1280.mp4` (horizontal, 1280×720) y `hero-buzo-movil.mp4` (recorte vertical 640×720 para móviles en vertical). H.264 sin audio, unos 2 MB y 1,3 MB.
+- Un script pegado al `<video>` elige la versión antes de cargar nada. Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster (primer fotograma).
+- Se pausa cuando sale de pantalla.
+- La cabecera mide el fotograma que se ve en cada momento para ponerse blanca o negra. Si cambia por el propio vídeo (sin scroll), espera 1,2 s antes de cambiar, para que no parpadee.
+- Para cambiar el vídeo: exportar con `ffmpeg -i original.mp4 -an -c:v libx264 -preset veryfast -crf 26 -pix_fmt yuv420p -movflags +faststart -vf scale=1280:720 hero-buzo-1280.mp4` y el recorte con `-vf crop=ih*8/9:ih,scale=640:720`.
+
+## Página de viaje · `viajes/costa-brava/`
+
+Mismo CSS y JS que la home. Secciones: hero, resumen, día a día (el acordeón de «Cómo viajamos»), perfil de profundidad (SVG), nota del equipo, dónde pasa (carrusel), por qué la Costa Brava, resumen del viaje, preguntas y cierre. En la cabecera, el enlace del próximo viaje pasa a ser «Solicita tu plaza».
+
+Inventado como placeholder, pendiente de validar: plan por horas de cada día, profundidades del perfil, agua a 20 °C y visibilidad de 15 m, calendario de pagos y política de cancelación.
+
 ## Publicación (GitHub Pages)
 
 - Se publica desde la rama `main`, carpeta raíz. Cada push actualiza la web en uno o dos minutos.
@@ -89,3 +103,4 @@ Los enlaces pendientes muestran un aviso «Pendiente» al pulsarlos.
 - Fotos definitivas de Mar Rojo, Mallorca, Tenerife y Maldivas.
 - Versión en inglés.
 - Unificar «Nosotros» (menú móvil) y «Sobre fondo» (cabecera desktop y footer).
+- Formulario de solicitud del campamento y fotos reales de Tossa.

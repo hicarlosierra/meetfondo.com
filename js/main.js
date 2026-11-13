@@ -31,8 +31,11 @@
      1. Cabecera fija sin fondo
         Cada elemento (logo, enlaces, idioma) mira qué tiene justo detrás y se
         pone blanco o negro, el que más contraste dé:
-        · data-theme="dark|light" en un elemento fuerza el tono (p. ej. el hero);
-        · sobre una foto, mide la luminosidad de esa zona de la foto;
+        · data-theme="dark|light" en un elemento fuerza el tono;
+        · sobre una foto o un vídeo, mide la luminosidad de esa zona (en el vídeo,
+          del fotograma que se ve en ese momento);
+        · data-shade="0.42" es un degradado negro encima (0,42 arriba → 0 abajo;
+          con data-shade-dir="up", al revés): oscurece lo que haya debajo;
         · si no, usa el color de fondo de la sección.
         (Sobre file:// el navegador no deja leer las fotos y usa el color de la sección.)
      ======================================================================= */
@@ -61,13 +64,33 @@
       maps.set(img, grid);
       return grid;
     };
-    // Luminosidad de la foto en un punto de la pantalla (respeta object-fit: cover y object-position)
+    // Mapa del fotograma actual de un vídeo (se rehace como mucho cada 250 ms)
+    const vmaps = new WeakMap();
+    const lumMapVideo = (v) => {
+      if (v.readyState < 2 || !v.videoWidth) return null;
+      const now = performance.now();
+      const c = vmaps.get(v);
+      if (c && now - c.t < 250) return c.grid;
+      let grid = null;
+      try {
+        const cv = (c && c.cv) || document.createElement('canvas'); cv.width = N; cv.height = N;
+        const ctx = cv.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(v, 0, 0, N, N);
+        const d = ctx.getImageData(0, 0, N, N).data;
+        grid = new Float32Array(N * N);
+        for (let i = 0; i < N * N; i++) grid[i] = lumRGB(d[i * 4], d[i * 4 + 1], d[i * 4 + 2]);
+        vmaps.set(v, { t: now, grid, cv });
+      } catch (_) { grid = null; }
+      return grid;
+    };
+    // Luminosidad de la foto (o del vídeo) en un punto de la pantalla (respeta object-fit: cover y object-position)
     const lumAtImg = (img, x, y) => {
-      const grid = lumMap(img);
+      const isVideo = img.tagName === 'VIDEO';
+      const grid = isVideo ? lumMapVideo(img) : lumMap(img);
       if (!grid) return null;
       const r = img.getBoundingClientRect();
       const cs = getComputedStyle(img);
-      const nw = img.naturalWidth, nh = img.naturalHeight;
+      const nw = isVideo ? img.videoWidth : img.naturalWidth, nh = isVideo ? img.videoHeight : img.naturalHeight;
       const s = cs.objectFit === 'cover' ? Math.max(r.width / nw, r.height / nh) : Math.min(r.width / nw, r.height / nh);
       const [px, py] = cs.objectPosition.split(' ').map((v) => parseFloat(v) / 100);
       const dw = nw * s, dh = nh * s;
@@ -82,14 +105,22 @@
     };
     // Luminosidad de lo que hay detrás de un punto (null si no se sabe)
     const lumAt = (x, y) => {
+      let k = 1;   // lo que dejan pasar los degradados que haya encima
       for (const el of document.elementsFromPoint(x, y)) {
         if (header.contains(el) || el.closest('.fl')) continue;   // ignora el loader
         const t = el.getAttribute('data-theme');
         if (t) return t === 'dark' ? 0 : 1;
-        if (el.tagName === 'IMG') {
+        const shade = el.getAttribute('data-shade');
+        if (shade) {
+          const r = el.getBoundingClientRect();
+          const p = clamp((y - r.top) / r.height, 0, 1);
+          k *= 1 - parseFloat(shade) * (el.getAttribute('data-shade-dir') === 'up' ? p : 1 - p);
+          continue;
+        }
+        if (el.tagName === 'IMG' || el.tagName === 'VIDEO') {
           if (hidden(el)) continue;
           const l = lumAtImg(el, x, y);
-          if (l != null) return l;
+          if (l != null) return l * k;
           continue;
         }
         // Formas SVG de la marca (wordmark, isotipo): pintan con currentColor.
@@ -102,13 +133,20 @@
         }
         const bg = getComputedStyle(el).backgroundColor;
         const m = bg.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?/);
-        if (m && (m[4] === undefined || parseFloat(m[4]) > 0.5)) return lumRGB(+m[1], +m[2], +m[3]);
+        if (m && (m[4] === undefined || parseFloat(m[4]) > 0.5)) return lumRGB(+m[1], +m[2], +m[3]) * k;
       }
       return 1;
     };
     // Cada elemento vota con 15 puntos: gana el tono legible sobre más superficie
     const XS = [0.08, 0.29, 0.5, 0.71, 0.92], YS = [0.3, 0.5, 0.7];
+    /* Con el scroll el cambio es inmediato. Si lo de detrás cambia solo (el vídeo),
+       el nuevo tono tiene que mantenerse 1,2 s antes de aplicarse: así el texto no
+       parpadea con cada plano. */
+    const HOLD = 1200;
+    const pend = new WeakMap();
+    let instant = true;
     const update = () => {
+      const now = performance.now();
       items.forEach((it) => {
         const r = it.getBoundingClientRect();
         if (!r.width) return;
@@ -121,8 +159,16 @@
         if (!n) return;
         const share = dark / n, cur = it.dataset.tone;
         const tone = cur === 'dark' ? (share >= 0.4 ? 'dark' : 'light') : (share > 0.6 ? 'dark' : 'light');
-        if (cur !== tone) it.dataset.tone = tone;
+        if (cur === tone) { pend.delete(it); return; }
+        if (!instant) {
+          const p = pend.get(it);
+          if (!p || p.tone !== tone) { pend.set(it, { tone, t: now }); return; }
+          if (now - p.t < HOLD) return;
+        }
+        pend.delete(it);
+        it.dataset.tone = tone;
       });
+      instant = false;
     };
     /* Cabecera «tinta»: una copia de la cabecera en negro, recortada con la forma del
        wordmark del hero. Así, cuando el wordmark blanco pasa por detrás, el texto se ve
@@ -153,20 +199,33 @@
 
     // Como mucho cada 60 ms durante el scroll
     let ticking = false, last = 0;
+    const queueNow = () => { instant = true; queue(); };
     const queue = () => {
       if (ticking) return;
       ticking = true;
       const wait = Math.max(0, 60 - (performance.now() - last));
       setTimeout(() => requestAnimationFrame(() => { update(); last = performance.now(); ticking = false; }), wait);
     };
-    addEventListener('scroll', queue, { passive: true });
-    addEventListener('resize', queue);
-    addEventListener('load', queue);
-    document.addEventListener('fondoloader:hide', queue);
+    addEventListener('scroll', queueNow, { passive: true });
+    addEventListener('resize', queueNow);
+    addEventListener('load', queueNow);
+    document.addEventListener('fondoloader:hide', queueNow);
     $$('img').forEach((img) => img.addEventListener('load', queue));
-    setInterval(queue, 700);   // por si cambia lo de detrás sin scroll (secuencia de fotos, acordeón)
+    $$('video').forEach((v) => v.addEventListener('loadeddata', queue));
+    setInterval(queue, 400);   // por si cambia lo de detrás sin scroll (vídeo, secuencia de fotos, acordeón)
     update();
   })();
+
+  /* =======================================================================
+     1b. Vídeo del hero: solo se reproduce mientras se ve (ahorra batería).
+         El <script> junto al vídeo ya decidió si carga y qué versión.
+     ======================================================================= */
+  $$('[data-hero-video]').forEach((v) => {
+    if (!v.getAttribute('src')) return;               // movimiento reducido o ahorro de datos: póster
+    const play = () => { const p = v.play(); if (p && p.catch) p.catch(() => {}); };
+    new IntersectionObserver(([e]) => (e.isIntersecting ? play() : v.pause()), { threshold: 0.01 }).observe(v);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && v.getBoundingClientRect().bottom > 0) play(); });
+  });
 
   /* =======================================================================
      2. «GIF» del faro: secuencia de fotos (1,5 s por foto, fundido 300 ms).
@@ -460,6 +519,47 @@
   }));
 
   $$('.site-header__lang, [data-lang]').forEach((b) => b.addEventListener('click', () => toast('Versión en inglés, próximamente.')));
+
+  /* =======================================================================
+     8b. Carrusel «Dónde pasa» (página de viaje)
+         Se arrastra con el dedo o el trackpad (scroll-snap) y, en desktop,
+         con las flechas. Las flechas se apagan en los extremos.
+     ======================================================================= */
+  $$('[data-carousel]').forEach((box) => {
+    const track = $('[data-track]', box);
+    const prev = $('[data-prev]', box), next = $('[data-next]', box);
+    if (!track) return;
+    const step = () => {
+      const first = track.firstElementChild;
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return first ? first.getBoundingClientRect().width + gap : track.clientWidth;
+    };
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      if (prev) prev.disabled = track.scrollLeft <= 2;
+      if (next) next.disabled = track.scrollLeft >= max;
+    };
+    if (prev) prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: smooth() }));
+    if (next) next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: smooth() }));
+    track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    addEventListener('resize', sync);
+    sync();
+  });
+
+  /* =======================================================================
+     8c. Entradas al llegar a la vista (gráfico de profundidad)
+     ======================================================================= */
+  (() => {
+    const els = $$('[data-reveal]');
+    if (!els.length) return;
+    if (mqReduce.matches || !('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('is-in')); return; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('is-in');
+      io.unobserve(e.target);
+    }), { threshold: 0.35 });
+    els.forEach((el) => io.observe(el));
+  })();
 
   /* =======================================================================
      9. Menú móvil (< 900 px)
