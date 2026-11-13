@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Fondo · Viajes de buceo para los que quieren algo más que inmersiones</title>
+  <meta name="description" content="Viajes de buceo en grupos pequeños, a sitios que conocemos. Buceo consciente, buena mesa y gente con la que seguir bajando. Good things take depth.">
+  <meta name="theme-color" content="#191919" data-default="#191919">
+  <meta property="og:title" content="Fondo · Good things take depth.">
+  <meta property="og:description" content="Viajes de buceo para los que quieren algo más que inmersiones.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://hicarlosierra.github.io/meetfondo.com/assets/img/og-fondo.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://hicarlosierra.github.io/meetfondo.com/">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Versión en pruebas: que no la indexen los buscadores. Quitar al lanzar. -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="preload" href="assets/img/hero-buceadores.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    /* Antes del primer pintado: decide si se ve el loader.
+       ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
+    (function (d) {
+      var h = d.documentElement, ONCE = false, seen = false;
+      h.classList.add('js');
+      try { seen = sessionStorage.getItem('fondo-loader-visto') === '1'; } catch (e) {}
+      if (ONCE && seen) { h.classList.add('no-loader'); return; }
+      h.classList.add('is-loading');
+      var m = d.querySelector('meta[name="theme-color"]'); if (m) m.content = '#faf3eb';
+    })(document);
+  </script>
+  <script src="js/loader.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+
+<!-- ============ Loader: «fondo» → ánfora → telón (js/loader.js) ============ -->
+<div id="fondo-loader" class="fl" role="status" aria-label="Cargando">
+  <svg class="fl-logo" viewBox="0 0 400 400" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="fl-liquid" filterUnits="userSpaceOnUse" x="-40" y="-40" width="480" height="480" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="4" result="noise"/>
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G" result="disp"/>
+        <feGaussianBlur in="disp" stdDeviation="0" result="blur"/>
+        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0"/>
+      </filter>
+    </defs>
+    <g class="fl-stage">
+      <g class="fl-word">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M 304.09,243.74 L 324.59,251.33 L 336.31,257.24 L 347.6,265.25 L 355.55,274.96 L 367.27,297.73 L 371.03,308.7 L 371.45,318.83 L 369.78,325.16 L 366.43,331.91 L 355.97,345.41 L 343.42,356.79 L 324.59,369.45 L 310.37,376.21 L 299.08,379.16 L 291.96,380 L 276.06,380 L 269.37,379.16 L 259.33,376.63 L 249.29,371.56 L 241.34,365.65 L 230.46,353.84 L 224.19,344.56 L 220,334.86 L 218.75,328.53 L 219.59,314.61 L 223.77,301.11 L 230.88,285.5 L 236.74,274.96 L 242.18,268.2 L 253.05,260.19 L 266.03,247.95 L 270.63,245 L 276.9,242.47 L 282.76,241.21 L 293.64,241.21 L 304.09,243.74 M 206.62,209.56 L 209.13,218 L 209.54,225.6 L 207.03,244.16 L 207.45,263.99 L 205.36,291.83 L 205.36,312.92 L 206.62,326 L 208.71,335.7 L 212.89,346.25 L 219.17,356.37 L 219.17,361.86 L 215.4,367.34 L 209.13,370.72 L 198.25,373.67 L 188.21,374.1 L 184.86,373.25 L 180.68,371.14 L 175.66,366.08 L 169.38,354.69 L 166.87,348.36 L 165.62,347.52 L 143.03,369.03 L 134.66,374.52 L 127.13,377.47 L 116.25,378.31 L 110.81,377.47 L 72.74,368.19 L 66.05,365.23 L 61.86,361.02 C 61.65,360.47 61.41,359.89 61.12,359.29 L 60.72,358.49 L 60.34,357.79 C 59.47,356.26 58.48,354.98 57.44,353.89 C 56.65,352.77 55.87,351.81 55.13,350.97 C 54.83,350.63 54.56,350.34 54.35,350.12 C 53.46,348.79 52.6,347.73 52.02,347.06 C 51.8,346.8 51.59,346.57 51.41,346.36 L 52.66,344.56 L 55.17,332.33 L 61.45,318.83 L 63.54,307.44 L 66.89,299 L 76.51,285.5 L 82.36,278.75 L 96.59,264.83 L 126.29,245 L 138.84,238.67 L 154.32,234.88 L 156.83,232.77 L 157.67,229.39 L 157.67,215.05 L 161.9,209.56 C 166.6,208.75 171.37,211.39 180.95,209.55 C 188.9,208.03 193.69,204.15 203.85,200.34 L 206.62,209.56 M 276.48,286.34 L 273.97,288.87 L 272.3,292.25 L 267.7,307.86 L 266.86,324.73 L 268.95,336.97 L 272.3,344.14 L 276.06,347.52 L 286.1,351.31 L 296.15,351.31 L 302.42,348.78 L 306.6,345.83 L 315.39,336.55 L 319.15,330.22 L 320.41,326 L 320.41,320.09 L 319.57,316.72 L 315.81,308.28 L 311.62,301.53 L 302.84,291.83 L 296.98,288.87 L 289.03,288.03 L 278.57,285.5 L 276.48,286.34 M 133.4,279.59 L 122.11,291.83 L 111.65,307.44 L 108.72,312.92 L 101.61,336.55 L 101.19,342.88 L 103.28,345.41 L 107.05,346.67 L 112.91,346.25 L 124.2,341.19 L 142.19,329.38 L 148.05,324.73 L 153.48,318.83 L 156,312.92 L 157.67,306.17 L 158.09,293.94 L 155.58,281.7 L 152.23,274.53 L 149.72,272 L 144.7,272 L 133.4,279.59"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M 275.4,85.51 L 278.79,87.38 L 280.94,89.55 L 283.71,94.21 L 284.33,97 L 284.33,105.08 L 282.48,135.5 L 283.1,136.13 L 288.95,128.36 L 293.87,119.67 L 297.87,115.32 L 301.26,112.84 L 309.26,109.11 L 315.11,107.56 L 321.26,107.56 L 328.04,109.73 L 334.5,114.08 L 341.27,120.6 L 346.5,126.81 L 350.2,132.4 L 355.12,143.27 L 360.66,165 L 361.58,171.21 L 362.21,171.63 C 361.96,172.43 361.77,173.31 361.66,174.28 C 361.62,174.62 361.45,176.05 361.63,177.71 C 361.65,177.94 361.71,178.5 361.87,179.26 C 361.87,179.27 361.86,179.28 361.86,179.29 C 361.73,179.66 361.62,180 361.55,180.24 C 361.4,180.74 361.24,181.3 361.09,181.84 C 360.82,182.85 360.4,184.44 359.99,185.94 C 359.37,188.28 359.23,189.49 358.96,191.6 C 358.9,192.16 358.78,192.91 358.66,193.73 L 354.81,195.43 L 347.73,195.12 L 340.66,192.32 L 335.42,187.04 L 324.65,168.11 L 312.03,148.86 L 291.1,170.9 L 285.56,177.73 L 277.86,184.25 L 270.17,187.67 L 259.71,189.84 L 255.09,189.84 L 252.01,187.98 L 246.47,179.59 L 245.85,177.42 L 245.85,173.7 L 250.16,160.97 L 254.17,145.44 L 256.93,128.05 L 258.78,108.18 L 260.63,97.93 L 262.48,91.41 L 265.86,86.76 L 270.48,84.89 L 275.4,85.51 M 115.66,20.31 L 123.04,21.55 L 135.66,25.28 L 151.67,32.73 L 155.67,35.22 L 159.98,38.94 L 161.52,41.42 L 162.13,44.84 L 160.9,47.95 L 154.44,54.15 L 150.75,56.02 L 146.13,56.64 L 138.74,56.33 L 130.43,54.78 L 115.96,48.26 L 111.35,47.32 L 109.81,47.95 L 107.96,49.81 L 102.11,62.23 L 93.19,86.76 L 92.26,91.1 L 92.88,91.73 L 117.81,82.72 L 126.74,80.55 L 131.05,80.55 L 135.05,82.1 L 138.12,84.89 L 140.28,88.62 L 140.9,92.97 L 139.36,96.07 L 126.74,104.14 L 96.57,119.36 L 107.96,150.72 L 117.19,174.01 L 118.73,179.59 L 118.43,183.32 L 117.5,186.11 L 115.35,189.84 L 112.89,192.32 L 107.04,194.5 L 98.42,195.12 L 94.42,193.88 L 83.34,188.6 L 77.49,183.94 L 74.41,179.59 L 71.64,173.39 L 66.72,156.93 L 63.33,140.47 L 62.41,130.85 L 61.18,130.22 L 43.94,134.88 L 39.32,135.19 L 36.55,134.26 L 34.71,132.71 L 29.16,125.88 L 28.55,122.77 L 30.4,119.98 L 51.33,109.42 L 63.33,102.59 L 65.18,90.48 L 65.49,75.58 L 67.02,58.81 L 69.8,51.67 L 73.18,47.01 L 88.88,30.56 L 97.5,24.04 L 105.5,20.62 L 110.12,20 L 115.66,20.31 M 194.76,99.49 L 204.3,103.84 L 219.07,108.49 L 229.85,114.08 L 238.77,119.98 L 242.78,124.64 L 244.32,127.43 L 245.55,131.78 L 245.55,137.99 L 244.32,142.33 L 242.47,146.06 L 238.77,151.65 L 232.93,159.1 L 223.69,168.11 L 200.61,184.25 L 191.07,189.22 L 181.53,191.7 L 173.52,192.01 L 166.75,191.08 L 161.21,189.22 L 151.36,183.94 L 141.51,176.8 L 135.35,170.28 L 131.05,163.14 L 129.51,155.69 L 129.82,149.48 L 132.89,138.3 L 138.43,124.95 L 142.43,117.18 L 146.74,111.29 L 152.59,105.7 L 159.98,101.97 L 176.91,97.93 L 189.53,97.93 L 194.76,99.49 M 363.1,176.68 C 363.09,176.69 363.08,176.7 363.07,176.72 C 363.09,176.7 363.09,176.7 363.1,176.68 C 363.1,176.68 363.09,176.69 363.1,176.68 M 177.52,121.84 L 171.98,127.43 L 167.37,133.95 L 163.67,142.33 L 163.06,149.79 L 165.21,155.37 L 167.06,158.17 L 171.37,162.52 L 176.29,165.93 L 178.75,166.86 L 184.3,166.86 L 188.91,165.31 L 195.68,161.28 L 202.46,156 L 206.76,151.65 L 210.15,142.64 L 210.46,140.16 L 209.23,136.75 L 206.76,133.02 L 198.76,125.26 L 190.45,121.53 L 183.99,119.98 L 180.91,119.98 L 177.52,121.84"/>
+      </g>
+      <g class="fl-iso">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M 117.86,265.62 C 117.06,265.19 116.2,264.95 115.28,264.93 C 114.36,264.9 113.43,265.07 112.49,265.42 C 111.55,265.77 110.75,266.27 110.09,266.91 C 109.43,267.54 108.89,268.3 108.44,269.18 C 108,270.07 107.66,271.35 107.41,273.04 C 107.15,274.74 107.09,276.31 107.21,277.76 C 107.33,279.21 107.66,280.6 108.18,281.93 C 108.7,283.26 109.23,284.15 109.77,284.61 C 110.3,285.06 110.95,285.3 111.7,285.31 C 112.46,285.33 113.25,285.02 114.07,284.39 C 114.89,283.77 115.88,282.22 117.03,279.75 C 118.17,277.29 118.98,274.84 119.43,272.4 C 119.89,269.96 119.94,268.33 119.59,267.51 C 119.23,266.69 118.66,266.06 117.86,265.62 M 104.77,255.42 C 105.81,257.58 106.58,258.74 107.1,258.89 C 107.62,259.04 108.79,258.74 110.6,257.99 C 112.42,257.24 113.91,256.38 115.08,255.4 C 116.25,254.41 117.59,253.01 119.1,251.17 C 120.61,249.34 122.68,245.63 125.3,240.04 C 127.93,234.44 129.63,230.44 130.42,228.02 C 131.2,225.61 131.84,223.14 132.33,220.63 C 132.82,218.12 132.91,216.17 132.58,214.78 C 132.26,213.39 131.68,212.51 130.84,212.15 C 130.01,211.79 129.06,211.65 128,211.73 C 126.95,211.8 124.93,212.27 121.96,213.13 C 118.99,213.99 116.03,215.24 113.08,216.9 C 110.13,218.56 108.12,219.96 107.04,221.1 C 105.96,222.24 105.02,223.62 104.21,225.23 C 103.4,226.85 102.81,229.14 102.42,232.12 C 102.04,235.09 102.07,239.18 102.53,244.38 C 102.98,249.58 103.73,253.26 104.77,255.42"/>
+        <path d="M 191.89,379.44 C 184.92,378.13 176.38,375.47 165.68,371.3 C 160.69,369.35 152.76,366.74 148.04,365.49 C 114.45,356.53 88.73,337.96 66.89,306.88 C 46.6,278.02 38.66,253.54 37.61,216.55 C 37.3,205.79 36.34,191.81 35.47,185.48 C 32.74,165.65 35.21,147.76 42.46,134.72 C 44.27,131.49 49.01,124.75 53.01,119.76 C 57,114.77 62.17,107.57 64.49,103.78 C 71.68,92.01 79.93,81.06 89.07,71.19 C 102.56,56.62 111.43,50.38 131.97,41.04 C 137.6,38.47 143.99,35.34 146.16,34.08 C 162.75,24.42 178.62,19.83 194.91,20 C 207.59,20.13 216.96,22.12 231.25,27.74 C 236.76,29.9 247.4,34.08 254.88,37.02 C 274.19,44.61 284.35,51.17 296.71,64.01 C 308.33,76.08 315.27,87.32 326.93,112.98 C 331.25,122.48 336.29,133.16 338.16,136.7 C 340.02,140.26 343.63,148.28 346.19,154.54 C 348.74,160.8 353.5,172.38 356.76,180.3 C 364.57,199.3 366.15,206.61 365.47,220.58 C 364.61,238.63 360.21,249.83 341.02,282.89 C 318.49,321.67 301.77,338.21 272.04,351.17 C 262.24,355.44 254.5,359.87 244.96,366.66 C 238.71,371.1 229.2,375.69 221.12,378.16 C 215.63,379.84 198.07,380.61 191.89,379.44 M 225.15,337.35 C 232.38,336.32 240.43,333.54 246.85,329.86 C 257.24,323.91 292.48,286.11 307.57,264.75 C 314.18,255.39 319.66,242.68 322.01,231.3 C 324.57,218.92 323.49,185.7 320.07,171.09 C 313.7,143.93 304.21,125.94 282.53,99.93 C 262.19,75.53 254.08,70.97 214.57,61.73 C 200.47,58.43 187.43,59.01 175.26,63.5 C 159.85,69.16 123.5,86.02 116.72,90.65 C 105.31,98.44 94.25,112.27 87.84,126.79 C 85.21,132.74 78.01,153.13 74.64,164.19 C 71.06,175.89 71.09,191.24 74.73,216.55 C 77.95,238.98 81.05,251.41 87.51,267.95 C 95.92,289.47 102.98,300.73 114.96,311.74 C 120.57,316.87 132.22,325.29 133.73,325.29 C 134.12,325.29 134.44,316.61 134.44,306.02 C 134.44,295.11 135.01,283.24 135.75,278.69 C 137.51,267.86 143.4,245.24 146.59,237.02 C 150.63,226.63 150.72,221.7 147.03,209.64 C 143.29,197.43 142.15,184.2 143.97,174.21 C 145.84,163.93 152.58,149.62 158.87,142.6 C 170.47,129.63 180.46,127.22 194.08,134.09 C 198.05,136.09 201.55,137.72 201.87,137.72 C 202.68,137.72 205.43,129.96 206.53,124.5 C 207.35,120.47 207.2,119.63 205.37,117.87 C 204.21,116.77 202.49,115.86 201.55,115.86 C 200.61,115.86 197.48,114.51 194.61,112.88 C 189.5,109.97 189.37,109.78 189.37,104.89 C 189.37,101.26 190.03,98.99 191.8,96.65 C 194.17,93.5 194.54,93.41 205.96,93.03 C 222.64,92.48 246.88,96.8 259.54,102.59 C 267.14,106.06 269.08,115.87 263.43,122.32 C 261.39,124.65 260.04,125.07 254.48,125.07 C 250.89,125.07 247.74,125.46 247.48,125.94 C 246.47,127.79 243.84,144.55 244.32,146 C 244.7,147.14 246.86,147.41 252.85,147.1 C 270.07,146.22 279.39,154.41 284.66,175.1 C 288.76,191.21 282.57,212.61 268.65,230.46 C 260.86,240.44 258.23,241 255.51,233.24 C 253.66,227.99 254.08,226.02 259.76,212.69 C 264.97,200.48 265.75,194.83 263.51,185.63 C 259.5,169.15 248.28,162.38 243.28,173.42 C 242.27,175.67 241.44,181.42 241.07,188.91 C 240.48,200.79 240.48,200.82 244.11,209.41 C 255.94,237.49 255.76,257.2 243.43,285 C 237.31,298.81 227.1,318.03 220.22,328.69 C 215.01,336.78 214.38,339.42 217.84,338.61 C 219.09,338.32 222.38,337.75 225.15,337.35 M 173.44,200.14 C 187.41,186.47 193.71,173.15 191.52,161.97 C 190.18,155.18 186.95,151.53 182.28,151.53 C 171.04,151.53 162.37,171.36 163.38,194.73 C 163.77,203.57 164.47,206.79 166,206.76 C 166.38,206.74 169.72,203.76 173.44,200.14"/>
+      </g>
+      <g class="fl-morph"></g>
+    </g>
+  </svg>
+</div>
+
+
+<!-- Sprite: marca. Se usa con <use href="#..."> y hereda currentColor -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="wm-path" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M503.918 255.605L482.523 241.57L456.699 228.272L421.285 217.192L398.413 206.849L385.871 203.155H355.62L315.042 212.759L297.335 221.624L283.316 234.922L272.986 248.957L263.395 267.426L250.114 299.192L242.737 325.787L241.999 340.561L245.688 358.291L256.017 375.282L270.773 390.797L294.383 407.788L317.993 420.347L331.273 424.779L347.505 426.995L366.687 426.256L389.559 420.347L412.431 408.526L467.767 370.111L489.9 348.687L503.918 330.958L512.772 317.661L517.199 308.796L520.151 298.454V283.678L517.199 273.335L513.509 266.687L503.918 255.605ZM365.212 255.605H372.589L388.084 259.3L408.004 268.165L427.187 286.633L433.09 295.498L436.041 303.624L435.303 309.535L427.187 330.958L416.857 341.3L400.627 353.859L384.394 363.463L373.328 367.156H360.047L354.145 364.941L342.34 356.813L332.01 346.472L327.584 339.823L322.419 326.526L323.895 308.796L332.749 288.85L343.815 273.335L357.096 260.039L365.212 255.605ZM1238.77 183.947H1219.59L1209.26 186.164L1198.19 190.596L1190.07 195.768L1167.2 217.192L1148.02 231.227L1138.43 243.048L1128.1 261.516L1115.56 288.85L1108.18 312.489L1106.7 336.868L1108.92 347.949L1116.29 364.941L1127.36 381.193L1146.54 401.878L1160.56 412.219L1178.27 421.086L1195.98 425.517L1207.78 426.995H1235.82L1248.36 425.517L1268.28 420.347L1293.37 408.526L1326.57 386.364L1348.7 366.417L1367.15 342.778L1373.05 330.958L1376 319.876L1375.26 302.146L1368.62 282.939L1347.96 243.048L1333.95 226.057L1314.02 212.02L1293.37 201.677L1257.21 188.381L1238.77 183.947ZM1212.21 261.516L1230.65 265.948L1244.67 267.426L1255 272.598L1270.49 289.589L1277.87 301.408L1284.51 316.183L1285.99 322.093V332.435L1283.77 339.823L1277.13 350.904L1261.64 367.156L1254.26 372.328L1243.2 376.76H1225.49L1207.78 370.111L1201.14 364.202L1195.24 351.643L1191.55 330.219L1193.02 300.67L1201.14 273.335L1204.09 267.426L1208.52 262.994L1212.21 261.516ZM208.797 18.4686L195.518 17.7299L184.45 19.2073L165.267 27.3335L144.609 42.8473L106.981 82.0007L98.8655 93.0819L92.2252 110.073L88.5361 149.966L87.7984 185.425L83.3716 214.236L54.5973 230.488L4.42681 255.605L0 262.255L1.4756 269.642L14.756 285.894L19.1829 289.589L25.823 291.804L36.8901 291.066L78.207 279.985L81.1581 281.463L83.3716 304.363L91.4873 343.517L103.292 382.671L109.932 397.445L117.311 407.788L131.329 418.869L157.89 431.427L167.481 434.382L188.139 432.905L202.158 427.734L208.06 421.823L213.225 412.958L215.439 406.31L216.176 397.445L212.487 384.148L190.353 328.742L163.055 254.129L235.358 217.929L265.609 198.723L269.298 191.335L267.821 180.992L262.658 172.127L255.279 165.479L245.688 161.786H235.358L213.962 166.957L154.201 188.381L152.725 186.903L154.938 176.56L176.334 118.199L190.353 88.6494L194.78 84.217L198.469 82.7396L209.536 84.9557L244.212 100.469L264.133 104.163L281.84 104.902L292.907 103.424L301.761 98.9919L317.254 84.217L320.205 76.8295L318.73 68.7034L315.042 62.7933L304.712 53.9285L295.121 48.0184L256.755 30.2885L226.505 21.4236L208.797 18.4686ZM1036.61 18.4686L1026.28 8.1262L1019.64 3.69373L1010.05 0H1003.41L996.032 2.95498L989.392 8.86494L986.441 14.0362L984.965 20.6849L985.703 29.5498L991.606 43.586L994.557 55.4059L995.294 88.6494L998.983 138.145V163.262L997.508 169.173L993.081 172.866L965.782 179.516L943.648 190.596L891.264 225.318L866.179 249.696L855.849 261.516L838.881 285.155L832.979 299.931L829.289 319.876L818.221 343.517L813.795 364.941L808.63 372.328L800.514 378.976L798.302 377.499L796.088 362.724L782.807 311.011L771.002 285.155L762.149 271.859L749.606 257.083L733.374 241.57L717.881 231.227L701.65 226.057H686.894L672.875 229.75L653.692 238.614L645.576 244.525L635.985 254.867L624.18 275.552L610.161 294.02L608.686 292.543L613.113 220.146V200.938L611.638 194.29L604.998 183.209L599.833 178.038L591.717 173.605L579.912 172.127L568.845 176.56L560.73 187.642L556.302 203.155L551.875 227.533L547.449 274.813L540.809 316.183L531.217 353.121L520.888 383.41V392.274L522.363 397.445L535.644 417.391L543.021 421.823H554.089L579.174 416.652L597.619 408.526L616.064 393.013L629.345 376.76L679.515 324.309L709.765 370.111L735.588 415.175L748.132 427.734L765.1 434.382L782.07 435.121L793.874 429.951L811.581 412.219L827.075 390.797L837.405 401.139L849.21 406.31L916.35 422.562L925.941 424.04L945.124 422.562L958.404 417.391L973.16 407.788L1013 370.111L1015.22 371.589L1019.64 382.671L1030.71 402.617L1039.56 411.482L1046.94 415.175L1052.84 416.652L1070.55 415.914L1089.73 410.743L1100.8 404.832L1107.44 395.228V385.625L1096.37 367.895L1089 349.426L1085.31 332.435L1083.09 309.535V272.598L1086.78 223.84L1086.04 189.119L1090.47 156.614L1089.73 143.317L1085.31 128.542L1072.76 98.9919L1060.22 59.8383L1036.61 18.4686ZM984.965 237.876L989.392 242.309L995.294 254.867L999.721 276.291L998.983 297.715L996.032 309.535L991.606 319.876L982.013 330.219L971.685 338.345L939.959 359.03L920.038 367.895L909.71 368.634L903.069 366.417L899.38 361.985L900.117 350.904L912.661 309.535L917.825 299.931L936.271 272.598L956.191 251.174L976.111 237.876H984.965Z"/>
+    <!-- Recorte para la cabecera «tinta»: sigue al wordmark del hero (lo mueve el JS) -->
+    <clipPath id="ink-clip" clipPathUnits="userSpaceOnUse"><use id="ink-clip-shape" href="#wm-path" clip-rule="evenodd"/></clipPath>
+  </defs>
+  <symbol id="wordmark" viewBox="0 0 1376 436"><use href="#wm-path"/></symbol>
+  <symbol id="isotipo" viewBox="0 0 41 44">
+    <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M10.2041 30.0187C10.1063 29.9655 10.0012 29.9373 9.88877 29.9341C9.77635 29.931 9.66273 29.9509 9.54791 29.994C9.43309 30.0371 9.33546 30.0977 9.25502 30.1757C9.17458 30.2537 9.10744 30.3465 9.05361 30.4543C8.99977 30.562 8.95744 30.7192 8.92662 30.9261C8.8958 31.1329 8.88785 31.3251 8.90277 31.5026C8.9177 31.6801 8.95714 31.85 9.02111 32.0124C9.08507 32.1747 9.14979 32.2837 9.21526 32.3393C9.28073 32.395 9.35966 32.4237 9.45205 32.4254C9.54444 32.4272 9.64087 32.3898 9.74135 32.3132C9.84182 32.2366 9.96219 32.0476 10.1025 31.7462C10.2427 31.4448 10.3407 31.1451 10.3963 30.8471C10.452 30.5491 10.4583 30.3499 10.4153 30.2494C10.3722 30.1489 10.3018 30.072 10.2041 30.0187ZM8.604 28.7721C8.73104 29.0363 8.82625 29.1776 8.88963 29.196C8.95302 29.2143 9.09564 29.1778 9.31751 29.0864C9.53938 28.995 9.72178 28.8893 9.86471 28.7692C10.0077 28.6491 10.1714 28.477 10.3559 28.253C10.5404 28.029 10.7931 27.5752 11.114 26.8916C11.4349 26.208 11.6433 25.7187 11.739 25.4235C11.8347 25.1283 11.9126 24.8272 11.9728 24.5202C12.0329 24.2132 12.0433 23.9748 12.0038 23.8049C11.9644 23.635 11.8935 23.5279 11.7913 23.4836C11.689 23.4393 11.5733 23.422 11.4441 23.4316C11.315 23.4412 11.0687 23.4984 10.7054 23.6032C10.3422 23.7079 9.98035 23.8616 9.62003 24.0641C9.25971 24.2666 9.01361 24.4376 8.88174 24.577C8.74986 24.7165 8.63457 24.8849 8.53588 25.0824C8.43718 25.2799 8.36434 25.5604 8.31735 25.924C8.27036 26.2876 8.27462 26.7871 8.33015 27.4226C8.38568 28.058 8.47696 28.5078 8.604 28.7721Z"/>
+    <path fill="currentColor" d="M19.2505 43.9321C18.3992 43.7717 17.3545 43.4468 16.0475 42.9363C15.4377 42.6986 14.4682 42.3794 13.8916 42.2261C9.78568 41.1318 6.64185 38.8619 3.9723 35.0631C1.49246 31.5357 0.522946 28.5442 0.393595 24.0225C0.356638 22.7075 0.238375 20.9987 0.13243 20.2251C-0.201417 17.8019 0.100401 15.6148 0.987376 14.0214C1.20789 13.6261 1.78689 12.8034 2.27595 12.193C2.76379 11.5826 3.39576 10.7036 3.6791 10.2394C4.55868 8.80065 5.56639 7.46313 6.68373 6.25641C8.33203 4.47586 9.41611 3.71357 11.9267 2.57154C12.6154 2.25791 13.3964 1.87535 13.6613 1.72065C15.689 0.540645 17.6293 -0.0205235 19.62 0.000573059C21.1698 0.0160439 22.3142 0.259358 24.0611 0.945699C24.7349 1.21011 26.0346 1.72065 26.9499 2.08069C29.309 3.00754 30.5508 3.80921 32.0623 5.37879C33.4827 6.85414 34.3303 8.22823 35.7556 11.3646C36.2828 12.5249 36.9 13.8301 37.1279 14.2633C37.3558 14.6978 37.7969 15.6781 38.1098 16.4432C38.4214 17.2083 39.0029 18.6246 39.4008 19.5923C40.3555 21.9143 40.549 22.8074 40.4664 24.5148C40.3605 26.7215 39.8234 28.09 37.4778 32.1306C34.7245 36.8703 32.6807 38.8928 29.0466 40.4764C27.8492 40.9982 26.9031 41.5397 25.7365 42.3695C24.9727 42.9124 23.811 43.4736 22.823 43.7745C22.1516 43.9799 20.0056 44.0741 19.2505 43.9321ZM23.3158 38.7873C24.199 38.6607 25.1833 38.3218 25.9681 37.8717C27.2382 37.1446 31.5449 32.5244 33.3891 29.9141C34.1972 28.7693 34.8674 27.2166 35.1544 25.8256C35.4673 24.3123 35.3355 20.2519 34.9167 18.4671C34.1381 15.1465 32.9789 12.9482 30.329 9.76969C27.843 6.78664 26.8513 6.22969 22.0222 5.10032C20.2988 4.69667 18.7059 4.7684 17.2178 5.31691C15.3342 6.00888 10.8919 8.06931 10.0629 8.6347C8.66834 9.58685 7.31693 11.2774 6.53344 13.0523C6.21191 13.7794 5.33232 16.2717 4.91963 17.6232C4.48231 19.0536 4.486 20.9298 4.93072 24.0225C5.32493 26.7637 5.70313 28.284 6.49278 30.3051C7.52143 32.9351 8.38377 34.312 9.84851 35.6566C10.5335 36.2839 11.9575 37.3134 12.1423 37.3134C12.1904 37.3134 12.2286 36.2529 12.2286 34.9576C12.2286 33.6243 12.2988 32.1742 12.3887 31.6173C12.6043 30.2938 13.3237 27.5288 13.7142 26.5246C14.2082 25.2546 14.2181 24.6526 13.7672 23.1787C13.3102 21.6864 13.171 20.069 13.3939 18.8482C13.6219 17.5909 14.446 15.8427 15.2147 14.9848C16.6326 13.3997 17.8535 13.1044 19.5178 13.944C20.0031 14.1887 20.4319 14.3884 20.47 14.3884C20.5698 14.3884 20.9049 13.4391 21.0404 12.7724C21.1402 12.2802 21.1217 12.1775 20.8975 11.9623C20.7558 11.8273 20.5464 11.7162 20.4319 11.7162C20.3161 11.7162 19.9342 11.5516 19.5831 11.3519C18.9585 10.9961 18.9425 10.9736 18.9425 10.3759C18.9425 9.93143 19.0238 9.65436 19.2394 9.36886C19.5289 8.98349 19.5744 8.97224 20.9702 8.92583C23.009 8.85832 25.9718 9.38714 27.519 10.0946C28.4479 10.5179 28.6844 11.7176 27.9946 12.5052C27.7445 12.7907 27.5794 12.8414 26.9006 12.8414C26.4621 12.8414 26.0765 12.8892 26.0444 12.9482C25.9212 13.1747 25.5997 15.2224 25.6588 15.3997C25.7057 15.5389 25.9693 15.5727 26.701 15.5347C28.8064 15.4264 29.9447 16.4278 30.589 18.9565C31.0903 20.9256 30.334 23.5415 28.6327 25.7229C27.6804 26.9423 27.3589 27.0112 27.0263 26.0633C26.8008 25.4205 26.8513 25.18 27.5461 23.5514C28.183 22.0591 28.2779 21.3686 28.0044 20.2434C27.5141 18.2294 26.143 17.4024 25.532 18.7512C25.4075 19.0269 25.3065 19.7287 25.2609 20.6443C25.1895 22.0971 25.1895 22.0999 25.633 23.1505C27.0792 26.5822 27.0571 28.9915 25.5504 32.3894C24.8014 34.0772 23.5535 36.4259 22.7134 37.7283C22.0765 38.717 21.9988 39.0405 22.4226 38.9406C22.5754 38.9055 22.977 38.8365 23.3158 38.7873ZM16.9961 22.017C18.7035 20.3461 19.4734 18.7189 19.2049 17.3518C19.041 16.522 18.6468 16.0762 18.0764 16.0762C16.7029 16.0762 15.6422 18.4994 15.7666 21.3559C15.8134 22.4361 15.8997 22.8299 16.0857 22.8257C16.1325 22.8242 16.5415 22.46 16.9961 22.017Z"/>
+  </symbol>
+</svg>
+
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+<!-- ============ Cabecera fija ============ -->
+<header class="site-header" data-header>
+  <a class="site-header__logo" href="#top" aria-label="Fondo, inicio" data-tone="dark">
+    <svg class="icon-iso" aria-hidden="true"><use href="#isotipo"/></svg>
+  </a>
+  <nav class="site-header__nav" aria-label="Principal">
+    <a href="#viajes" data-tone="dark">Viajes</a>
+    <a href="#manifiesto" data-tone="dark">Sobre fondo</a>
+    <a href="#cartas" data-tone="dark">Cartas</a>
+  </nav>
+  <!-- Móvil: próximo viaje en el centro -->
+  <a class="site-header__next site-header__next--m" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+  <div class="site-header__right">
+    <a class="site-header__next site-header__next--d" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+    <button class="site-header__lang" type="button" aria-label="Cambiar idioma. Idioma actual: español" data-tone="dark">ES</button>
+    <button class="site-header__menu" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" data-menu-open data-tone="dark">
+      <svg viewBox="0 0 22.6 13.2" aria-hidden="true"><path d="M0 0.94H22.6M0 12.24H22.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- ============ Menú móvil (< 900 px) ============ -->
+<div class="mmenu" id="menu" role="dialog" aria-modal="true" aria-label="Menú" aria-hidden="true" data-menu>
+  <div class="mmenu__bar">
+    <p class="mmenu__label" aria-hidden="true">MENÚ</p>
+    <button class="mmenu__close" type="button" aria-label="Cerrar menú" data-menu-close>
+      <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M1 1L17 17M17 1L1 17" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+  <nav class="mmenu__nav" aria-label="Menú principal">
+    <ol role="list">
+      <li><a href="#viajes"><span class="mmenu__name">Viajes</span><span class="mmenu__num" aria-hidden="true">01</span></a></li>
+      <li><a href="#manifiesto"><span class="mmenu__name">Nosotros</span><span class="mmenu__num" aria-hidden="true">02</span></a></li>
+      <li><a href="#cartas"><span class="mmenu__name">Cartas</span><span class="mmenu__num" aria-hidden="true">03</span></a></li>
+    </ol>
+  </nav>
+  <div class="mmenu__extra">
+    <p class="mmenu__eyebrow">PRÓXIMO VIAJE</p>
+    <a class="mmenu__next" href="#guia"><span class="mmenu__next-text">Costa Brava, Jun 27</span><span class="mmenu__arrow" aria-hidden="true">↗</span></a>
+    <ul class="mmenu__social" role="list">
+      <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
+      <li><a href="#" data-todo="enlace de WhatsApp">WhatsApp</a></li>
+    </ul>
+  </div>
+  <div class="mmenu__foot">
+    <p class="mmenu__claim">Good things take <strong><em>depth</em></strong>.</p>
+    <button class="mmenu__lang" type="button" aria-label="Cambiar idioma. Idioma actual: español" data-lang>ES</button>
+  </div>
+</div>
+
+<div class="page">
+<main id="contenido">
+
+  <!-- ============ 01 · Hero ============ -->
+  <section class="hero" id="top" data-hero>
+    <img class="hero__img" src="assets/img/hero-buceadores.webp" width="1125" height="750" alt="Dos buceadores descienden en aguas azules" fetchpriority="high" decoding="async">
+    <div class="hero__shade" aria-hidden="true" data-theme="dark"></div>
+    <h1 class="hero__title">
+      <span class="sr-only">Fondo. Viajes de buceo para los que quieren algo más que inmersiones.</span>
+      <svg class="hero__wordmark" aria-hidden="true" viewBox="0 0 1376 436" preserveAspectRatio="xMidYMax meet" data-ink><use href="#wordmark"/></svg>
+    </h1>
+  </section>
+
+  <!-- ============ 02 · Propuesta de valor ============ -->
+  <section class="propuesta" aria-label="Qué es Fondo">
+    <p class="propuesta__text">
+      En Fondo nos encanta el mar, las olas, respirar bajo el agua y <em>ese silencio a veinte metros</em>. El buceo nos lleva lejos y nos acerca a nuevas historias. Historias en torno al mar. Esto es Fondo, <strong>viajes de buceo para los que quieren <em>algo más que inmersiones.</em></strong>
+    </p>
+  </section>
+
+  <!-- ============ 03 · Dentro y fuera ============ -->
+  <section class="dentro" aria-labelledby="dentro-title">
+    <div class="dentro__gif" data-slideshow aria-label="Secuencia de fotos, mitad dentro y mitad fuera del agua" role="img">
+      <!-- TODO: sustituir por vídeo MP4/WebM en bucle cuando esté la secuencia definitiva -->
+      <img class="is-active" src="assets/img/faro-mitad.webp" width="502" height="750" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/buzo-cueva.webp" width="422" height="750" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/buzo-azul.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
+    </div>
+    <div class="dentro__head">
+      <h2 class="dentro__title" id="dentro-title"><span class="w-light">Good things </span><span class="w-bold">take depth.</span></h2>
+      <p class="dentro__sub">Para los que bucean, y los que disfrutan.</p>
+    </div>
+    <div class="dentro__side">
+      <div class="dentro__pair">
+        <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="Barcas de pesca amarradas junto a las rocas" loading="lazy" decoding="async">
+        <img src="assets/img/mesa.webp" width="735" height="1103" alt="Mesa larga con platos para compartir" loading="lazy" decoding="async">
+      </div>
+      <p class="dentro__caption">El mar nos apasiona, lo que pasa fuera, también: la mesa larga, la siesta, la conversación en el barco de vuelta.</p>
+    </div>
+  </section>
+
+  <!-- ============ 04 · Viajes ============ -->
+  <section class="viajes" id="viajes" aria-labelledby="viajes-title" data-viajes>
+    <div class="viajes__snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="viajes__stage">
+      <div class="viajes__rail" aria-hidden="true">
+        <span>PRÓXIMAS SALIDAS</span>
+        <span>CALENDARIO 2027</span>
+        <span>VIAJES</span>
+      </div>
+      <h2 class="sr-only" id="viajes-title">Viajes</h2>
+      <p class="viajes__eyebrow" aria-hidden="true">PRÓXIMAS SALIDAS · CALENDARIO 2027</p>
+
+      <div class="viajes__index">
+        <ol class="viajes__list" role="list">
+          <li><button type="button" class="viajes__item is-active" data-index="0" aria-controls="postal-0"><span class="viajes__name">Costa Brava</span><span class="viajes__tag">CAMPAMENTO OW<br>JUN 2027</span></button></li>
+          <li><button type="button" class="viajes__item" data-index="1" aria-controls="postal-1"><span class="viajes__name">Mar Rojo</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
+          <li><button type="button" class="viajes__item" data-index="2" aria-controls="postal-2"><span class="viajes__name">Mallorca</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
+          <li><button type="button" class="viajes__item" data-index="3" aria-controls="postal-3"><span class="viajes__name">Tenerife</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
+          <li><button type="button" class="viajes__item" data-index="4" aria-controls="postal-4"><span class="viajes__name">Maldivas</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
+        </ol>
+        <a class="cta viajes__cta" href="#guia">Explora las opciones <span aria-hidden="true">↗</span></a>
+      </div>
+
+      <div class="viajes__strip" data-strip>
+        <a class="postal" id="postal-0" href="#guia" data-follow-area>
+          <img class="postal__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
+          <span class="postal__labels"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
+          <span class="postal__title">Costa Brava</span>
+          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Lista de espera</span></span>
+          <span class="sr-only">. Campamento Open Water, junio de 2027. Apúntate a la lista de espera.</span>
+        </a>
+        <a class="postal is-soon" id="postal-1" href="#cartas" data-follow-area>
+          <img class="postal__img" src="assets/img/buzo-cerca.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
+          <span class="postal__labels"><span>EGIPTO</span><span>MAR ROJO</span><span>2027</span></span>
+          <span class="postal__title">Mar Rojo</span>
+          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
+          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        </a>
+        <a class="postal is-soon" id="postal-2" href="#cartas" data-follow-area>
+          <img class="postal__img" src="assets/img/barcas-arriba.webp" width="600" height="900" alt="" loading="lazy" decoding="async">
+          <span class="postal__labels"><span>ESPAÑA</span><span>BALEARES</span><span>MEDITERRÁNEO</span></span>
+          <span class="postal__title">Mallorca</span>
+          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
+          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        </a>
+        <a class="postal is-soon" id="postal-3" href="#cartas" data-follow-area>
+          <img class="postal__img" src="assets/img/buzo-azul.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
+          <span class="postal__labels"><span>ESPAÑA</span><span>CANARIAS</span><span>ATLÁNTICO</span></span>
+          <span class="postal__title">Tenerife</span>
+          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
+          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        </a>
+        <a class="postal is-soon" id="postal-4" href="#cartas" data-follow-area>
+          <img class="postal__img" src="assets/img/nadador.webp" width="1536" height="1024" alt="" loading="lazy" decoding="async">
+          <span class="postal__labels"><span>MALDIVAS</span><span>ÍNDICO</span><span>2027</span></span>
+          <span class="postal__title">Maldivas</span>
+          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
+          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 05 · Manifiesto ============ -->
+  <section class="manifiesto" id="manifiesto" aria-label="Sobre fondo" data-manifiesto>
+    <p class="manifiesto__text">
+      <span class="manifiesto__phrase is-active" data-phrase="0" tabindex="0">Nuestros viajes van más allá de sumar inmersiones: son una forma de bajar el ritmo y mirar el mar de cerca.</span>
+      <span class="manifiesto__phrase" data-phrase="1" tabindex="0">Somos buceadores que viajan como les gustaría que viajasen con ellos.</span>
+      <span class="manifiesto__phrase" data-phrase="2" tabindex="0">Viajamos en grupos pequeños, a sitios que conocemos.</span>
+    </p>
+    <figure class="manifiesto__photo" data-photo aria-hidden="true">
+      <img class="is-active" src="assets/img/nadador.webp" width="1536" height="1024" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/velero.webp" width="949" height="957" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/barcas-arriba.webp" width="600" height="900" alt="" loading="lazy" decoding="async">
+    </figure>
+  </section>
+
+  <!-- ============ 06 · Cómo viajamos ============ -->
+  <section class="como" id="como" aria-labelledby="como-title">
+    <div class="como__intro">
+      <h2 class="como__title" id="como-title">Cómo<br>viajamos</h2>
+      <p class="como__lead">El buceo es la puerta de entrada.<br>Todo lo demás, el motivo para volver.</p>
+    </div>
+    <div class="acc" data-accordion>
+      <div class="acc__item">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-1" id="acc-h-1"><span class="acc__num">01</span><span class="acc__title">bucea de forma consciente</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-1" role="region" aria-labelledby="acc-h-1"><div class="acc__inner">
+          <p class="acc__body">Disfruta del fondo de forma segura, cuidándote a ti y al entorno. Grupos pequeños, instructores con calma y el tiempo que haga falta en cada inmersión.</p>
+          <p class="acc__tags">Seguridad · Grupos pequeños · Respeto al fondo</p>
+        </div></div>
+      </div>
+      <div class="acc__item">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-2" id="acc-h-2"><span class="acc__num">02</span><span class="acc__title">controla tu respiración</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-2" role="region" aria-labelledby="acc-h-2"><div class="acc__inner">
+          <p class="acc__body">Aprende a utilizar tu respiración y mejora dentro y fuera del agua. Respirar bien es bucear mejor, gastar menos aire y disfrutar más.</p>
+          <p class="acc__tags">Respiración · Apnea suave · Calma</p>
+        </div></div>
+      </div>
+      <div class="acc__item is-open">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="true" aria-controls="acc-3" id="acc-h-3"><span class="acc__num">03</span><span class="acc__title">disfruta de la mesa</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-3" role="region" aria-labelledby="acc-h-3"><div class="acc__inner">
+          <p class="acc__body">Pensión completa con chef y vino de la zona. Nadie tiene prisa en una sobremesa; en nuestros viajes, tampoco.</p>
+          <div class="acc__aside">
+            <p class="acc__label">EN COSTA BRAVA</p>
+            <p class="acc__list">Chef en casa<br>Vino de la zona<br>Cim i tomba, el sábado</p>
+          </div>
+          <p class="acc__tags">Chef · Producto local · Sobremesa</p>
+        </div></div>
+      </div>
+      <div class="acc__item">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-4" id="acc-h-4"><span class="acc__num">04</span><span class="acc__title">descansa cerca del mar</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-4" role="region" aria-labelledby="acc-h-4"><div class="acc__inner">
+          <p class="acc__body">Elegimos dónde dormir y nos ocupamos de llevarte hasta allí. Casas cerca del agua, para bajar a la cala antes del desayuno.</p>
+          <p class="acc__tags">Alojamiento · Traslados · Cerca del agua</p>
+        </div></div>
+      </div>
+      <div class="acc__item">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-5" id="acc-h-5"><span class="acc__num">05</span><span class="acc__title">conoce el lugar y su gente</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-5" role="region" aria-labelledby="acc-h-5"><div class="acc__inner">
+          <p class="acc__body">Llévate historias más allá del tiempo en el agua: el pescador que te cuenta dónde está el mero, el bar de siempre, el pueblo fuera de temporada.</p>
+          <p class="acc__tags">Gente local · Historias · Pueblos</p>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 · Guía Costa Brava ============ -->
+  <section class="guia" id="guia" aria-labelledby="guia-title">
+    <div class="guia__panel guia__panel--title">
+      <h2 class="guia__vtitle" id="guia-title">Campamento Open Water</h2>
+    </div>
+    <div class="guia__panel guia__panel--photo">
+      <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="Barcas de pesca en la orilla, Tossa de Mar" loading="lazy" decoding="async">
+    </div>
+    <a class="guia__panel guia__panel--dest" href="#campamento" data-follow-area>
+      <span class="guia__media">
+        <img class="guia__img" src="assets/img/mascara.webp" width="736" height="981" alt="" loading="lazy" decoding="async">
+        <span class="oval oval--light guia__oval" data-follow aria-hidden="true"><span>Lista de espera</span></span>
+      </span>
+      <span class="postal__labels"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
+      <span class="guia__dtitle">Costa Brava</span>
+      <span class="sr-only">. Costa Brava: apúntate a la lista de espera.</span>
+    </a>
+    <div class="guia__panel guia__panel--text">
+      <p class="guia__coords">41°43′N<br>2°56′E</p>
+      <p class="guia__desc">Tossa es un pueblo de pescadores con muralla medieval, calas de agua clara y praderas de posidonia a pocos minutos en barco. Aquí hacemos nuestro primer campamento: cuatro días para aprender a bucear con calma, comer bien y volver con un grupo con el que seguir bajando.</p>
+      <div class="guia__foot">
+        <p class="guia__details">Campamento Open Water<br>17-20 jun 2027 · 10&nbsp;plazas · 990&nbsp;€</p>
+        <a class="cta" href="#campamento">Ver el campamento <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 08 · ¿Te vienes? ============ -->
+  <section class="tevienes" id="reserva" aria-labelledby="tevienes-title">
+    <h2 class="tevienes__text" id="tevienes-title">La primera historia de Fondo, para un grupo pequeño que quiera escribirla con nosotros, ¿te vienes?</h2>
+    <ul class="tevienes__links" role="list">
+      <li><a class="rowlink" href="#" data-todo="formulario de reserva">Cuenta conmigo <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#viajes">Ya tengo el Open Water <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#" data-share>Le interesa a un amigo <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#" data-todo="enlace de WhatsApp">Tengo alguna pregunta <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+    </ul>
+  </section>
+
+  <!-- ============ 09 · Newsletter ============ -->
+  <section class="news" id="cartas" aria-labelledby="news-title">
+    <div class="news__block">
+      <div class="news__cards" role="list">
+        <article class="carta" role="listitem">
+          <h3 class="carta__title">Lo que se oye<br>a veinte metros</h3>
+          <img class="carta__img" src="assets/img/sillas.webp" width="735" height="975" alt="Tres sillas de plástico frente al mar" loading="lazy" decoding="async">
+          <p class="carta__meta"><time datetime="2026-11">nov 26</time><span>#01</span></p>
+        </article>
+        <article class="carta" role="listitem">
+          <h3 class="carta__title">N’est-elle pas<br>belle, la vie ?</h3>
+          <img class="carta__img" src="assets/img/ferry.webp" width="640" height="804" alt="Un hombre con gorra roja mira el mar desde un ferry" loading="lazy" decoding="async">
+          <p class="carta__meta"><time datetime="2026-12">dic 26</time><span>#02</span></p>
+        </article>
+      </div>
+      <div class="news__side">
+        <p class="news__eyebrow">Cartas desde el fondo</p>
+        <h2 class="news__title" id="news-title">nuestra newsletter</h2>
+        <p class="news__desc">Historias de mar, próximos viajes y plazas antes que nadie.</p>
+        <form class="field field--dark" data-subscribe novalidate>
+          <label class="sr-only" for="nl-email">Tu dirección de email</label>
+          <input id="nl-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Tu dirección de email" required>
+          <button type="submit" class="field__send" aria-label="Suscribirme">→</button>
+          <p class="field__msg" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 · Algo más que inmersiones ============ -->
+  <section class="marquee" aria-label="Algo más que inmersiones">
+    <div class="marquee__track" aria-hidden="true">
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+      <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
+    </div>
+  </section>
+
+  <!-- ============ 11 · Campamento Open Water ============ -->
+  <section class="campamento" id="campamento" aria-labelledby="camp-title">
+    <div class="campamento__text">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>CAMPAMENTO OPEN WATER</p>
+      <h2 class="campamento__title" id="camp-title">Aprende a bucear en la Costa Brava, con certificación real, buena mesa y un grupo con el que seguir buceando.</h2>
+      <div class="campamento__foot">
+        <p class="campamento__meta">Tossa de Mar · 17-20 jun 2027</p>
+        <p class="campamento__body">Cuatro días para sacarte el Open Water en calas del Mediterráneo. Teoría por la mañana, inmersiones por la tarde y cena juntos cada noche. Diez plazas, 990&nbsp;€, reserva con 300&nbsp;€.</p>
+        <a class="cta" href="#reserva">Ver el campamento <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <img class="campamento__img" src="assets/img/carrera.webp" width="736" height="1308" alt="Dos personas corren hacia el mar al atardecer" loading="lazy" decoding="async">
+  </section>
+
+</main>
+
+<!-- ============ 12 · Footer ============ -->
+<footer class="footer" data-footer data-follow-area>
+  <p class="footer__lema">
+    <span class="u-line">Pocos viajes,<svg viewBox="0 0 243 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C48.6 3.18 109.35 10.18 170.1 6.18C230.85 2.18 223.56 4.18 241 8.18"/></svg></span>
+    <span class="u-line">pocas personas,<svg viewBox="0 0 306 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C61.2 3.18 137.7 10.18 214.2 6.18C290.7 2.18 281.52 4.18 304 8.18"/></svg></span>
+    <span class="u-line">muy cuidados.<svg viewBox="0 0 272 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C54.4 3.18 122.4 10.18 190.4 6.18C258.4 2.18 250.24 4.18 270 8.18"/></svg></span>
+  </p>
+  <span class="oval oval--solid footer__oval" data-follow data-cursor-default="Llegaste al fondo" aria-hidden="true"><span>Llegaste<br>al fondo</span></span>
+
+  <p class="footer__claim" aria-hidden="true">Good things take depth.</p>
+
+  <div class="footer__news">
+    <p class="footer__label">CARTAS DESDE EL FONDO</p>
+    <p class="footer__desc">Historias de mar, próximos viajes y plazas antes que nadie.</p>
+    <form class="field" data-subscribe novalidate>
+      <label class="sr-only" for="ft-email">Tu email</label>
+      <input id="ft-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Tu email" required>
+      <button type="submit" class="field__text-btn">Me interesa</button>
+      <p class="field__msg" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+
+  <nav class="footer__links" aria-label="Pie de página">
+    <div>
+      <p class="footer__label">EXPLORA</p>
+      <ul role="list">
+        <li><a href="#top">Home</a></li>
+        <li><a href="#viajes">Viajes</a></li>
+        <li><a href="#como">Cómo viajamos</a></li>
+        <li><a href="#manifiesto">Sobre fondo</a></li>
+        <li><a href="#cartas">Cartas</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer__label">CONÓCENOS</p>
+      <ul role="list">
+        <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
+        <li><a href="#" data-todo="enlace de WhatsApp">WhatsApp</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <svg class="footer__wordmark" viewBox="0 0 1376 436" aria-hidden="true"><use href="#wordmark"/></svg>
+
+  <div class="footer__legal">
+    <p>© 2026 FONDO</p>
+    <p><a href="#" data-todo="aviso legal">AVISO LEGAL</a> · <a href="#" data-todo="privacidad">PRIVACIDAD</a> · <a href="#" data-todo="cookies">COOKIES</a></p>
+  </div>
+</footer>
+</div>
+
+<div class="toast" role="status" aria-live="polite" data-toast></div>
+</body>
+</html>
