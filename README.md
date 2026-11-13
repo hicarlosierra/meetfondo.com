@@ -72,11 +72,12 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Vídeo del hero (home)
 
-- **Modo pruebas:** hay tres vídeos y en cada carga sale uno al azar, sin repetir el anterior. Para ver uno concreto: `?video=buzo`, `?video=cueva` o `?video=pared` al final de la dirección. Cuando elijáis uno, se deja solo ese en la lista `VIDEOS` del `<script>` junto al `<video>` y se borran los demás de `assets/video/`.
+- **Modo pruebas:** hay cuatro vídeos y en cada carga sale uno al azar, sin repetir el anterior. Para ver uno concreto: `?video=buzo`, `?video=cueva`, `?video=pared` o `?video=mar` al final de la dirección. Cuando elijáis uno, se deja solo ese en la lista `VIDEOS` del `<script>` junto al `<video>` y se borran los demás de `assets/video/`.
 - Cada vídeo tiene tres versiones, H.264 sin audio: `-1920.mp4` (pantallas grandes o retina), `-1280.mp4` (portátiles o conexión lenta) y `-movil.mp4` (recorte vertical 960×1080 para móviles en vertical), más sus pósters (primer fotograma).
   - buzo: original 1280×720, la de 1920 reescalada. 6,8 / 4,6 / 3,6 MB.
   - cueva: original 4K. 7,2 / 2,4 / 4,3 MB.
   - pared: original 1920×1080 a 60 fps, pasado a 30 fps. 5,8 / 2,9 / 3,6 MB.
+  - mar: original 4K de 28 s, recortado a un bucle de 8 s sin corte (fundido de 1,5 s del final al principio). El agua apenas se deja comprimir, así que va con bitrate limitado (6 / 4 / 3,5 Mbps): 6,1 / 4,0 / 3,5 MB.
 - Con «reducir movimiento» o ahorro de datos no se descarga: se queda el póster. Se pausa cuando sale de pantalla.
 - La cabecera mide el fotograma que se ve en cada momento para ponerse blanca o negra. Si cambia por el propio vídeo (sin scroll), espera 1,2 s antes de cambiar, para que no parpadee.
 - Exportar un vídeo nuevo: `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3 -crf 20 -pix_fmt yuv420p -movflags +faststart -vf scale=1920:1080:flags=lanczos hero-NOMBRE-1920.mp4` (y lo mismo a 1280×720 y con `crop` vertical 8:9 escalado a 960×1080 para el móvil).

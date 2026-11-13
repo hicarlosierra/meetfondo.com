@@ -134,15 +134,15 @@
 
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
-    <!-- Vídeo en bucle, sin sonido. PRUEBAS: en cada carga sale uno de los tres al azar
-         (sin repetir el anterior). Para ver uno en concreto: ?video=buzo, ?video=cueva o ?video=pared.
+    <!-- Vídeo en bucle, sin sonido. PRUEBAS: en cada carga sale uno de los cuatro al azar
+         (sin repetir el anterior). Para ver uno en concreto: ?video=buzo, ?video=cueva, ?video=pared o ?video=mar.
          El script elige además la versión (1920, 1280 o recorte vertical para móvil) antes de cargar nada.
          Con «reducir movimiento» o ahorro de datos se queda el póster. -->
     <video class="hero__img hero__video" muted loop playsinline autoplay preload="none"
       aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video></video>
     <script>
       (function (v) {
-        var VIDEOS = ['buzo', 'cueva', 'pared'];
+        var VIDEOS = ['buzo', 'cueva', 'pared', 'mar'];
         var name, last = null;
         try { last = sessionStorage.getItem('fondo-hero-video'); } catch (e) {}
         var m = location.search.match(/[?&]video=([a-z]+)/);
