@@ -1105,3 +1105,8 @@ html.is-loading .hero__title { transform: translateY(18%); }
   .guia__details { font-size: clamp(12px, 0.97cqi, 14px); }
   .viajes__tag { font-size: 12px; }
 }
+
+/* «Good things take depth.»: sin cursiva, contraste solo de peso (Light + Bold).
+   En móvil, «take depth.» baja a su propia línea. */
+.dentro__title { font-style: normal; letter-spacing: -0.04em; }
+@media (max-width: 899px) { .dentro__title .w-bold { display: block; } }
