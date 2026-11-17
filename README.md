@@ -105,11 +105,9 @@ Calidad máxima: sin limpieza de grano, CRF 18-19 y topes altos de bitrate. Cuev
 
 **Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3:deblock=-1,-1 -crf 18 -maxrate 12000k -bufsize 24000k -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
 
-## Página de viaje · `viajes/costa-brava/`
+## Página de viaje (retirada)
 
-Mismo CSS y JS que la home. Secciones: hero, resumen, día a día (el acordeón de «Cómo viajamos»), perfil de profundidad (SVG), nota del equipo, dónde pasa (carrusel), por qué la Costa Brava, resumen del viaje, preguntas y cierre. En la cabecera, el enlace del próximo viaje pasa a ser «Solicita tu plaza».
-
-Inventado como placeholder, pendiente de validar: plan por horas de cada día, profundidades del perfil, agua a 20 °C y visibilidad de 15 m, calendario de pagos y política de cancelación.
+La página del campamento (`viajes/costa-brava/`) se quitó el 17 nov 2026: por ahora solo está la landing. Está en el historial de git (commit «Vídeo en el hero de la home y página del campamento Costa Brava» y siguientes) para recuperarla. Sus estilos (bloque «PÁGINA DE VIAJE» en `styles.src.css`) y los módulos de carrusel y entradas de `main.js` se han dejado, por si vuelve.
 
 ## Publicación (GitHub Pages)
 
@@ -130,4 +128,3 @@ Los enlaces pendientes muestran un aviso «Pendiente» al pulsarlos.
 - Fotos definitivas de Mar Rojo, Mallorca, Tenerife y Maldivas.
 - Versión en inglés.
 - Unificar «Nosotros» (menú móvil) y «Sobre fondo» (cabecera desktop y footer).
-- Formulario de solicitud del campamento y fotos reales de Tossa.
