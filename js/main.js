@@ -383,7 +383,10 @@
     };
     addEventListener('pointermove', (e) => { if (!isMouse(e)) return; px = e.clientX; py = e.clientY; update(); }, { passive: true });
     addEventListener('scroll', update, { passive: true });
-    items.forEach(paint);
+    // Con ratón empiezan fuera de pantalla; en táctil se quedan quietos como sello
+    const reset = () => items.forEach((it) => { if (mqFine.matches) paint(it); else it.el.style.translate = ''; });
+    reset();
+    mqFine.addEventListener('change', reset);
 
     for (const it of items) {
       const { area, el, label } = it;

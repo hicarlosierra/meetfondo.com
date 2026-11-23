@@ -323,45 +323,37 @@
 
 <!-- ============ Footer (el mismo en las tres páginas) ============ -->
 <footer class="footer" data-footer data-follow-area>
-  <p class="footer__lema">
-    <span class="u-line">Pocos viajes,<svg viewBox="0 0 243 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C48.6 3.18 109.35 10.18 170.1 6.18C230.85 2.18 223.56 4.18 241 8.18"/></svg></span>
-    <span class="u-line">pocas personas,<svg viewBox="0 0 306 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C61.2 3.18 137.7 10.18 214.2 6.18C290.7 2.18 281.52 4.18 304 8.18"/></svg></span>
-    <span class="u-line">muy cuidados.<svg viewBox="0 0 272 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C54.4 3.18 122.4 10.18 190.4 6.18C258.4 2.18 250.24 4.18 270 8.18"/></svg></span>
-  </p>
   <span class="oval oval--solid footer__oval" data-follow data-cursor-default="Llegaste al fondo" aria-hidden="true"><span>Llegaste<br>al fondo</span></span>
 
-  <p class="footer__claim" aria-hidden="true">Good things take depth.</p>
-
-  <div class="footer__news">
-    <p class="footer__label">CARTAS DESDE EL FONDO</p>
-    <p class="footer__desc">Historias de mar, próximos viajes y plazas antes que nadie.</p>
-    <form class="field" data-subscribe novalidate>
+  <div class="fcol fcol--news">
+    <p class="fcol__label">Cartas desde el fondo</p>
+    <p class="fcol__text">Recibe cada mes nuestras historias con el mar de fondo, próximos viajes y plazas antes que nadie.</p>
+    <form class="field field--foot" data-subscribe novalidate>
       <label class="sr-only" for="ft-email">Tu email</label>
       <input id="ft-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Tu email" required>
-      <button type="submit" class="field__text-btn">Me interesa</button>
+      <button type="submit" class="field__send" aria-label="Suscribirme"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12H21M14 5L21 12L14 19"/></svg></button>
       <p class="field__msg" role="status" aria-live="polite"></p>
     </form>
   </div>
 
-  <nav class="footer__links" aria-label="Pie de página">
-    <div>
-      <p class="footer__label">EXPLORA</p>
-      <ul role="list">
-        <li><a href="../../">Home</a></li>
-        <li><a href="../../#viajes">Viajes</a></li>
-        <li><a href="../../#como">Cómo viajamos</a></li>
-        <li><a href="../../sobre-nosotros/">Sobre fondo</a></li>
-        <li><a href="../../#cartas">Cartas</a></li>
-      </ul>
-    </div>
-    <div>
-      <p class="footer__label">CONÓCENOS</p>
-      <ul role="list">
-        <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
-        <li><a href="#" data-wa="Hola, Fondo.">WhatsApp</a></li>
-      </ul>
-    </div>
+  <nav class="fcol fcol--explora" aria-label="Explora">
+    <p class="fcol__label">Explora</p>
+    <ul class="fcol__links" role="list">
+      <li><a href="../../">Home</a></li>
+      <li><a href="../../#viajes">Viajes</a></li>
+      <li><a href="../../#como">Cómo viajamos</a></li>
+      <li><a href="../../sobre-nosotros/">Sobre fondo</a></li>
+      <li><a href="../../#cartas">Cartas</a></li>
+    </ul>
   </nav>
+
+  <div class="fcol fcol--social">
+    <p class="fcol__label">Conócenos</p>
+    <ul class="fcol__links" role="list">
+      <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
+      <li><a href="#" data-wa="Hola, Fondo.">WhatsApp</a></li>
+    </ul>
+  </div>
 
   <svg class="footer__wordmark" viewBox="0 0 1376 436" aria-hidden="true"><use href="#wordmark"/></svg>
 
