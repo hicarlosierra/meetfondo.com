@@ -899,7 +899,7 @@
 
   /* =======================================================================
      15. Secuencia de fotos tipo gif (data-flipbook)
-         Cambia de foto cada 280 ms, con corte seco. Solo corre cuando está
+         Cambia de foto cada 450 ms, con corte seco. Solo corre cuando está
          a la vista; con «reducir movimiento» se queda en la primera.
      ======================================================================= */
   $$('[data-flipbook]').forEach((box) => {
@@ -909,7 +909,7 @@
     const step = () => { imgs[i].classList.remove('is-on'); i = (i + 1) % imgs.length; imgs[i].classList.add('is-on'); };
     new IntersectionObserver(([e]) => {
       clearInterval(timer);
-      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 280); }
+      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 450); }
     }, { rootMargin: '200px 0px' }).observe(box);
   });
 })();
