@@ -1041,10 +1041,9 @@
          disco frena poco a poco (no en seco).
      ======================================================================= */
   (() => {
-    const box = $('[data-header] [data-sonido]');
+    const box = $('.sonido-dock [data-sonido]');
     if (!box || !FONDO.audio) return;
     const btn = box;
-    const header = $('[data-header]');
     const spin = $('[data-spin]', box);
     const audio = new Audio();
     audio.src = FONDO.audio; audio.loop = true; audio.preload = 'none';
@@ -1105,26 +1104,19 @@
     // Al pasar el hero, el vinilo ocupa el sitio del isotipo (y se queda mientras suena).
     // La primera vez que se ve, el aviso asoma unos segundos.
     const hero = $('#top');
-    // Móvil: el vinilo ocupa el sitio del isotipo en la cabecera. Escritorio: fijo abajo a la izquierda.
-    const mqDesk = matchMedia('(min-width: 900px)');
-    const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
-    const logo = $('.site-header__logo', header);
+    const dock = box.parentElement;   // fijo abajo a la izquierda en todas las pantallas
     let hinted = false;
     try { hinted = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
-      const on = past || playing, desk = mqDesk.matches;
-      header.classList.toggle('has-sonido', on && !desk);
-      dock.classList.toggle('is-shown', on && desk);
-      if (!hinted && past && (desk || !header.classList.contains('is-hidden')) && !playing) {
+      dock.classList.toggle('is-shown', past || playing);
+      if (!hinted && past && !playing) {
         hinted = true;
         try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
         setTimeout(() => { box.classList.add('is-hint'); setTimeout(() => box.classList.remove('is-hint'), 4000); }, 400);
       }
     };
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
-    new MutationObserver(check).observe(header, { attributes: true, attributeFilter: ['class'] });
-    const place = () => { if (mqDesk.matches) dock.append(box); else logo.after(box); check(); };
-    place(); mqDesk.addEventListener('change', place);
+    check();
   })();
 })();
