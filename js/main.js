@@ -639,7 +639,8 @@
     const openBtn = $('[data-menu-open]');
     if (!menu || !openBtn) return;
     const closeBtn = $('[data-menu-close]', menu);
-    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
+    // La cabecera no se bloquea: su botón (dos líneas que giran a X) abre y cierra el menú
+    const behind = [$('.page'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
     const meta = $('meta[name="theme-color"]');
     const metaDefault = meta ? (meta.getAttribute('data-default') || meta.content) : '';
     const mqMobile = matchMedia('(max-width: 899px)');
@@ -652,6 +653,7 @@
       menu.classList.toggle('is-open', open);
       menu.setAttribute('aria-hidden', String(!open));
       openBtn.setAttribute('aria-expanded', String(open));
+      openBtn.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
       document.documentElement.classList.toggle('menu-open', open);
       behind.forEach((el) => { el.inert = open; });
       if (meta) meta.content = open ? '#1e57b1' : metaDefault;
@@ -665,7 +667,7 @@
       }
     };
 
-    openBtn.addEventListener('click', () => setOpen(true));
+    openBtn.addEventListener('click', () => setOpen(!isOpen));
     closeBtn.addEventListener('click', () => setOpen(false));
     menu.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') { e.preventDefault(); setOpen(false); return; }
