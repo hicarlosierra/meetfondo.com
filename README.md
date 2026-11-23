@@ -1,6 +1,6 @@
-# Fondo · Landing v3.2 (responsive + menú móvil + loader)
+# Fondo · Web v4 (home, página de viaje y sobre nosotros)
 
-Versión responsive de la landing, hecha a partir de Figma, «Landing Dec 26» > Opción 02.
+Hecha a partir de Figma, «Landing Dec 26»: «Copies Pablo» (home), «Viaje · Costa Brava · Desktop», «Sobre nosotros · Desktop» y «Formulario» (lista de espera). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
 Sirve para probar el responsive, las animaciones y la UX antes de pasarla a producción.
 
 ## Cómo abrirla
@@ -13,13 +13,18 @@ Sirve para probar el responsive, las animaciones y la UX antes de pasarla a prod
 ## Estructura
 
 ```
-index.html          Marcado de las 12 secciones
-css/styles.css      Estilos (mobile first; desktop desde 900 px)
-js/loader.js        Loader («fondo» → ánfora → telón), sin dependencias
-js/main.js          Interacciones, sin dependencias
-assets/img/         Fotos en WebP
-assets/fonts/       Inter 3.19, Instrument Sans y DM Mono (autoalojadas)
+index.html                    Home
+viajes/costa-brava/index.html Campamento Open Water (Costa Brava)
+sobre-nosotros/index.html     Sobre nosotros
+css/styles.css                Estilos de las tres páginas (mobile first; desktop desde 900 px)
+js/loader.js                  Loader («fondo» → ánfora → telón), solo en la home
+js/main.js                    Interacciones, sin dependencias
+assets/img/                   Fotos en WebP
+assets/video/                 Vídeo del hero (buzo), en varias versiones
+assets/fonts/                 Inter 3.19 y DM Mono (autoalojadas)
 ```
+
+Las tres páginas comparten cabecera, menú móvil, footer y formulario de lista de espera.
 
 ## Tipografía
 
@@ -45,18 +50,23 @@ Rangos probados: 360, 390 y 430 (móvil), 844 × 390 (móvil en horizontal), 768
 |---|---|---|
 | Cabecera | Fija, sin fondo. Cada elemento se pone blanco o negro según lo que tenga detrás, píxel a píxel cuando pasa por encima del wordmark del hero | Igual |
 | Menú móvil (< 900 px) | (no aplica) | Cabecera con logo, próximo viaje e icono de menú. El menú cae como una cortina; se cierra con la X, con Escape o al elegir un enlace, que baja a su sección. Bloquea el scroll de la página, mantiene el foco dentro y tiñe de azul la barra del navegador |
-| Óvalos de las postales y la guía | No se ven; aparecen bajo el puntero al entrar en la foto, lo siguen y desaparecen al salir. Toda la postal es un enlace | Fijos como sello |
-| Óvalo del footer | Aparece al entrar en el footer con «Llegaste al fondo»; encima de un enlace muestra su nombre | Fijo como sello |
-| Manifiesto | Texto a todo el ancho. La foto aparece al entrar en la sección, sigue al puntero siempre y cambia con la frase que pisas (de gris a negro) | La frase activa cambia con el scroll; foto fija debajo |
-| Viajes | Sección fija con snap suave; clic en un destino lleva a su postal | Carrusel con snap |
-| Foto del faro | Secuencia de 3 fotos, 1,5 s cada una | Igual |
-| Cómo viajamos | Acordeón, una fila abierta cada vez | Igual |
+| Óvalo de la guía (home) | Óvalo blanco «Apúntame a la lista de espera»: aparece bajo el puntero al entrar en las fotos y lo sigue. Clic: abre el formulario | Fijo como sello en la foto |
+| Óvalo del hero del viaje | Igual, en todo el hero. Al bajar, «viaja» hasta la cabecera y se queda anclado como botón «Lista de espera» | Fijo en el hero; al bajar, botón en la cabecera |
+| Formulario «Lista de espera» | Cajón a la derecha (592 px). Se abre desde el óvalo, «Cuenta conmigo», el botón de la cabecera o `#lista` en la dirección. Se cierra con la X, Escape o clic fuera. Valida los obligatorios y da las gracias | Hoja a pantalla completa |
+| Óvalo del footer | Aparece al entrar en el footer con «Llegaste al fondo»; encima de un enlace muestra su nombre. Con teclado se ve al enfocar | Fijo como sello arriba a la derecha |
+| Manifiesto | Dos frases. La foto va siempre detrás del texto: aparece al entrar, sigue al puntero y cambia con la frase que pisas (de gris a negro) | La frase activa cambia con el scroll; foto fija detrás |
+| Viajes | Sección fija. Cada paso de scroll, con snap suave (la «fricción»), sube la siguiente tarjeta y marca su tipo de viaje (Open Water o buceadores). Clic en un tipo lleva a su primer viaje | Tipos arriba y carrusel con snap |
+| Cómo viajamos | Acordeón, una fila abierta cada vez; la abierta en celeste y con el título más grande | Igual |
+| Dónde pasa (viaje) | Carrusel: se arrastra con el ratón o el trackpad y con las flechas; encaja tarjeta a tarjeta | Tarjeta y media a la vista, con snap |
+| Preguntas (viaje) | Acordeón, una abierta cada vez. «Tengo otra pregunta» es un campo: al escribir y pulsar Enter abre WhatsApp con la pregunta | Igual |
+| Sobre nosotros | El contador 01 → 02 → 03 se queda fijo mientras pasan los tres principios | Contador fijo bajo la cabecera |
 | Cinta de óvalos | Movimiento continuo; se para al pasar el ratón | Movimiento continuo |
 
 Con «reducir movimiento» activado en el sistema, todo queda estático.
 
 Parámetros fáciles de ajustar:
-- Recorrido de cada paso de Viajes: `--step: 55svh` en `styles.css`.
+- Recorrido de cada paso de Viajes: `--step: 60svh` en `styles.css`.
+- Número de WhatsApp y dirección del formulario: `FONDO` al principio de `main.js`.
 - Separación entre la foto del Manifiesto y el puntero: `OFFSET` en `main.js`.
 - Velocidad de la cinta: `animation: marquee 45s` en `styles.css`.
 
@@ -72,19 +82,16 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 
 ## Escala tipográfica
 
-Nueve roles para toda la web, al final de `styles.src.css` (bloque «ESCALA TIPOGRÁFICA»), en desktop / móvil: Display 72/40, Titular 44/26, Título 32/24, Entradilla 24/20, Cuerpo L 18/17, Cuerpo 16, Pequeño 14, Etiqueta 12 (Semibold, mayúsculas, +6 %) y Mono 12 (DM Mono, solo números y fechas). Solo Inter (Instrument Sans ya no se usa) y tres pesos principales: Light para entradillas, Regular para texto y Medium para títulos, con Semibold/Bold para énfasis. Los titulares bajo el hero van en Medium, como el manifiesto. Fuera de escala, a propósito: el título del hero del viaje, «¿Empezamos?», «Good things take depth.» del footer, el manifiesto y el wordmark.
+Nueve roles para toda la web (variables `--t-*` en `styles.css`), en desktop / móvil: Display 72/40, Titular 44/26, Título 32/24, Entradilla 24/20, Cuerpo L 18/17, Cuerpo 16, Pequeño 14, Etiqueta 12 (Semibold, mayúsculas, +6 %) y Mono 12 (DM Mono, solo números y fechas). Solo Inter (Instrument Sans ya no se usa) y tres pesos principales: Light para entradillas, Regular para texto y Medium para títulos, con Semibold/Bold para énfasis. Fuera de escala, a propósito: «Costa Brava» en el hero del viaje, «Queremos salvar el mundo» y «Parar, respirar y disfrutar» en Sobre nosotros, el contador, «Good things take depth.» del footer, el manifiesto y el wordmark.
 
 ## Vídeo del hero (home)
 
-**Modo pruebas.** Hay seis vídeos: buzo, cueva, pared, mar, santorini y playa. Por defecto sale el primero (buzo) y los puntos de la izquierda del hero cambian entre ellos. Al cambiar, la dirección pasa a `?video=NOMBRE`, así se puede pasar el enlace de uno concreto.
-
-Cuando se elija uno: dejarlo solo en `LIST` (script junto al `<video>` en `index.html`), quitar el `<nav class="vpick">`, el bloque «1c» de `main.js` y el bloque «PRUEBAS · Selector» de `styles.src.css`, y borrar de `assets/video/` los demás vídeos.
+Solo el vídeo del buzo. Los otros cinco de las pruebas (cueva, pared, mar, santorini y playa) y su selector se quitaron el 23 nov 2026; siguen en el historial de git.
 
 **Versiones.** H.264 sin audio, en bucle. El script elige la versión antes de cargar nada:
 
 | Versión | Para | Notas |
 |---|---|---|
-| `-2560.mp4` | Pantallas 1440p, 4K y retina grandes | Solo cueva y mar (originales en 4K) |
 | `-1920.mp4` | Full HD y portátiles retina | |
 | `-1280.mp4` | Portátiles pequeños o conexión lenta | |
 | `-movil.mp4` | Móvil y tablet en vertical | Recorte 9:16 a 1080×1920 |
@@ -92,39 +99,26 @@ Cuando se elija uno: dejarlo solo en `LIST` (script junto al `<video>` en `index
 
 Elige la más pequeña que cubra la pantalla (ancho real en píxeles, con densidad hasta 2×). Un móvil en horizontal no pasa de 1920. Con «reducir movimiento» o ahorro de datos no se descarga ningún vídeo: se queda el póster.
 
-Calidad máxima: sin limpieza de grano, CRF 18-19 y topes altos de bitrate. Cueva y mar (originales 4K) van en móvil a su resolución real, 1216×2160. Pesos aproximados: 1920 entre 9 y 19 MB; 2560 unos 20-23 MB; móvil entre 12 y 17 MB; móvil SD (solo conexión lenta) unos 3 MB. Empiezan a reproducirse en cuanto llegan los primeros segundos (faststart).
+Calidad máxima: sin limpieza de grano, CRF 18-19. El original del buzo es 1280×720; las versiones 1920 y móvil están reescaladas (es el límite de ese archivo).
 
-- buzo: original 1280×720 (las versiones 1920 y móvil están reescaladas; es el límite de ese archivo).
-- cueva: original 4K.
-- pared: original 1920×1080 a 60 fps, pasado a 30.
-- mar: original 4K de 28 s → bucle de 8 s sin corte (fundido de 1,5 s del final al principio).
-- santorini: original 1920×1080 de 21 s → bucle de 12 s desde el segundo 8 (ya con la roca en plano), con fundido.
-- playa: original 1920×1080 de 17 s → bucle de 12 s con fundido.
-
-**Cabecera sobre el vídeo.** Cada vídeo lleva en `main.js` (`VIDEO_LUM`) un mapa 24×24 con la luminosidad mediana de todo el bucle, de la versión horizontal y de la de móvil. La cabecera usa ese mapa para ponerse blanca o negra: elige lo que mejor se lee durante la mayor parte del vídeo y no parpadea con cada plano. Si se cambia un vídeo, hay que regenerar su mapa (ffmpeg a 4 fps, celdas de 24×24, mediana en el tiempo, raíz cuadrada en base64).
+**Cabecera sobre el vídeo.** El vídeo lleva en `main.js` (`VIDEO_LUM`) un mapa 24×24 con la luminosidad mediana de todo el bucle, de la versión horizontal y de la de móvil. La cabecera usa ese mapa para ponerse blanca o negra: elige lo que mejor se lee durante la mayor parte del vídeo y no parpadea con cada plano. Si se cambia un vídeo, hay que regenerar su mapa (ffmpeg a 4 fps, celdas de 24×24, mediana en el tiempo, raíz cuadrada en base64).
 
 **Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3:deblock=-1,-1 -crf 18 -maxrate 12000k -bufsize 24000k -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
-
-## Página de viaje (retirada)
-
-La página del campamento (`viajes/costa-brava/`) se quitó el 17 nov 2026: por ahora solo está la landing. Está en el historial de git (commit «Vídeo en el hero de la home y página del campamento Costa Brava» y siguientes) para recuperarla. Sus estilos (bloque «PÁGINA DE VIAJE» en `styles.src.css`) y los módulos de carrusel y entradas de `main.js` se han dejado, por si vuelve.
 
 ## Publicación (GitHub Pages)
 
 - Se publica desde la rama `main`, carpeta raíz. Cada push actualiza la web en uno o dos minutos.
 - `.nojekyll` evita que GitHub procese la web con Jekyll: sirve los archivos tal cual.
 - Versión en pruebas: lleva `<meta name="robots" content="noindex, nofollow">` para que no salga en Google. Quitarlo al lanzar.
-- La imagen para compartir (WhatsApp, LinkedIn, X) es `assets/img/og-fondo.jpg`, 1200×630. `og:image` y `og:url` llevan la URL completa (https://meetfondo.com/). Si cambia el dominio, hay que cambiarlas también. El archivo `CNAME` es el del dominio propio: no borrarlo.
+- La imagen para compartir (WhatsApp, LinkedIn, X) es `assets/img/og-fondo.jpg` (y `og-costa-brava.jpg` en la página del viaje), 1200×630. `og:image` y `og:url` llevan la URL completa (https://meetfondo.com/). Si cambia el dominio, hay que cambiarlas también. El archivo `CNAME` es el del dominio propio: no borrarlo.
 
 ## Pendiente
 
 Los enlaces pendientes muestran un aviso «Pendiente» al pulsarlos.
 
-- Formulario de reserva («Cuenta conmigo»).
-- Enlaces de WhatsApp e Instagram.
-- Conectar los dos formularios de newsletter.
-- Textos legales.
-- Vídeo del faro.
-- Fotos definitivas de Mar Rojo, Mallorca, Tenerife y Maldivas.
+- Conectar el formulario de la lista de espera (`formEndpoint` en `main.js`) y los dos de newsletter.
+- Número de WhatsApp (`whatsapp` en `main.js`). Sin número, WhatsApp abre con el texto escrito y deja elegir el contacto.
+- Instagram y textos legales.
+- Fotos y fechas de los viajes para buceadores (Mar Rojo y Baja California Sur): ahora llevan fotos de relleno.
+- Revisar contenido: «10 plazas» (guía de la home) frente a «12 personas» (viaje); «seis inmersiones» en el texto del Open Water frente a las 4 inmersiones del gráfico; el título de «Dónde pasa» repite el de «¿Te vienes?».
 - Versión en inglés.
-- Unificar «Nosotros» (menú móvil) y «Sobre fondo» (cabecera desktop y footer).

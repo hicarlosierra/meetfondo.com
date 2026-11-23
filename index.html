@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Fondo · Viajes de buceo para los que quieren algo más que inmersiones</title>
-  <meta name="description" content="Viajes de buceo en grupos pequeños, a sitios que conocemos. Buceo consciente, buena mesa y gente con la que seguir bajando. Good things take depth.">
+  <title>Fondo · Experiencias de buceo para los que quieren algo más que inmersiones</title>
+  <meta name="description" content="Experiencias de buceo en grupos pequeños. Te cuidamos dentro y fuera del agua: buceo consciente, buena mesa y gente con la que seguir bajando. Good things take depth.">
   <meta name="theme-color" content="#191919" data-default="#191919">
   <meta property="og:title" content="Fondo · Good things take depth.">
-  <meta property="og:description" content="Viajes de buceo para los que quieren algo más que inmersiones.">
+  <meta property="og:description" content="Experiencias de buceo para los que quieren algo más que inmersiones.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://meetfondo.com/assets/img/og-fondo.jpg">
   <meta property="og:image:width" content="1200">
@@ -18,7 +18,6 @@
   <!-- Versión en pruebas: que no la indexen los buscadores. Quitar al lanzar. -->
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-
   <link rel="stylesheet" href="css/styles.css">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
@@ -85,14 +84,14 @@
     <svg class="icon-iso" aria-hidden="true"><use href="#isotipo"/></svg>
   </a>
   <nav class="site-header__nav" aria-label="Principal">
-    <a href="#viajes" data-tone="dark">Viajes</a>
-    <a href="#manifiesto" data-tone="dark">Sobre fondo</a>
+    <a href="#viajes" data-tone="dark">Experiencias</a>
+    <a href="sobre-nosotros/" data-tone="dark">Sobre fondo</a>
     <a href="#cartas" data-tone="dark">Cartas</a>
   </nav>
   <!-- Móvil: próximo viaje en el centro -->
-  <a class="site-header__next site-header__next--m" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+  <a class="site-header__next site-header__next--m" href="viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
   <div class="site-header__right">
-    <a class="site-header__next site-header__next--d" href="#guia" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
+    <a class="site-header__next site-header__next--d" href="viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
     <button class="site-header__lang" type="button" aria-label="Cambiar idioma. Idioma actual: español" data-tone="dark">ES</button>
     <button class="site-header__menu" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" data-menu-open data-tone="dark">
       <svg viewBox="0 0 22.6 13.2" aria-hidden="true"><path d="M0 0.94H22.6M0 12.24H22.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -110,17 +109,17 @@
   </div>
   <nav class="mmenu__nav" aria-label="Menú principal">
     <ol role="list">
-      <li><a href="#viajes"><span class="mmenu__name">Viajes</span><span class="mmenu__num" aria-hidden="true">01</span></a></li>
-      <li><a href="#manifiesto"><span class="mmenu__name">Nosotros</span><span class="mmenu__num" aria-hidden="true">02</span></a></li>
+      <li><a href="#viajes"><span class="mmenu__name">Experiencias</span><span class="mmenu__num" aria-hidden="true">01</span></a></li>
+      <li><a href="sobre-nosotros/"><span class="mmenu__name">Sobre fondo</span><span class="mmenu__num" aria-hidden="true">02</span></a></li>
       <li><a href="#cartas"><span class="mmenu__name">Cartas</span><span class="mmenu__num" aria-hidden="true">03</span></a></li>
     </ol>
   </nav>
   <div class="mmenu__extra">
     <p class="mmenu__eyebrow">PRÓXIMO VIAJE</p>
-    <a class="mmenu__next" href="#guia"><span class="mmenu__next-text">Costa Brava, Jun 27</span><span class="mmenu__arrow" aria-hidden="true">↗</span></a>
+    <a class="mmenu__next" href="viajes/costa-brava/"><span class="mmenu__next-text">Costa Brava, Jun 27</span><span class="mmenu__arrow" aria-hidden="true">↗</span></a>
     <ul class="mmenu__social" role="list">
       <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
-      <li><a href="#" data-todo="enlace de WhatsApp">WhatsApp</a></li>
+      <li><a href="#" data-wa="Hola, Fondo.">WhatsApp</a></li>
     </ul>
   </div>
   <div class="mmenu__foot">
@@ -134,268 +133,209 @@
 
   <!-- ============ 01 · Hero ============ -->
   <section class="hero" id="top" data-hero>
-    <!-- Vídeo en bucle, sin sonido.
-         PRUEBAS: seis vídeos. Por defecto sale el primero (buzo) y los puntos
-         de la izquierda cambian entre ellos. ?video=NOMBRE abre uno concreto.
+    <!-- Vídeo en bucle, sin sonido: el buzo en la barca.
          El script elige la versión según la pantalla antes de cargar nada:
-           horizontal → 2560 (pantallas muy grandes, si el vídeo la tiene), 1920 o 1280;
-           vertical   → móvil 1080×1920 o 720×1280 (pantallas pequeñas o conexión lenta).
+           horizontal → 1920 o 1280; vertical → móvil 1080×1920 o 720×1280.
          Con «reducir movimiento» o ahorro de datos se queda el póster. -->
-    <video class="hero__img hero__video" muted loop playsinline autoplay preload="none"
+    <video class="hero__img hero__video" muted loop playsinline autoplay preload="none" data-video="buzo"
       aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video></video>
     <script>
       (function (v) {
-        var LIST = [
-          { id: 'buzo',      name: 'Buzo en el barco',  sizes: [1280, 1920] },
-          { id: 'cueva',     name: 'Salida de la cueva', sizes: [1280, 1920, 2560] },
-          { id: 'pared',     name: 'Junto a la pared',  sizes: [1280, 1920] },
-          { id: 'mar',       name: 'Mar',               sizes: [1280, 1920, 2560] },
-          { id: 'santorini', name: 'Santorini',         sizes: [1280, 1920] },
-          { id: 'playa',     name: 'Playa',             sizes: [1280, 1920] }
-        ];
-        var ids = LIST.map(function (x) { return x.id; });
         var c = navigator.connection;
         var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
         var save = c && c.saveData;
         var slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
         var dpr = Math.min(devicePixelRatio || 1, 2);   // más de 2× no se nota en vídeo y pesa mucho más
-
-        // Qué archivo necesita esta pantalla
-        var file = function (item) {
-          var base = 'assets/video/hero-' + item.id;
-          var portrait = innerHeight > innerWidth * 1.25;
-          if (portrait) {
-            var big = !slow && innerWidth * dpr >= 700;
-            return { src: base + (big ? '-movil.mp4' : '-movil-sd.mp4'), poster: base + '-poster-movil.webp' };
-          }
-          // ancho en píxeles reales que cubre el vídeo (object-fit: cover, 16:9)
-          var need = Math.max(innerWidth, innerHeight * 16 / 9) * dpr;
-          // la más pequeña que cubra la pantalla (con un 15 % de margen); si ninguna llega, la mayor
-          var size = item.sizes[item.sizes.length - 1];
-          for (var i = 0; i < item.sizes.length; i++) if (item.sizes[i] >= need * 0.85) { size = item.sizes[i]; break; }
-          if (Math.max(innerWidth, innerHeight) < 1100 && size > 1920) size = 1920;   // móvil en horizontal
-          if (slow) size = 1280;
-          return { src: base + '-' + size + '.mp4', poster: base + '-poster.webp' };
-        };
-        var play = function (id) {
-          var item = LIST[Math.max(0, ids.indexOf(id))];
-          var f = file(item);
-          v.setAttribute('data-video', item.id);
-          v.poster = f.poster;
-          if (reduce || save) { v.removeAttribute('autoplay'); v.removeAttribute('src'); v.load(); return; }
-          v.preload = 'auto';
-          v.src = f.src;
-          var p = v.play(); if (p && p.catch) p.catch(function () {});
-        };
-
-        // Primera carga: ?video=NOMBRE o, por defecto, el primero de la lista (buzo)
-        var m = location.search.match(/[?&]video=([a-z]+)/);
-        play(m && ids.indexOf(m[1]) > -1 ? m[1] : ids[0]);
-        window.fondoHeroVideo = { list: LIST, play: play };
+        var base = 'assets/video/hero-buzo', src, poster;
+        if (innerHeight > innerWidth * 1.25) {
+          src = base + (!slow && innerWidth * dpr >= 700 ? '-movil.mp4' : '-movil-sd.mp4');
+          poster = base + '-poster-movil.webp';
+        } else {
+          var need = Math.max(innerWidth, innerHeight * 16 / 9) * dpr;   // ancho real que cubre el vídeo (16:9)
+          src = base + '-' + (slow || 1280 >= need * 0.85 ? 1280 : 1920) + '.mp4';
+          poster = base + '-poster.webp';
+        }
+        v.poster = poster;
+        if (reduce || save) { v.removeAttribute('autoplay'); return; }
+        v.preload = 'auto';
+        v.src = src;
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
       })(document.currentScript.previousElementSibling);
     </script>
-    <!-- PRUEBAS: selector de vídeo. Quitar este <nav> (y su bloque en main.js y styles.css) al elegir uno. -->
-    <nav class="vpick" aria-label="Vídeo del hero (pruebas)" data-vpick></nav>
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>
     <h1 class="hero__title">
-      <span class="sr-only">Fondo. Viajes de buceo para los que quieren algo más que inmersiones.</span>
+      <span class="sr-only">Fondo. Experiencias de buceo para los que quieren algo más que inmersiones.</span>
       <svg class="hero__wordmark" aria-hidden="true" viewBox="0 0 1376 436" preserveAspectRatio="xMidYMax meet" data-ink><use href="#wordmark"/></svg>
     </h1>
   </section>
 
-  <!-- ============ 02 · Propuesta de valor ============ -->
-  <section class="propuesta" aria-label="Qué es Fondo">
-    <p class="propuesta__text">
-      En Fondo nos encanta el mar, las olas, respirar bajo el agua y <em>ese silencio a veinte metros</em>. El buceo nos lleva lejos y nos acerca a nuevas historias. Historias en torno al mar. Esto es Fondo, <strong>viajes de buceo para los que quieren <em>algo más que inmersiones.</em></strong>
-    </p>
-  </section>
-
-  <!-- ============ 03 · Dentro y fuera ============ -->
+  <!-- ============ 02 · Dentro y fuera ============ -->
   <section class="dentro" aria-labelledby="dentro-title">
-    <div class="dentro__gif" data-slideshow aria-label="Secuencia de fotos, mitad dentro y mitad fuera del agua" role="img">
-      <!-- TODO: sustituir por vídeo MP4/WebM en bucle cuando esté la secuencia definitiva -->
-      <img class="is-active" src="assets/img/faro-mitad.webp" width="502" height="750" alt="" loading="lazy" decoding="async">
-      <img src="assets/img/buzo-cueva.webp" width="422" height="750" alt="" loading="lazy" decoding="async">
-      <img src="assets/img/buzo-azul.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
-    </div>
-    <div class="dentro__head">
-      <h2 class="dentro__title" id="dentro-title"><span class="w-light">Good things </span><span class="w-bold">take depth.</span></h2>
-      <p class="dentro__sub">Para los que bucean, <span class="dentro__sub-2">y los que disfrutan.</span></p>
-    </div>
+    <h2 class="sr-only" id="dentro-title">Dentro y fuera del agua</h2>
+    <p class="dentro__intro"><strong>Experiencias de buceo para los que quieren algo más que inmersiones.</strong> Aquí los detalles sí importan. Te cuidamos dentro y fuera del agua. Porque en la vida y en el mar, al fondo no se llega de cualquier manera.</p>
+    <img class="dentro__photo" src="assets/img/dentro-cielo.webp" width="1086" height="1448" alt="Una buceadora con el equipo puesto mira al cielo con los ojos cerrados" loading="lazy" decoding="async">
     <div class="dentro__side">
+      <p class="dentro__title">Good things <strong>take depth.</strong></p>
       <div class="dentro__pair">
-        <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="Barcas de pesca amarradas junto a las rocas" loading="lazy" decoding="async">
-        <img src="assets/img/mesa.webp" width="735" height="1103" alt="Mesa larga con platos para compartir" loading="lazy" decoding="async">
+        <img src="assets/img/dentro-risa.webp" width="1122" height="1402" alt="Una buceadora se ríe en la barca, con la botella a la espalda" loading="lazy" decoding="async">
+        <img src="assets/img/mesa.webp" width="735" height="1103" alt="Una mesa con platos para compartir al sol" loading="lazy" decoding="async">
       </div>
-      <p class="dentro__caption">El mar nos apasiona, lo que pasa fuera, también: la mesa larga, la siesta, la conversación en el barco de vuelta.</p>
+      <p class="dentro__caption"><strong>El mar nos apasiona, lo que pasa fuera, también.</strong> Viajes de pequeño formato para los que bucean y los que disfrutan.</p>
     </div>
+    <a class="dentro__more" href="sobre-nosotros/">Conoce más sobre nuestra filosofía</a>
   </section>
 
-  <!-- ============ 04 · Viajes ============ -->
+  <!-- ============ 03 · Viajes ============ -->
   <section class="viajes" id="viajes" aria-labelledby="viajes-title" data-viajes>
-    <div class="viajes__snaps" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="viajes__snaps" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="viajes__stage">
-      <div class="viajes__rail" aria-hidden="true">
-        <span>PRÓXIMAS SALIDAS</span>
-        <span>CALENDARIO 2027</span>
-        <span>VIAJES</span>
+      <p class="viajes__rail" aria-hidden="true"><span>CALENDARIO 2027</span></p>
+      <div class="viajes__panel">
+        <h2 class="viajes__title" id="viajes-title"><strong>Hay un viaje para ti.</strong><br>Elige tu punto de partida.</h2>
+        <p class="viajes__help">Experiencias desde cero inmersiones</p>
+        <div class="viajes__filters" role="group" aria-label="Tipo de viaje">
+          <button class="filtro" type="button" data-filter="0" aria-pressed="true">
+            <span class="filtro__top"><span>Campamentos Open Water</span><span aria-hidden="true">01</span></span>
+            <span class="filtro__title">Quiero empezar a bucear</span>
+            <span class="filtro__desc">Es mi primera vez · No tengo certificación</span>
+            <span class="filtro__dest">Costa Brava</span>
+          </button>
+          <button class="filtro" type="button" data-filter="1" aria-pressed="false">
+            <span class="filtro__top"><span>Viajes para buceadores</span><span aria-hidden="true">02</span></span>
+            <span class="filtro__title">Quiero seguir buceando</span>
+            <span class="filtro__desc">Ya tengo certificación y quiero descubrir más.</span>
+            <span class="filtro__dest">Mar Rojo · Baja California Sur</span>
+          </button>
+        </div>
+        <a class="viajes__any" href="viajes/costa-brava/">LLÉVAME A CUALQUIER SITIO</a>
       </div>
-      <h2 class="sr-only" id="viajes-title">Viajes</h2>
-      <p class="viajes__eyebrow" aria-hidden="true">PRÓXIMAS SALIDAS · CALENDARIO 2027</p>
-
-      <div class="viajes__index">
-        <ol class="viajes__list" role="list">
-          <li><button type="button" class="viajes__item is-active" data-index="0" aria-controls="postal-0"><span class="viajes__name">Costa Brava</span><span class="viajes__tag">CAMPAMENTO OW<br>JUN 2027</span></button></li>
-          <li><button type="button" class="viajes__item" data-index="1" aria-controls="postal-1"><span class="viajes__name">Mar Rojo</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
-          <li><button type="button" class="viajes__item" data-index="2" aria-controls="postal-2"><span class="viajes__name">Mallorca</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
-          <li><button type="button" class="viajes__item" data-index="3" aria-controls="postal-3"><span class="viajes__name">Tenerife</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
-          <li><button type="button" class="viajes__item" data-index="4" aria-controls="postal-4"><span class="viajes__name">Maldivas</span><span class="viajes__tag">PRÓXIMAMENTE</span></button></li>
-        </ol>
-        <a class="cta viajes__cta" href="#guia">Explora las opciones <span aria-hidden="true">↗</span></a>
-      </div>
-
       <div class="viajes__strip" data-strip>
-        <a class="postal" id="postal-0" href="#guia" data-follow-area>
-          <img class="postal__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
-          <span class="postal__labels"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
-          <span class="postal__title">Costa Brava</span>
-          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Lista de espera</span></span>
-          <span class="sr-only">. Campamento Open Water, junio de 2027. Apúntate a la lista de espera.</span>
+        <a class="tcard" href="viajes/costa-brava/" data-type="0">
+          <img class="tcard__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
+          <span class="tcard__labels" aria-hidden="true"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
+          <span class="tcard__title" aria-hidden="true">Tu primera vez<br>en la <strong>Costa Brava</strong></span>
+          <span class="tcard__meta" aria-hidden="true">CAMPAMENTO OPEN WATER · JUN 2027</span>
+          <span class="tcard__link" aria-hidden="true">Ver campamento <span>↗</span></span>
+          <span class="sr-only">Campamento Open Water en la Costa Brava, junio de 2027. Ver campamento.</span>
         </a>
-        <a class="postal is-soon" id="postal-1" href="#cartas" data-follow-area>
-          <img class="postal__img" src="assets/img/buzo-cerca.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
-          <span class="postal__labels"><span>EGIPTO</span><span>MAR ROJO</span><span>2027</span></span>
-          <span class="postal__title">Mar Rojo</span>
-          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
-          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        <a class="tcard is-soon" href="#cartas" data-type="1">
+          <img class="tcard__img" src="assets/img/buzo-cerca.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
+          <span class="tcard__labels" aria-hidden="true"><span>EGIPTO</span><span>MAR ROJO</span><span>2027</span></span>
+          <span class="tcard__title" aria-hidden="true">Próximamente<br>en el <strong>Mar Rojo</strong></span>
+          <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · FECHAS POR CONFIRMAR</span>
+          <span class="tcard__link" aria-hidden="true">Avísame cuando abra <span>↗</span></span>
+          <span class="sr-only">Viaje para buceadores al Mar Rojo, próximamente. Avísame cuando abra.</span>
         </a>
-        <a class="postal is-soon" id="postal-2" href="#cartas" data-follow-area>
-          <img class="postal__img" src="assets/img/barcas-arriba.webp" width="600" height="900" alt="" loading="lazy" decoding="async">
-          <span class="postal__labels"><span>ESPAÑA</span><span>BALEARES</span><span>MEDITERRÁNEO</span></span>
-          <span class="postal__title">Mallorca</span>
-          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
-          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
-        </a>
-        <a class="postal is-soon" id="postal-3" href="#cartas" data-follow-area>
-          <img class="postal__img" src="assets/img/buzo-azul.webp" width="469" height="750" alt="" loading="lazy" decoding="async">
-          <span class="postal__labels"><span>ESPAÑA</span><span>CANARIAS</span><span>ATLÁNTICO</span></span>
-          <span class="postal__title">Tenerife</span>
-          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
-          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
-        </a>
-        <a class="postal is-soon" id="postal-4" href="#cartas" data-follow-area>
-          <img class="postal__img" src="assets/img/nadador.webp" width="1536" height="1024" alt="" loading="lazy" decoding="async">
-          <span class="postal__labels"><span>MALDIVAS</span><span>ÍNDICO</span><span>2027</span></span>
-          <span class="postal__title">Maldivas</span>
-          <span class="oval oval--solid postal__oval" data-follow aria-hidden="true"><span>Avísame</span></span>
-          <span class="sr-only">. Próximamente. Avísame cuando abra.</span>
+        <a class="tcard is-soon" href="#cartas" data-type="1">
+          <img class="tcard__img" src="assets/img/velero.webp" width="949" height="957" alt="" loading="lazy" decoding="async">
+          <span class="tcard__labels" aria-hidden="true"><span>MÉXICO</span><span>BAJA CALIFORNIA SUR</span><span>PACÍFICO</span></span>
+          <span class="tcard__title" aria-hidden="true">Próximamente en<br><strong>Baja California Sur</strong></span>
+          <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · FECHAS POR CONFIRMAR</span>
+          <span class="tcard__link" aria-hidden="true">Avísame cuando abra <span>↗</span></span>
+          <span class="sr-only">Viaje para buceadores a Baja California Sur, próximamente. Avísame cuando abra.</span>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- ============ 05 · Manifiesto ============ -->
+  <!-- ============ 04 · Manifiesto ============ -->
   <section class="manifiesto" id="manifiesto" aria-label="Sobre fondo" data-manifiesto>
     <p class="manifiesto__text">
-      <span class="manifiesto__phrase is-active" data-phrase="0" tabindex="0">Nuestros viajes van más allá de sumar inmersiones: son una forma de bajar el ritmo y mirar el mar de cerca.</span>
-      <span class="manifiesto__phrase" data-phrase="1" tabindex="0">Somos buceadores que viajan como les gustaría que viajasen con ellos.</span>
-      <span class="manifiesto__phrase" data-phrase="2" tabindex="0">Viajamos en grupos pequeños, a sitios que conocemos.</span>
+      <span class="manifiesto__phrase is-active" data-phrase="0" tabindex="0">Nuestras experiencias van más allá de sumar inmersiones: son una forma de bajar el ritmo y mirar el mar de cerca.</span>
+      <span class="manifiesto__phrase" data-phrase="1" tabindex="0">Parar, respirar y disfrutar. Un ciclo simple pero no sencillo. Por ello es importante hacerlo con cariño.</span>
     </p>
     <figure class="manifiesto__photo" data-photo aria-hidden="true">
       <img class="is-active" src="assets/img/nadador.webp" width="1536" height="1024" alt="" loading="lazy" decoding="async">
-      <img src="assets/img/velero.webp" width="949" height="957" alt="" loading="lazy" decoding="async">
-      <img src="assets/img/barcas-arriba.webp" width="600" height="900" alt="" loading="lazy" decoding="async">
+      <img src="assets/img/respirar.webp" width="736" height="1104" alt="" loading="lazy" decoding="async">
     </figure>
   </section>
 
-  <!-- ============ 06 · Cómo viajamos ============ -->
+  <!-- ============ 05 · Cómo viajamos ============ -->
   <section class="como" id="como" aria-labelledby="como-title">
     <div class="como__intro">
       <h2 class="como__title" id="como-title">Cómo<br>viajamos</h2>
-      <p class="como__lead">El buceo es la puerta de entrada.<br>Todo lo demás, el motivo para volver.</p>
+      <p class="como__lead">Lo que encontrarás en todas nuestras experiencias</p>
     </div>
     <div class="acc" data-accordion>
       <div class="acc__item">
-        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-1" id="acc-h-1"><span class="acc__num">01</span><span class="acc__title">bucea de forma consciente</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
-        <div class="acc__panel" id="acc-1" role="region" aria-labelledby="acc-h-1"><div class="acc__inner">
-          <p class="acc__body">Disfruta del fondo de forma segura, cuidándote a ti y al entorno. Grupos pequeños, instructores con calma y el tiempo que haga falta en cada inmersión.</p>
-          <p class="acc__tags">Seguridad · Grupos pequeños · Respeto al fondo</p>
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-01" id="acc-h-01"><span class="acc__num">01</span><span class="acc__title">bucea de forma consciente</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-01" role="region" aria-labelledby="acc-h-01"><div class="acc__inner">
+          <p class="acc__body"><strong>Aprende a disfrutar del fondo de forma segura, cuidándote a ti y al entorno.</strong> Grupos pequeños, instructores con experiencia.</p>
+          <p class="acc__tags">Seguridad · Aprendizaje continuo · Respeto al fondo</p>
         </div></div>
       </div>
       <div class="acc__item">
-        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-2" id="acc-h-2"><span class="acc__num">02</span><span class="acc__title">controla tu respiración</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
-        <div class="acc__panel" id="acc-2" role="region" aria-labelledby="acc-h-2"><div class="acc__inner">
-          <p class="acc__body">Aprende a utilizar tu respiración y mejora dentro y fuera del agua. Respirar bien es bucear mejor, gastar menos aire y disfrutar más.</p>
-          <p class="acc__tags">Respiración · Apnea suave · Calma</p>
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-02" id="acc-h-02"><span class="acc__num">02</span><span class="acc__title">entiende tu respiración</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-02" role="region" aria-labelledby="acc-h-02"><div class="acc__inner">
+          <p class="acc__body"><strong>Respirar bien es bucear mejor, gastar menos aire y disfrutar más.</strong> Prácticas de respiración consciente fuera del agua de la mano de nuestros expertos.</p>
+          <p class="acc__tags">Mindfulness · Gestión emocional</p>
         </div></div>
       </div>
       <div class="acc__item is-open">
-        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="true" aria-controls="acc-3" id="acc-h-3"><span class="acc__num">03</span><span class="acc__title">disfruta de la mesa</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
-        <div class="acc__panel" id="acc-3" role="region" aria-labelledby="acc-h-3"><div class="acc__inner">
-          <p class="acc__body">Pensión completa con chef y vino de la zona. Nadie tiene prisa en una sobremesa; en nuestros viajes, tampoco.</p>
-          <div class="acc__aside">
-            <p class="acc__label">EN COSTA BRAVA</p>
-            <p class="acc__list">Chef en casa<br>Vino de la zona<br>Cim i tomba, el sábado</p>
-          </div>
-          <p class="acc__tags">Chef · Producto local · Sobremesa</p>
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="true" aria-controls="acc-03" id="acc-h-03"><span class="acc__num">03</span><span class="acc__title">disfruta de la mesa</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-03" role="region" aria-labelledby="acc-h-03"><div class="acc__inner">
+          <p class="acc__body"><strong>En la mesa no entran las prisas.</strong> Sumérgete en la gastronomía local de la mano de nuestros chefs y colaboradores de la zona.</p>
+          <p class="acc__tags">Chef in-house · Comida local · Sobremesa</p>
         </div></div>
       </div>
       <div class="acc__item">
-        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-4" id="acc-h-4"><span class="acc__num">04</span><span class="acc__title">descansa cerca del mar</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
-        <div class="acc__panel" id="acc-4" role="region" aria-labelledby="acc-h-4"><div class="acc__inner">
-          <p class="acc__body">Elegimos dónde dormir y nos ocupamos de llevarte hasta allí. Casas cerca del agua, para bajar a la cala antes del desayuno.</p>
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-04" id="acc-h-04"><span class="acc__num">04</span><span class="acc__title">conoce a gente como tú</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-04" role="region" aria-labelledby="acc-h-04"><div class="acc__inner">
+          <p class="acc__body"><strong>Comparte unos días y llévate a gente para toda la vida.</strong> Grupos pequeños de personas con las mismas ganas de mar que tú: bajamos juntos, comemos juntos y alargamos la sobremesa. Muchos viajes acaban en un grupo de WhatsApp que sigue planeando el siguiente.</p>
+          <p class="acc__tags">Grupos pequeños · Comunidad · Historias</p>
+        </div></div>
+      </div>
+      <div class="acc__item">
+        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-05" id="acc-h-05"><span class="acc__num">05</span><span class="acc__title">descansa cerca del mar</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
+        <div class="acc__panel" id="acc-05" role="region" aria-labelledby="acc-h-05"><div class="acc__inner">
+          <p class="acc__body"><strong>Elegimos dónde dormir y te ayudamos a llegar hasta allí.</strong> Seleccionamos los lugares con cariño, priorizando tu descanso y el entorno.</p>
           <p class="acc__tags">Alojamiento · Traslados · Cerca del agua</p>
-        </div></div>
-      </div>
-      <div class="acc__item">
-        <h3 class="acc__h"><button class="acc__head" type="button" aria-expanded="false" aria-controls="acc-5" id="acc-h-5"><span class="acc__num">05</span><span class="acc__title">conoce el lugar y su gente</span><span class="acc__sign" aria-hidden="true"></span></button></h3>
-        <div class="acc__panel" id="acc-5" role="region" aria-labelledby="acc-h-5"><div class="acc__inner">
-          <p class="acc__body">Llévate historias más allá del tiempo en el agua: el pescador que te cuenta dónde está el mero, el bar de siempre, el pueblo fuera de temporada.</p>
-          <p class="acc__tags">Gente local · Historias · Pueblos</p>
         </div></div>
       </div>
     </div>
   </section>
 
-  <!-- ============ 07 · Guía Costa Brava ============ -->
+  <!-- ============ 06 · Guía Costa Brava ============ -->
   <section class="guia" id="guia" aria-labelledby="guia-title">
     <div class="guia__panel guia__panel--title">
       <h2 class="guia__vtitle" id="guia-title">Campamento Open Water</h2>
     </div>
-    <div class="guia__panel guia__panel--photo">
-      <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="Barcas de pesca en la orilla, Tossa de Mar" loading="lazy" decoding="async">
-    </div>
-    <a class="guia__panel guia__panel--dest" href="#campamento" data-follow-area>
+    <a class="guia__panel guia__panel--photo" href="viajes/costa-brava/#lista" data-waitlist data-follow-area aria-label="Apúntame a la lista de espera del campamento de la Costa Brava">
+      <img src="assets/img/barcas-rocas.webp" width="736" height="981" alt="" loading="lazy" decoding="async">
+      <span class="oval oval--light guia__oval" data-follow aria-hidden="true"><span>Apúntame a la<br>lista de espera</span></span>
+    </a>
+    <a class="guia__panel guia__panel--dest" href="viajes/costa-brava/#lista" data-waitlist data-follow-area>
       <span class="guia__media">
-        <img class="guia__img" src="assets/img/mascara.webp" width="736" height="981" alt="" loading="lazy" decoding="async">
-        <span class="oval oval--light guia__oval" data-follow aria-hidden="true"><span>Lista de espera</span></span>
+        <img class="guia__img" src="assets/img/bahia.webp" width="1425" height="952" alt="" loading="lazy" decoding="async">
+        <span class="oval oval--light guia__oval" data-follow aria-hidden="true"><span>Apúntame a la<br>lista de espera</span></span>
       </span>
-      <span class="postal__labels"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
+      <span class="guia__labels" aria-hidden="true"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
       <span class="guia__dtitle">Costa Brava</span>
-      <span class="sr-only">. Costa Brava: apúntate a la lista de espera.</span>
+      <span class="guia__dsub">Tu primera vez no puede ser con cualquiera.</span>
+      <span class="sr-only">Apúntame a la lista de espera.</span>
     </a>
     <div class="guia__panel guia__panel--text">
       <p class="guia__coords">41°43′N<br>2°56′E</p>
       <p class="guia__desc">Tossa es un pueblo de pescadores con muralla medieval, calas de agua clara y praderas de posidonia a pocos minutos en barco. Aquí hacemos nuestro primer campamento: cuatro días para aprender a bucear con calma, comer bien y volver con un grupo con el que seguir bajando.</p>
       <div class="guia__foot">
-        <p class="guia__details">Campamento Open Water<br>17-20 jun 2027 · 10&nbsp;plazas · 990&nbsp;€</p>
-        <a class="cta" href="#campamento">Ver el campamento <span aria-hidden="true">↗</span></a>
+        <p class="guia__details">Aprende a bucear en la Costa Brava<br>Jun 2027 · 10&nbsp;plazas</p>
+        <a class="cta" href="viajes/costa-brava/">Ver el campamento <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
 
-  <!-- ============ 08 · ¿Te vienes? ============ -->
+  <!-- ============ 07 · ¿Te vienes? ============ -->
   <section class="tevienes" id="reserva" aria-labelledby="tevienes-title">
     <h2 class="tevienes__text" id="tevienes-title">La primera historia de Fondo, para un grupo pequeño que quiera escribirla con nosotros, ¿te vienes?</h2>
-    <ul class="tevienes__links" role="list">
-      <li><a class="rowlink" href="#" data-todo="formulario de reserva">Cuenta conmigo <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
-      <li><a class="rowlink" href="#viajes">Ya tengo el Open Water <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+    <ul class="tevienes__links rowlinks" role="list">
+      <li><a class="rowlink" href="viajes/costa-brava/#lista" data-waitlist>Cuenta conmigo <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#viajes" data-goto-type="1">Ya tengo el Open Water <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
       <li><a class="rowlink" href="#" data-share>Le interesa a un amigo <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
-      <li><a class="rowlink" href="#" data-todo="enlace de WhatsApp">Tengo alguna pregunta <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#" data-wa="Hola, tengo una pregunta sobre los viajes de Fondo.">Tengo alguna pregunta <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
     </ul>
   </section>
 
-  <!-- ============ 09 · Newsletter ============ -->
+  <!-- ============ 08 · Newsletter ============ -->
   <section class="news" id="cartas" aria-labelledby="news-title">
     <div class="news__block">
       <div class="news__cards" role="list">
@@ -411,9 +351,10 @@
         </article>
       </div>
       <div class="news__side">
-        <p class="news__eyebrow">Cartas desde el fondo</p>
+        <p class="news__eyebrow">Recibe <strong>cartas desde el fondo</strong></p>
         <h2 class="news__title" id="news-title">nuestra newsletter</h2>
-        <p class="news__desc">Historias de mar, próximos viajes y plazas antes que nadie.</p>
+        <p class="news__desc">En Fondo nos encanta el mar, las olas, respirar bajo el agua y <em>ese silencio a veinte metros</em>. El buceo nos lleva lejos y nos acerca a nuevas historias.</p>
+        <p class="news__desc">Recibe cada mes nuestras historias más personales con el mar de fondo, próximos viajes y plazas antes que nadie.</p>
         <form class="field field--dark" data-subscribe novalidate>
           <label class="sr-only" for="nl-email">Tu dirección de email</label>
           <input id="nl-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Tu dirección de email" required>
@@ -424,7 +365,7 @@
     </div>
   </section>
 
-  <!-- ============ 10 · Algo más que inmersiones ============ -->
+  <!-- ============ 09 · Algo más que inmersiones ============ -->
   <section class="marquee" aria-label="Algo más que inmersiones">
     <div class="marquee__track" aria-hidden="true">
       <span class="oval oval--line"><span>Algo más que<br>inmersiones</span></span>
@@ -442,23 +383,20 @@
     </div>
   </section>
 
-  <!-- ============ 11 · Campamento Open Water ============ -->
-  <section class="campamento" id="campamento" aria-labelledby="camp-title">
-    <div class="campamento__text">
-      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>CAMPAMENTO OPEN WATER</p>
-      <h2 class="campamento__title" id="camp-title">Aprende a bucear en la Costa Brava, con certificación real, buena mesa y un grupo con el que seguir buceando.</h2>
-      <div class="campamento__foot">
-        <p class="campamento__meta">Tossa de Mar · 17-20 jun 2027</p>
-        <p class="campamento__body">Cuatro días para sacarte el Open Water en calas del Mediterráneo. Teoría por la mañana, inmersiones por la tarde y cena juntos cada noche. Diez plazas, 990&nbsp;€, reserva con 300&nbsp;€.</p>
-        <a class="cta" href="#reserva">Ver el campamento <span aria-hidden="true">↗</span></a>
-      </div>
+  <!-- ============ 10 · Sobre nosotros ============ -->
+  <section class="equipo" id="equipo" aria-labelledby="equipo-title">
+    <div class="equipo__text">
+      <p class="eyebrow"><span class="dot" aria-hidden="true"></span>Sobre nosotros</p>
+      <h2 class="equipo__title" id="equipo-title"><strong>Queremos salvar el mundo.</strong> La prisa y lo superficial lo han secuestrado.</h2>
+      <p class="equipo__body">Por ello hemos creado Fondo, para gritarle al mundo que la forma en cómo se hacen las cosas sí que importa. Preparamos viajes como los que nos gustaría haber encontrado para nosotros.</p>
+      <a class="cta" href="sobre-nosotros/">Conoce más sobre nosotros <span aria-hidden="true">↗</span></a>
     </div>
-    <img class="campamento__img" src="assets/img/carrera.webp" width="736" height="1308" alt="Dos personas corren hacia el mar al atardecer" loading="lazy" decoding="async">
+    <img class="equipo__img" src="assets/img/carrera.webp" width="736" height="1308" alt="Dos personas corren hacia el mar al atardecer" loading="lazy" decoding="async">
   </section>
 
 </main>
 
-<!-- ============ 12 · Footer ============ -->
+<!-- ============ Footer (el mismo en las tres páginas) ============ -->
 <footer class="footer" data-footer data-follow-area>
   <p class="footer__lema">
     <span class="u-line">Pocos viajes,<svg viewBox="0 0 243 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C48.6 3.18 109.35 10.18 170.1 6.18C230.85 2.18 223.56 4.18 241 8.18"/></svg></span>
@@ -487,7 +425,7 @@
         <li><a href="#top">Home</a></li>
         <li><a href="#viajes">Viajes</a></li>
         <li><a href="#como">Cómo viajamos</a></li>
-        <li><a href="#manifiesto">Sobre fondo</a></li>
+        <li><a href="sobre-nosotros/">Sobre fondo</a></li>
         <li><a href="#cartas">Cartas</a></li>
       </ul>
     </div>
@@ -495,7 +433,7 @@
       <p class="footer__label">CONÓCENOS</p>
       <ul role="list">
         <li><a href="#" data-todo="perfil de Instagram">Instagram</a></li>
-        <li><a href="#" data-todo="enlace de WhatsApp">WhatsApp</a></li>
+        <li><a href="#" data-wa="Hola, Fondo.">WhatsApp</a></li>
       </ul>
     </div>
   </nav>
@@ -507,6 +445,37 @@
     <p><a href="#" data-todo="aviso legal">AVISO LEGAL</a> · <a href="#" data-todo="privacidad">PRIVACIDAD</a> · <a href="#" data-todo="cookies">COOKIES</a></p>
   </div>
 </footer>
+</div>
+
+<!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============ -->
+<div class="wl" id="lista" role="dialog" aria-modal="true" aria-labelledby="wl-title" aria-hidden="true" data-wl>
+  <div class="wl__overlay" data-wl-close></div>
+  <button class="wl__close" type="button" aria-label="Cerrar formulario" data-wl-close><span aria-hidden="true">×</span></button>
+  <div class="wl__panel">
+    <p class="wl__kicker">Costa Brava&nbsp; / &nbsp;Junio 2027</p>
+    <h2 class="wl__title" id="wl-title">Tu primera vez te espera <strong>en el fondo.</strong></h2>
+    <p class="wl__intro">Déjanos tus datos y te avisaremos antes que a nadie cuando abramos las plazas. El mar puede esperar. Tú no.</p>
+    <p class="wl__trip">Tossa de Mar · Open Water · 4 días, 3 noches</p>
+    <form class="wl__form" novalidate>
+      <input type="hidden" name="viaje" value="Campamento Open Water · Costa Brava · Junio 2027">
+      <p class="wl__fieldset-head"><span>Empezamos por conocernos</span><span>* Obligatorio</span></p>
+      <div class="wl__grid">
+        <label><span>Nombre *</span><input type="text" name="nombre" autocomplete="given-name" placeholder="Tu nombre" required></label>
+        <label><span>Apellidos *</span><input type="text" name="apellidos" autocomplete="family-name" placeholder="Tus apellidos" required></label>
+        <label class="is-wide"><span>Email *</span><input type="email" name="email" inputmode="email" autocomplete="email" placeholder="hola@ejemplo.com" required></label>
+        <label><span>Ciudad</span><input type="text" name="ciudad" autocomplete="address-level2" placeholder="¿Desde dónde vienes?"></label>
+        <label><span>Teléfono</span><input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000"></label>
+      </div>
+      <label class="wl__check"><input type="checkbox" name="privacidad" required><span>He leído y acepto la <a href="#" data-todo="política de privacidad">política de privacidad</a>.*</span></label>
+      <button class="wl__submit" type="submit">Apúntame a la lista de espera</button>
+      <p class="wl__msg" role="alert" aria-live="assertive"></p>
+      <p class="wl__note">Sin compromiso. Te avisaremos de las fechas y el precio muy pronto.</p>
+    </form>
+    <div class="wl__done" role="status">
+      <p class="wl__done-title" tabindex="-1">Estás en la lista. <strong>Nos vemos en el fondo.</strong></p>
+      <p>Te escribiremos antes que a nadie cuando abramos las plazas. Mientras, si tienes alguna duda, <a href="#" data-wa="Hola, me he apuntado a la lista de espera del campamento de la Costa Brava y tengo una pregunta." style="text-decoration:underline">escríbenos por WhatsApp</a>.</p>
+    </div>
+  </div>
 </div>
 
 <div class="toast" role="status" aria-live="polite" data-toast></div>

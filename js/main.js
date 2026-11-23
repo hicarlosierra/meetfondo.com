@@ -1,5 +1,5 @@
 /* =========================================================================
-   FONDO · Landing v3 · Interacciones
+   FONDO · Web v4 · Interacciones (home, viaje y sobre nosotros)
    Sin dependencias. Cada bloque es independiente.
    Las interacciones de cursor solo se activan con ratón (hover + pointer fine).
    ========================================================================= */
@@ -15,6 +15,13 @@
   const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
   const isMouse = (e) => e.pointerType === 'mouse' && mqFine.matches;
   const smooth = () => (mqReduce.matches ? 'auto' : 'smooth');
+
+  /* ---------- Ajustes ----------
+     whatsapp: número con prefijo y sin «+» ni espacios (p. ej. '34600000000').
+               Vacío: WhatsApp abre con el texto y deja elegir el contacto.
+     formEndpoint: dirección a la que se envía la lista de espera (POST).
+               Vacío: el formulario se valida y da las gracias, pero no envía nada. */
+  const FONDO = { whatsapp: '', formEndpoint: '' };
 
   /* ---------- Toast ---------- */
   const toastEl = $('[data-toast]');
@@ -71,12 +78,7 @@
        parpadea. Se generan con ffmpeg (ver README). Si un vídeo no tiene mapa, se lee el
        fotograma actual. */
     const VIDEO_LUM = {
-      buzo: { d: 'PCxCWl9yeHZ8aUw9KiEgHiUpJCwtZVa6LygzV2t2eXh8XCssIBoZGSMhIy0qQZCiIx0qQm14enhvTSgiJxwaGBwhIDAgJKekIRkqMGp4fHJfXCMdJRkXHhweIiYlMpWPICIpOmh5fXJxJx0aHhsZIh8eISUcOZ9yHycuNl92dnN3LiIhGhwfIR4fHikoPlx7FR4oNU93eHRoNiofIxsdGh4ZGCUnTmZyGiMsNll3eHVsMi0bHhcYFxYaGiQqRmRmIisxQEp3d3VeSCshGhsVFRQWGyAjOF1fJi01SFJxeXVePyohGRgVFRMVGyMhM0tSJi0zOENyeXRhMSgiGRYVFRQYFyAkKThQJicvN0Zld2ZaMykmGBUUFBMVExcgICVCJCYvMkhccklcOCwrFhQUExMTExMbGx4+IScvMkZZWUBbSjInGBYUExMTEhITFRs8HyYwN0JPSk9QVTEnGBUUExISEhISFBg6ISw0OUJVSEpaWTEpHBQTExISEhESFB4vHyk0PEpXTEtWTyUuHBUTEhIRERERFBgfHio2PVNVSUNHUCclHRMSExIRERARExcuHSw3QVlfUEpITDYiFhYUEhERERERERQfHDI5QVFfYlFVV0grGxMTEREQEBAQERQqIzQ8REloZFdLVU0zHRMSERAQEBAQEBczJS82QVFraVFTW0wlFxMRERAQEBAQEBc5JC81QFhtcWBWYF8tFRIREBAQEBAQEBU7KzEySVdycGVkY2AsFhIREBAQEBAQEBg5', m: 'eHp7e3hmYFM7NjMzKykoKBweGx4hGBkbeHx8emtaSDorKCUnIx4eHx4aGBgXGRcYdHZxcV5AQSsoISAfGCMkHRwaGBYXGBcWdGxwXj9BOSUhJB0aHiAlJRwYGBgXFhYXaXB0YikkIyQhHxsbGRwgHhgYGRcXGBkccXV3azQtKCEfGh0gIR0cGBobGBcXGx4ccHZtPTQzLiklIiAcHh8gHRsXFxcYGRoXVHNuUjEwMTMqJh8aGxsaGRgWFxYXFhYWcW9hcDQ0OjUpKCgZGRkXFxgZGBcVFRUVY2prUFUwLyspJiQhGhwZFxgXFxUUFBQVbGtiVUAvLCsoJCQfGhoZGRcXFRUUFBQUb2NdUDEtMCspKSooHxkXFxYVFBUVFBQUW2dgRkQvKywtKSkrIRsVFRQUFBQUFBQUQFdcSkY9Piw0KSYqJBgXFRQVFBQUFBMTRklWWF5QRDw5LColHRkYFRUUFRQUExMTUFlRYl5WW0ksLC0pJCIgFRQVFBMTExMTRElOV1tLPyoiKykvKCYfFxUUExQTExMSMT9PVVhRNjcpJi0oIh8eFxcUFBQSEhMTOzxDUFc5SjsyKiUjHhYUFRQTExMTEhISTVNQV11fV0Q+PyQlHh0WFxISExISExIRVFFIRlpWT0c7PCwsHRsXExQTEhISEhIRQ01TUVBSWV9UNTsiGhcXGBMTEhESEREQXldVYWJjX2hkQj8kGRYUExMRERERERAQZ2RdZGViZGVkUjMiFxQUFBMRERIREBAQ' },
-      cueva: { d: 'CAkLDhASFRgbHiElKCoqKiknJSIgHhwaCQsNEBMVGR0gJCgsLzExMC4sKickIR8cCw0QEhYaHyMpLTI2ODk5ODczLywpJiIfDRASFRofJSsyOD1AQUFCQT87NzIuKiYiDhEUGR4lLDU8QkdLTE1OTUpFPzk0LiklDxIXHCMrNz1FTVNXWltcW1hRSUE7NC0oERUaICcxP0dRV2BnbG1ubWlgVUxBOTErExgdJCw4SVRhZ295gYKDhH9vY1VIPjYuFRogKDNCVWR2eoqSoKClqaKGcl9QRDoxGR4kLDhMY22bprO4vcDAvrWkgGtZSj41GyEmMjtScYWavsfIycnHxL+yknliUEE3GyIpOEJRc5eYvMvMzMvKx8S8rY9tVkU6GyIsPFRYe4+fu8rLzMvKyMW/t6d6W0g7GyItPlZme4mov8bJysnIxsO/uK2HYEs9HCIuPlFkdYmot7/DxcXDwsC8tquQZE0+HCMuO0hXZXWFmKy5vr6+vbq2r6WRZ08/HCMsNUBLWGZyfoygsLS1s6+on5OAZE9AGyIpMDlDTVhjbnmFlKGlopyUi39wXk5BGyAmLDQ8RU5XYGp1gIqQkIyGfnNnWUxAGh4kKS83PkZOVl5ocXuBgoB7dGpgVUk/GR0hJiwyOT9GTVVdZm5zdXRwa2JZUEY+GBsfJCkuNDo/RkxUW2NoampnYltUTEM8FxoeIiYrMDU7QEVMU1ldX19dWlVOR0A6FhkcHyQoLDE2O0BFS1BUVlZVU09JQz44', m: 'EhMUFBUXGBkZGhscHR4fICEiJCUnJygpFRYYGRocHR4fICEiIyQlJygpKywuLy8wGhwdHyAhIiQmKCkrLC0xMTEzNTY3Nzg4HyEjJCYoKiwuMTM1Njk9PD0+QEBAQUFBJCcpKy8yNDc4Oj0+QEJFRUdISktLTExNKy4zNzk6PD4/Q0dJSk1OUFJUVldZWVpbMDQ6P0FDRUlMUFNUVlhbXWBjZmdpa2xtODxCSExPUlZbYGNkZGdqaW5zdnl+gIGCQUdNVFhdX2dtc3l9eHiBhomMjpKYn6CfSlJZYWlmZ22FkqGiqamosLW3ubO5vLy/UlddaICSgIGLkJ2uvsLExsfHyMfIycnJTFlhbn6Sn5WLjZOmt8TIysvLzMzMzMzLU15xeIWLk5eZnqSsssHIycrLy8vLzMzMZ2hyeYCHi5Cena2wu8HExcbHyMnJysrKY2lvc3l/ho2ZpKuwtLi7vb/BwsPExMXFVltfZGhtcnh9g4eMkpmgp62zt7m8vb6+S09TV1pfY2htcHR4e4CDh4yRmKCmq7CyQkVJTFBTV1pdYWVoa29ydnl9gYWJjZKYPD5BREdKTVBTVllbXmFkZ2tucXR4e3+CNjk7PUBCREdKTE9RVFZZXF5hZWhrbnBzMjQ2ODo8PkBCREdJS05QUlVXWl1gYmVoLi8xMzU3OTs9PkBCREZISk1PUlRWWVteKiwuLzEzNDY4Ojs9P0BCREZISkxOUVNVKCkqLC0vMDI0NTc4Ojs9PkBBQ0VHSUtM' },
-      pared: { d: 'OD1DTVlwwuLj4dfMyb24t7Wxq6Sem5aSNTk/SVRmp9La19DGwbSvr66ppaCblpOOMzY8RE9glLK/w8S7t66pqKejn5uWk4+LMDQ4QEpZgaKtsratr6iioqKdmZaTjouILjE1PEVTcZWfp62ipaKcnJyXlJKPi4iEKy4zOUFNYoeRmaWam5mVlZSRj42LiIOBKSwyNz5GV3eFj5qVkZKPj46LiomGg4B9KCowNTtBT2Z5hJCOiYqIiIeFhIOBgH15JyktMzg+SFtueoWHgoaCgYGAf359fHp1JygqMTU7Q1JhbXp+fIB7ent8e3p5eHZyJygpLTM3PktXY3N4cnlvcXN0dXRzc3FuJycoKjA2OkNOXWxvaGJQZGttb3Bvb25rJycnKS0zNj9GVF9ZVEk5UGVnaWtqamppJycnKCswMzlASlA6QjQkQVxiY2ZnZ2ZkJycnJyktMTU7QkdGQy8nMVZdX2JiYmFhKCcnJygqLjI4PEJERUI3R1ZZWl5eXl5eKSgnJycpKy81OD0/QURGR1BVVllaWlpaKikoJycoKS0yNTg7PkFCRUxSU1ZXV1dXKSkoJiYnKCswMjY4Oz5CRUpPUVJUVFRUKCgoJyYmJykuMDI1ODw/QUhMTk9QUVFRKSkoJyYmJigsLjAzNzk7P0dJS0xNTk5OKiooKCYmJigrLC4wNDY4PUNISUpLS0tLKispKCcnJicqLC0uMTU3Oj5DRkhJSkpKKywrKCcmJicqKywtMDI1OTw/REZGSEhI', m: '0s/Ly8rJyMK+vLq4t7i4t7e2tbSzsbGvzcrGxMLBwby1s7Kwr6+ur6+vr6yqqamnwLy6ubi2uLSwrKqqqaioqKiop6alpKKgtKysra6sr62opaSjoqGhoqOjoqCfnp2brKWgoKKipaWinpycnJubnJ2cnJuZl5aVo6GYl5iZmpubmJWUlZWVlZaWlZSTkZGQnpyVj4+PkJGRkZCPjo+Pj4+Pjo2MjIuKkpKQiYiIiYqKi4mJiIiIiImIiIeGhoWFhoiJgICBgoSEhoSCgoCBgYGCgYGAgICAe3x/dnd7fX+AgIB+enp6ent7e3t7e3x8dXh5dXBwc3V3eXZxaW5wc3Rzc3NzdHR1cHVwcmpoZ2doX1tMTUZYZmlqa2tsbW1uZV5QXFpPU1hWQ0A4OjpBUlVcZGVlZ2hoUkU3NkE8QUs4KCYjJCwrPUFPX2BhYmJjR0hFQ0dDQTw0KicmJyorMS1AWltdXV1eQ0VDQ0ZFREVFPzkzNzs/REtTV1dYWFlaPj5AP0BBQUJERkZFRkdISEtNUVVUVVVWOTo6Ozw9Pj9AQkJDQkNER0lKTE9RUlJTNjc4ODk6Oz0+P0BBQkNERUZJSUtNT09QMzQ1Njc4OTo7PD0+P0BBQUNHSElKS01NMTIyNDY3Nzg4OTk6Ozw+P0JFRkhJSUpLLy8wMTIzNDU2Njc4OTo7PT9AQkRGR0hILS4uLzAxMjM0NTY2Nzg5Ojw8PkBBQkRFLC0tLi8vMDEyMzQ1NTY3OTo7Ozw9P0BB' },
-      mar: { d: 'f35/fn+CgIB+gX1+gn55eXd2c3Rzcm9vent8eX19fX17foF/enh2dnt8d3h4d3l1fH18fXx2foB8fn16eHp3d3d2dnJvcW9wgX5/f31+ent5dnp6cm90dXNvcXFta2xvbm1xc3Bta2xrbGxqbGt0bGlrZ2NcW15ab2xrbmhoam5wbm5sbW1raGhmZWJgYV1YZ2ZoanVzbmppaW1tcm1ycm5sbGVfZGFeamxyc3N4dXFucXJ1e3Rvc3NsaWxlaGhic3VwcHV2eXd0cXFzdXFubWpnZmBiZGFjbm5vbHBwcnZxcWpsbmdlZWRgXGBkZmhjbmxvcG5ta21ra2psamhkamxhYmFhaGFlbm1va2pnZGRpZmdlamprY2ZjYF5hZmRiamloZGNmaWdnaWpoaGZjYmNjZWFjYmBfbmxsa2RmY2dkaWRhYGVpZGZjZV5hXF9bbWpnZmZjYWNmZmNdY2VgZ2RXW1tcWltWZWdkZ2ZlZWRma2dpZV5eXmdfWlxaW1lWZWJiZWNeYGJeZ2dpZ15bXGJbXFpcXVNRZGNjYmJkYGBhYVpbWFxeY2BgXVtgV1VWY2FiXVpZWltdW15eX2BhY2JeW1ZXVFBQX1xgZF5VXF1eWVRbWlRVVVleXVpUUVBPW1pYXFpfYlxaWFZaXFZRUVlZWlZYS05RVllZXVxXWVdaXVtcWl9dWVVUU1FUVVBUVVVTUldSU1lUUVJaWk9UV1JRVFZOVE1IVlRUU1JYWVNUVVdWVFBSTVBRSkdLUElL', m: 'fX+AgoKBf31+e32CgoOAgH9+eHp6eXl4e3l8fn+AgIOAgH97fHp5dnp4d3V1dnZ3fXt7fH5/fX5+fXl4dnd6e3t4d3Z2eHl3eXl5dHZ4enx7fXt5dHNycG9xcnR0dnd3ampsbmtsbGxtbWxpamtsa2xtcXFzc25rdG9ucW9tbmxqa25ra25vbW5ubmxsbWlna2pnaGdrbW1sbnBucHFwb21uc29vcXJzb25xc3Jyc3JydXZ3e3t6dnR1cnJwcHVzdnN0c3Rxcm52c3N1dXN3cXFxdG1ubW5scG92c29sbWxtb2tram9ta2dnZWNlY2NjbGlubGppam1ubWxpaGpqaWhnZ2VmaGtpaWtmZWVqaGZkZmZmZmlvbmloaWlqaWNjampmZ2poaGZqaWhpa2llYmZmZmZhYWRkY2ZmZ2pmX2FkY19iZF5iY2NnaGtqZWRmaGdqaWpjYmJeYGBfY2RkZWRhYmBhZWdpZ2VmZ2xpaGdmaWlraGZlYllaXl1eYFpjYl9hZ2ZjZWVmaGxqa2hgXl5cW1xcXFxeY19fYmNhW1xbX1taV1hWWVtfX11gYWJjX1pfXFlVWmBcXF9iXl5dYGFeYWVjYGFlXVxcWVdVU1VXWFtcXVxaV1RXU1JUVVNWWlhZWlpaVldSWFlgXF1bW1dUVVJNUlFTV15cXV1fW1taXFxcWltZXGFeXV1dWllXVVNTUVJVU1NTV1tXVFpaVVBST1JWWFNWVVRUUlNQWFZVVlZYVVZWVFBPUVRTT1FQ' },
-      santorini: { d: 'v8jN0dTX2Nra2tjX1tTRzsrHwr65tK6lxMvQ1NfZ2tzd3Nva2NbTz8zIxMC7trCox87S1tnb3d7f3t3c2tjV0c7KxcG8uLKry9HW2dve3+Dh4N7d29rX08/Lx8K9uLOtztPY297g4eLj4eDe3NzZ1NHMx8O/urSv0Nba3eDi4+Tl466u2dza19LOysXBu7aw09jc4OLk5ebm23Zwn93a1tXQy8fCvbix1dre4OPl5+joyEtBa9Xb1tLRzcjDvriy0dvf4uTm6Onjo0g+RpjCytPRzMfCvbiyr8nR0tPT1t/JY0A9QV5+gNLRy8bBvLexha3AxMPExs+xQjg8SUlAPrDPysbBvLaxYqq9wMLExcOlRTY4QkNAOIexsrSzsaqiLY62vMDCw76jQzk8RUA/RHqeop+gnZeRIGOws7i6vLikRzxBR0ZASY6XoJyYkYyIHkOZrLS2uLalSEBATUtGS4+XmZiWkIqFHS2MpKyvsrGiVkdHT1JXaIyVlZGQi4iEHCF2pKqqsKuUZU5OYWNrdYqPko+LiIJ+Hy5moKakp6Nvc1tVb2xweoOEioyIhH55ITiEkp2aiox2e2Jhb3V4e4GDg4iDfnl0IzZ/h5GDcHhxe2tmb2Jrdn+CgX56d3RwKE92iot7cmxYeGpna2Frdn1+fHZ0b2xnLmeBioh0b2RRdm1naV5mcXVzdXNtaWdgPnZ7g4N0al1TcmlkZFNVYGlsbWpoZWFaXFpxfXVwaF9ZbWdgXkxRTEtoZGFeXVlT', m: '2tra2tnZ2djY2NfX19fW1dTT09LRz87N3d3c3Nzb29vb2trZ2djY19bV1NTS0dDP39/f3t7e3d3d3dzb2tra2djX1tXU09LR4eHg4ODg3t7e3d3c3Nvb2trZ2NfW1dTS4+Pi4uHh4N/f397e3dzc3dzb2tnY19XU5eXl5OPivaObnazL2NLd3d3c29va2dfW5+bm5uSyg1xfVWeHkZG43t7d3NvZ2NfW6Ojo59BqTUdMQT0/QVSEu9ne3dzb2dfV6ubFuZFFRklLPzs7PEBLc5CoucHGy8TH6MF/bkxCPT9CQjw4OT9ISlJjdH6Agnx/yqBPSUY2Njk8QTs4OkJWSUtKQkI/PDw8vZlNU0U1NDc3Ojc4OUFFQkBDRj8/ODs3uY5SSjxAOTo4Ojs8PkdFQzw+Rj1BQkFAsZdVTkZBPDw+REE/QEpLR0NFRj9CRkRCsJdbUkhHP0E9REA/S09SS0xQS0RHSkpLqpltXk1NR0dFSUdGTlBVVFJSVE5bYWVoo4t+bGBTT05OUUtNXmBgY2JhYGJvcHN1el56eGtkXVhVV1VUa21taW1sbW1zdXd6hGBxfXVoY2FeX2FjbG5wcXJ2dnl2eHl7c2SBfnZwbWlkYmVmbW5vaWFhYGtzc3V2VEx+fHZwa2lnaGRobmlsaWJfXWhxdHR3TkBvenRzbmppZ2FpbGVoaGBZZGRvb3BxV0duc3Vva2ZlZF1lZ2FgYlVNVFVaXWFiW09XbW5qZ2djYVdiYlxWU0xHSktFRUlX' },
-      playa: { d: 'LCYzSUBqj5OXm5qfo6uoqq2ws7W2t7i4SUAwNTpfh5OXmp6ho6iqsbC4tbe4ubm6WEtQRTxJb36SmZ+ipKmus7zIubi6uru9Y19ga1hQSlp0e4yhpKmttLjEuru8vb6+YWprd2xIPDVlbXiRlJOYr7e/vL6+w8fCYWxqWnhRQD1RZWx0gISKmLG6vr/AxcbDaWNdZWlxVXVTVGRkZniAiIuVpLzBwsLCbHp5enljZJmwiWZbW2VxgoOLiZW/wsPCdIJ9moJzXo+silxYV19sbXd/gYSitMDDdnRJZH9jSk5WWl5RXVxgZWp2enqHj5WlbHhnN2pOM0tOL1FGgmxXZWNpeHN4gYaJX21UN19gYmtURFlkg2BWWmhkaW1wdnt/aG1xX0pZgo5zblNSVF1uWGZuaGVpcnN0mq+ghIFlf3VkX2RVQWtuUFtvY19gZGxzkICKmJSKf3RiV3Jue4N0YmRxdXZ3e36ErLGgpZqUhoJ3bW5wcHNxc3h8foF+jouOZ3p/Z3N6hXh5b3OgmXxxb3V7fH+DhoiKjp+ad2Bpa2NybmqEmoV8dnl/gICDhYaHa3pwYVldXWJocICVc3Rydnd5eHl8f4GBW1tZV1pbWltbeK+de3VzcXJ0dHR4eXt7UVJWV1VTVlhfbZd3bmtubnBxcXBxdHZ4WFNUU1JTVVptrKFvbm9wbm5ubm1tbnB6TU9QUFFRXGd9lXRsbW5vcHBtaWhqa3p1S01NT09PWHN3f3d/hH5/gXdxaWdcUVAv', m: 'jo+PkZKTlJWWm52bmZqam5yeoKGio6WrfYKIj5KTlJaXmZqampucoaChoaKio6aoVW1zc3d/hYuTl5iZmpueoqGhoqKjpKaoQEFOV1VUZ3FxeXh7fYCDlaChoaKjpKaoPzpFKyUzRF9qZ2xsbXF2dImQlJSTlJWUNDdFSzY4RUVNXGdhZmlqbnBzdnh+hICBak9JaHB8cVVbSkhRXF1fbWlkYmNhaWt7dWdTZH6mr7KtsK2OZF1hcmBcW1hcWl1hb3RLRmufpaKxsKWLfUdRcWJVWlhXVlheQ05RNTlZXV9WS0ZXaWBzUzRCWHNgUVJYMjAvQU5HTEtXSiouNDtLW044S3GSe3FqWGVdfY5LTEBYZEZBRFZRUGxSaHlzkIVhdZBgorRtdG1xe3l0ZWhRQ0xPUFhCXV1bcnxzoINjbWJac3xlQV13WVNSYE44N1lnmXx5jn5rZ2hXZHJRRGODZ2xqbn1ue4mSloh1hY54f398b3BocWt9Z3BocW1idHxzi4qBhnhwenx6c21zb2tqcJmpppWVl5GAcWtuY2RkYWZ0d217b2Bhanh+hY2Wo5qIXFxcX2BfZnFkanp/c2VxiaGXg3dtdnNyWlpaW1tbXFxdWV1oiae0xb+qkHx7fXt3VFVWWFlZV1dbY2JibIeSkX90cXFubGpqVFVVVldYYmVtboKqurisfHBsb21vbWxuUlRhYmBpbG13e4uRkH50bWxqa21sbG1rUFVUYnByc3J8fn6AeXt0eHt8fYSEf35/' }
+      buzo: { d: 'PCxCWl9yeHZ8aUw9KiEgHiUpJCwtZVa6LygzV2t2eXh8XCssIBoZGSMhIy0qQZCiIx0qQm14enhvTSgiJxwaGBwhIDAgJKekIRkqMGp4fHJfXCMdJRkXHhweIiYlMpWPICIpOmh5fXJxJx0aHhsZIh8eISUcOZ9yHycuNl92dnN3LiIhGhwfIR4fHikoPlx7FR4oNU93eHRoNiofIxsdGh4ZGCUnTmZyGiMsNll3eHVsMi0bHhcYFxYaGiQqRmRmIisxQEp3d3VeSCshGhsVFRQWGyAjOF1fJi01SFJxeXVePyohGRgVFRMVGyMhM0tSJi0zOENyeXRhMSgiGRYVFRQYFyAkKThQJicvN0Zld2ZaMykmGBUUFBMVExcgICVCJCYvMkhccklcOCwrFhQUExMTExMbGx4+IScvMkZZWUBbSjInGBYUExMTEhITFRs8HyYwN0JPSk9QVTEnGBUUExISEhISFBg6ISw0OUJVSEpaWTEpHBQTExISEhESFB4vHyk0PEpXTEtWTyUuHBUTEhIRERERFBgfHio2PVNVSUNHUCclHRMSExIRERARExcuHSw3QVlfUEpITDYiFhYUEhERERERERQfHDI5QVFfYlFVV0grGxMTEREQEBAQERQqIzQ8REloZFdLVU0zHRMSERAQEBAQEBczJS82QVFraVFTW0wlFxMRERAQEBAQEBc5JC81QFhtcWBWYF8tFRIREBAQEBAQEBU7KzEySVdycGVkY2AsFhIREBAQEBAQEBg5', m: 'eHp7e3hmYFM7NjMzKykoKBweGx4hGBkbeHx8emtaSDorKCUnIx4eHx4aGBgXGRcYdHZxcV5AQSsoISAfGCMkHRwaGBYXGBcWdGxwXj9BOSUhJB0aHiAlJRwYGBgXFhYXaXB0YikkIyQhHxsbGRwgHhgYGRcXGBkccXV3azQtKCEfGh0gIR0cGBobGBcXGx4ccHZtPTQzLiklIiAcHh8gHRsXFxcYGRoXVHNuUjEwMTMqJh8aGxsaGRgWFxYXFhYWcW9hcDQ0OjUpKCgZGRkXFxgZGBcVFRUVY2prUFUwLyspJiQhGhwZFxgXFxUUFBQVbGtiVUAvLCsoJCQfGhoZGRcXFRUUFBQUb2NdUDEtMCspKSooHxkXFxYVFBUVFBQUW2dgRkQvKywtKSkrIRsVFRQUFBQUFBQUQFdcSkY9Piw0KSYqJBgXFRQVFBQUFBMTRklWWF5QRDw5LColHRkYFRUUFRQUExMTUFlRYl5WW0ksLC0pJCIgFRQVFBMTExMTRElOV1tLPyoiKykvKCYfFxUUExQTExMSMT9PVVhRNjcpJi0oIh8eFxcUFBQSEhMTOzxDUFc5SjsyKiUjHhYUFRQTExMTEhISTVNQV11fV0Q+PyQlHh0WFxISExISExIRVFFIRlpWT0c7PCwsHRsXExQTEhISEhIRQ01TUVBSWV9UNTsiGhcXGBMTEhESEREQXldVYWJjX2hkQj8kGRYUExMRERERERAQZ2RdZGViZGVkUjMiFxQUFBMRERIREBAQ' }
     };
     const decodedLum = {};
     const videoKey = (v) => (/-movil/.test(v.currentSrc || v.getAttribute('src') || v.poster || '') ? 'm' : 'd');
@@ -255,81 +257,31 @@
     document.addEventListener('visibilitychange', () => { if (!document.hidden && v.getBoundingClientRect().bottom > 0) play(); });
   });
 
-  /* =======================================================================
-     1c. PRUEBAS · Selector de vídeo del hero (puntos a la izquierda)
-         Un punto por vídeo; al pulsar cambia el vídeo y la dirección
-         (?video=NOMBRE), para poder pasar el enlace de uno concreto.
-     ======================================================================= */
-  (() => {
-    const nav = $('[data-vpick]');
-    const api = window.fondoHeroVideo;
-    const v = $('[data-hero-video]');
-    if (!nav || !api || !v) return;
-    const btns = api.list.map((item, i) => {
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'vpick__dot';
-      b.dataset.id = item.id;
-      b.setAttribute('aria-label', `Vídeo ${i + 1}: ${item.name}`);
-      b.addEventListener('click', () => {
-        if (v.dataset.video === item.id) return;
-        api.play(item.id);
-        btns.forEach((x) => x.setAttribute('aria-current', String(x === b)));
-        const url = new URL(location.href);
-        url.searchParams.set('video', item.id);
-        history.replaceState(null, '', url);
-        dispatchEvent(new Event('resize'));          // la cabecera vuelve a mirar el fondo
-      });
-      nav.appendChild(b);
-      return b;
-    });
-    btns.forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === v.dataset.video)));
-  })();
-
-  /* =======================================================================
-     2. «GIF» del faro: secuencia de fotos (1,5 s por foto, fundido 300 ms).
-        Sustituible por <video autoplay muted loop playsinline>.
-     ======================================================================= */
-  $$('[data-slideshow]').forEach((box) => {
-    const imgs = $$('img', box);
-    if (imgs.length < 2) return;
-    let i = 0, timer = null;
-    const start = () => {
-      if (timer || mqReduce.matches) return;
-      timer = setInterval(() => {
-        imgs[i].classList.remove('is-active');
-        i = (i + 1) % imgs.length;
-        imgs[i].classList.add('is-active');
-      }, 1500);
-    };
-    const stop = () => { clearInterval(timer); timer = null; };
-    new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop())).observe(box);
-  });
 
   /* =======================================================================
      3. Viajes
-        Desktop: la sección se queda fija; cada paso de scroll activa el
-        siguiente destino y mueve la tira de postales.
-        Mobile / pantallas bajas: carrusel horizontal sincronizado con la lista.
+        Desktop: la sección se queda fija; cada paso de scroll (con snap suave,
+        la «fricción») sube la tira de tarjetas y marca a la izquierda el tipo
+        de viaje de la tarjeta activa. Clic en un tipo lleva a su primer viaje.
+        Mobile / pantallas bajas: carrusel horizontal sincronizado con los tipos.
      ======================================================================= */
   (() => {
     const sec = $('[data-viajes]');
     if (!sec) return;
-    const items = $$('.viajes__item', sec);
     const strip = $('[data-strip]', sec);
-    const cards = $$('.postal', strip);
-    const n = items.length;
+    const cards = $$('.tcard', strip);
+    const filters = $$('[data-filter]', sec);
+    const n = cards.length;
+    const typeOf = (i) => Number(cards[i].dataset.type || 0);
     let active = -1;
 
     const setActive = (i) => {
       if (i === active) return;
       active = i;
-      items.forEach((b, k) => {
-        b.classList.toggle('is-active', k === i);
-        b.setAttribute('aria-current', k === i ? 'true' : 'false');
-      });
       cards.forEach((c, k) => c.classList.toggle('is-current', k === i));
       strip.style.setProperty('--i', i);
+      const t = typeOf(i);
+      filters.forEach((f) => f.setAttribute('aria-pressed', String(Number(f.dataset.filter) === t)));
     };
     setActive(0);
 
@@ -350,29 +302,40 @@
     addEventListener('resize', onScroll);
     onScroll();
 
-    const goTo = (i) => {
+    const goTo = (i, { fromOutside = false } = {}) => {
       if (mqStage.matches) {
         scrollTo({ top: secTop() + (range() * i) / (n - 1), behavior: smooth() });
       } else {
+        if (fromOutside) sec.scrollIntoView({ behavior: smooth(), block: 'start' });
         const pad = parseFloat(getComputedStyle(strip).paddingLeft) || 0;
         strip.scrollTo({ left: cards[i].offsetLeft - pad, behavior: smooth() });
         setActive(i);
       }
     };
-    items.forEach((b, i) => b.addEventListener('click', () => goTo(i)));
+    const firstOfType = (t) => Math.max(0, cards.findIndex((c, k) => typeOf(k) === t));
+    filters.forEach((f) => f.addEventListener('click', () => goTo(firstOfType(Number(f.dataset.filter)))));
     cards.forEach((c, i) => c.addEventListener('focus', () => { if (mqStage.matches && i !== active) goTo(i); }));
 
-    const io = new IntersectionObserver((entries) => {
+    // Enlaces de fuera que llevan a un tipo de viaje («Ya tengo el Open Water»)
+    $$('[data-goto-type]').forEach((a) => a.addEventListener('click', (e) => {
+      e.preventDefault();
+      goTo(firstOfType(Number(a.dataset.gotoType)), { fromOutside: true });
+    }));
+
+    // Carrusel: la tarjeta activa es la que queda alineada a la izquierda (o la última al llegar al final)
+    strip.addEventListener('scroll', () => requestAnimationFrame(() => {
       if (mqStage.matches) return;
-      entries.forEach((e) => { if (e.isIntersecting) setActive(cards.indexOf(e.target)); });
-    }, { root: strip, threshold: 0.6 });
-    cards.forEach((c) => io.observe(c));
+      const max = strip.scrollWidth - strip.clientWidth;
+      const step = cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : 1;
+      setActive(strip.scrollLeft >= max - 2 ? n - 1 : clamp(Math.round(strip.scrollLeft / step), 0, n - 1));
+    }), { passive: true });
 
     mqStage.addEventListener('change', () => { strip.scrollLeft = 0; onScroll(); });
   })();
 
+
   /* =======================================================================
-     4. Óvalos que aparecen con el cursor (postales, guía y footer)
+     4. Óvalos que aparecen con el cursor (guía, hero del viaje y footer)
         No están a la vista: al entrar en su zona aparecen bajo el puntero,
         lo siguen con un poco de retardo y desaparecen al salir.
         En táctil quedan fijos como sello (lo resuelve el CSS).
@@ -385,7 +348,8 @@
     const defaultHTML = label ? label.innerHTML : '';
     let cx = 0, cy = 0, tx = 0, ty = 0, raf = 0, inside = false, hideTimer = 0;
 
-    const paint = () => { el.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`; };
+    // translate (no transform): así el «scale» de la entrada no multiplica el desplazamiento
+    const paint = () => { el.style.translate = `${cx.toFixed(2)}px ${cy.toFixed(2)}px`; };
     const tick = () => {
       const k = mqReduce.matches ? 1 : 0.22;
       cx = lerp(cx, tx, k); cy = lerp(cy, ty, k); paint();
@@ -417,7 +381,7 @@
       area.classList.remove('has-cursor');
       hideTimer = setTimeout(() => {
         if (inside) return;
-        cx = cy = tx = ty = 0; el.style.transform = '';
+        cx = cy = tx = ty = 0; el.style.translate = '';
         if (label) label.innerHTML = defaultHTML;
       }, 380);
     });
@@ -435,11 +399,11 @@
   });
 
   /* =======================================================================
-     5. Manifiesto: tres frases, tres fotos.
+     5. Manifiesto: dos frases, dos fotos. La foto va siempre detrás del texto.
         Con ratón: la foto aparece al entrar en la zona, sigue al puntero y
         cambia con la frase que pisas. Al salir, desaparece.
         Sin ratón: la frase que cruza el centro de la pantalla se activa y la
-        foto (fija debajo del texto) cambia con ella.
+        foto (fija detrás del texto) cambia con ella.
      ======================================================================= */
   (() => {
     const sec = $('[data-manifiesto]');
@@ -458,7 +422,7 @@
       imgs.forEach((im, k) => im.classList.toggle('is-active', k === i));
     };
 
-    const paint = () => { photo.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`; };
+    const paint = () => { photo.style.translate = `${cx.toFixed(2)}px ${cy.toFixed(2)}px`; };
     const tick = () => {
       const k = mqReduce.matches ? 1 : 0.16;
       cx = lerp(cx, tx, k); cy = lerp(cy, ty, k); paint();
@@ -505,7 +469,7 @@
     }, { rootMargin: '-45% 0px -45% 0px' });
     phrases.forEach((p) => io.observe(p));
 
-    mqFine.addEventListener('change', () => { photo.style.transform = ''; photo.classList.remove('is-visible'); });
+    mqFine.addEventListener('change', () => { photo.style.translate = ''; photo.classList.remove('is-visible'); });
   })();
 
   /* =======================================================================
@@ -579,10 +543,12 @@
 
   $$('.site-header__lang, [data-lang]').forEach((b) => b.addEventListener('click', () => toast('Versión en inglés, próximamente.')));
 
+
   /* =======================================================================
      8b. Carrusel «Dónde pasa» (página de viaje)
-         Se arrastra con el dedo o el trackpad (scroll-snap) y, en desktop,
-         con las flechas. Las flechas se apagan en los extremos.
+         Se arrastra con el dedo, el trackpad o el ratón y encaja tarjeta a
+         tarjeta (scroll-snap). En desktop también con las flechas, que se
+         apagan en los extremos.
      ======================================================================= */
   $$('[data-carousel]').forEach((box) => {
     const track = $('[data-track]', box);
@@ -603,7 +569,35 @@
     track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
     addEventListener('resize', sync);
     sync();
+
+    // Arrastrar con el ratón
+    let down = false, moved = false, startX = 0, startL = 0;
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      down = true; moved = false; startX = e.clientX; startL = track.scrollLeft;
+    });
+    addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 4) { moved = true; track.classList.add('is-dragging'); }
+      if (moved) track.scrollLeft = startL - dx;
+    });
+    addEventListener('pointerup', (e) => {
+      if (!down) return;
+      down = false;
+      if (!moved) return;
+      const s = step();
+      const dx = e.clientX - startX;
+      const from = Math.round(startL / s);
+      let to = Math.round(track.scrollLeft / s);
+      if (to === from && Math.abs(dx) > 40) to += dx < 0 ? 1 : -1;
+      track.classList.remove('is-dragging');
+      track.scrollTo({ left: Math.max(0, to) * s, behavior: smooth() });
+    });
+    track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    track.addEventListener('dragstart', (e) => e.preventDefault());
   });
+
 
   /* =======================================================================
      8c. Entradas al llegar a la vista (gráfico de profundidad)
@@ -687,5 +681,179 @@
     }));
 
     mqMobile.addEventListener('change', (e) => { if (!e.matches) setOpen(false, { restoreFocus: false }); });
+  })();
+
+  /* =======================================================================
+     10. WhatsApp
+         Los enlaces con data-wa="texto" abren WhatsApp con ese texto.
+         Mientras no haya número (FONDO.whatsapp), WhatsApp deja elegir a quién.
+     ======================================================================= */
+  const waUrl = (text) => `https://wa.me/${FONDO.whatsapp}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
+  $$('[data-wa]').forEach((a) => {
+    a.href = waUrl(a.dataset.wa);
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+
+  /* «Tengo otra pregunta»: al escribir y pulsar Enter abre WhatsApp con la pregunta */
+  $$('form[data-ask]').forEach((form) => {
+    const input = $('input', form);
+    input.addEventListener('input', () => form.classList.toggle('has-text', !!input.value.trim()));
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = input.value.trim();
+      if (!q) { input.focus(); return; }
+      window.open(waUrl(`Hola, una pregunta sobre el campamento de la Costa Brava: ${q}`), '_blank', 'noopener');
+      input.value = '';
+      form.classList.remove('has-text');
+    });
+  });
+
+  /* =======================================================================
+     11. Formulario «Lista de espera» (cajón lateral)
+         Lo abre cualquier elemento con data-waitlist (y, con ratón, un clic
+         en una zona data-waitlist-area: el hero del viaje, donde el óvalo
+         sigue al puntero). Se cierra con la X, Escape o clic fuera.
+         Mientras está abierto la página no hace scroll ni recibe el foco.
+     ======================================================================= */
+  (() => {
+    const wl = $('[data-wl]');
+    if (!wl) return;
+    const form = $('form', wl);
+    const panel = $('.wl__panel', wl);
+    const msg = $('.wl__msg', wl);
+    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink')].filter(Boolean);
+    let isOpen = false, lastFocus = null;
+
+    const setOpen = (open) => {
+      if (open === isOpen) return;
+      isOpen = open;
+      wl.classList.toggle('is-open', open);
+      wl.setAttribute('aria-hidden', String(!open));
+      document.documentElement.classList.toggle('wl-open', open);
+      behind.forEach((el) => { el.inert = open; });
+      if (open) {
+        lastFocus = document.activeElement;
+        panel.scrollTop = 0;
+        setTimeout(() => ($('input', form) || panel).focus({ preventScroll: true }), 420);
+      } else if (lastFocus && lastFocus.focus) {
+        lastFocus.focus({ preventScroll: true });
+      }
+    };
+
+    document.addEventListener('click', (e) => {
+      const t = e.target.closest('[data-waitlist]');
+      const area = !t && mqFine.matches && e.target.closest('[data-waitlist-area]');
+      if (!t && !area) return;
+      if (area && e.target.closest('a, button, input')) return;
+      e.preventDefault();
+      setOpen(true);
+    });
+    $$('[data-wl-close]', wl).forEach((b) => b.addEventListener('click', () => setOpen(false)));
+    wl.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); setOpen(false); return; }
+      if (e.key !== 'Tab') return;
+      const f = $$('a[href], button:not([disabled]), input', wl).filter((x) => x.offsetParent !== null);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+
+    // Validación sencilla, campo a campo
+    const required = $$('[required]', form);
+    const fieldOf = (input) => input.closest('label');
+    const check = (input) => {
+      const ok = input.type === 'checkbox' ? input.checked : input.value.trim() && input.checkValidity();
+      fieldOf(input).classList.toggle('is-invalid', !ok);
+      return !!ok;
+    };
+    required.forEach((input) => input.addEventListener(input.type === 'checkbox' ? 'change' : 'input', () => {
+      if (fieldOf(input).classList.contains('is-invalid')) check(input);
+      msg.textContent = '';
+    }));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const bad = required.filter((input) => !check(input));
+      if (bad.length) {
+        msg.textContent = bad.some((i) => i.type === 'email' && i.value.trim())
+          ? 'Revisa el email, parece que falta algo.'
+          : 'Faltan los campos marcados con *.';
+        bad[0].focus();
+        return;
+      }
+      const btn = $('.wl__submit', form);
+      btn.disabled = true;
+      try {
+        // TODO: conectar con la herramienta de la lista de espera (Brevo, Mailchimp, Formspree…)
+        if (FONDO.formEndpoint) {
+          const res = await fetch(FONDO.formEndpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+          if (!res.ok) throw new Error(res.status);
+        }
+        wl.classList.add('is-done');
+        $('.wl__done-title', wl).focus();
+      } catch (_) {
+        msg.textContent = 'No se ha podido enviar. Vuelve a probar en un momento.';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    if (location.hash === '#lista') setOpen(true);
+  })();
+
+  /* =======================================================================
+     12. Óvalo del hero del viaje → botón de la cabecera
+         En el hero el óvalo sigue al ratón. Al bajar, «viaja» hasta la
+         cabecera y se queda anclado como «Lista de espera». Al volver arriba,
+         regresa al hero.
+     ======================================================================= */
+  (() => {
+    const hero = $('[data-dock-hero]');
+    const header = $('[data-header]');
+    const pill = header && $('.site-header__pill', header);
+    const oval = hero && $('.vhero__oval', hero);
+    if (!hero || !pill || !oval) return;
+    header.classList.add('has-pill');
+    let docked = false;
+    const dock = (v) => {
+      if (v === docked) return;
+      docked = v;
+      if (!v) { header.classList.remove('is-docked'); oval.classList.remove('is-docked'); return; }
+      const from = oval.getBoundingClientRect();
+      const fly = parseFloat(getComputedStyle(oval).opacity) > 0.5 && from.bottom > 0 && !mqReduce.matches;
+      pill.style.transition = 'none';
+      header.classList.add('is-docked');
+      oval.classList.add('is-docked');
+      if (!fly) { pill.getBoundingClientRect(); pill.style.transition = ''; return; }
+      const to = pill.getBoundingClientRect();
+      pill.style.transformOrigin = '0 0';
+      pill.style.transform = `translate(${(from.left - to.left).toFixed(1)}px, ${(from.top - to.top).toFixed(1)}px) scale(${(from.width / to.width).toFixed(3)})`;
+      pill.getBoundingClientRect();
+      pill.style.transition = 'transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1)';
+      pill.style.transform = '';
+      setTimeout(() => { pill.style.transition = ''; pill.style.transformOrigin = ''; }, 700);
+    };
+    const check = () => dock(scrollY > Math.min(80, hero.offsetHeight * 0.1));
+    addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
+    check();
+  })();
+
+  /* =======================================================================
+     13. Sobre nosotros: contador fijo 01 → 02 → 03
+         Cambia con el principio que cruza el centro de la pantalla.
+     ======================================================================= */
+  (() => {
+    const box = $('[data-counter]');
+    if (!box) return;
+    const reel = $('.sprin__num > span', box);
+    const items = $$('[data-principle]');
+    const set = (i) => { reel.style.transform = `translateY(${-0.9 * i}em)`; box.setAttribute('aria-label', `Principio ${i + 1} de ${items.length}`); };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) set(items.indexOf(e.target)); });
+    }, { rootMargin: '-45% 0px -45% 0px' });
+    items.forEach((it) => io.observe(it));
+    set(0);
   })();
 })();
