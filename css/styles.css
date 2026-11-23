@@ -1697,5 +1697,9 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 .wl__title:focus { outline: none; }
 .wl .wl__msg:empty { display: none; }
 
+/* Cabecera: además del subrayado, el texto se aclara un poco al pasar el ratón */
+.site-header__nav a, .site-header__next, .site-header__lang { transition: text-decoration-color 0.2s linear, color 0.25s linear, opacity 0.2s linear; }
+.site-header__nav a:hover, .site-header__next:hover, .site-header__lang:hover { opacity: 0.7; }
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }
