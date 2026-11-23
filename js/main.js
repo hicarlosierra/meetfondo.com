@@ -1041,9 +1041,10 @@
          disco frena poco a poco (no en seco).
      ======================================================================= */
   (() => {
-    const box = $('[data-sonido]');
+    const box = $('[data-header] [data-sonido]');
     if (!box || !FONDO.audio) return;
-    const btn = $('.sonido__btn', box);
+    const btn = box;
+    const header = $('[data-header]');
     const spin = $('[data-spin]', box);
     const audio = new Audio();
     audio.src = FONDO.audio; audio.loop = true; audio.preload = 'none';
@@ -1101,24 +1102,21 @@
     };
     btn.addEventListener('click', () => (playing ? stop() : play()));
 
-    // Aparece al pasar el hero (y se queda mientras suena)
+    // Al pasar el hero, el vinilo ocupa el sitio del isotipo (y se queda mientras suena).
+    // La primera vez que se ve, el aviso asoma unos segundos.
     const hero = $('#top');
-    let shownOnce = false;
+    let hinted = false;
+    try { hinted = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
-      box.classList.toggle('is-shown', past || playing);
-      if (past && !shownOnce) {
-        shownOnce = true;
-        let seen = false; try { seen = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
-        if (!seen) setTimeout(() => {
-          if (playing) return;
-          box.classList.add('is-hint');
-          setTimeout(() => box.classList.remove('is-hint'), 4000);
-          try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
-        }, 700);
+      header.classList.toggle('has-sonido', past || playing);
+      if (!hinted && past && !header.classList.contains('is-hidden') && !playing) {
+        hinted = true;
+        try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
+        setTimeout(() => { box.classList.add('is-hint'); setTimeout(() => box.classList.remove('is-hint'), 4000); }, 400);
       }
     };
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
-    check();
+    new MutationObserver(check).observe(header, { attributes: true, attributeFilter: ['class'] });
   })();
 })();
