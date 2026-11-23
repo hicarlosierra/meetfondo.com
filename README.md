@@ -1,6 +1,6 @@
 # Fondo · Web v4 (home, página de viaje y sobre nosotros)
 
-Hecha a partir de Figma, «Landing Dec 26»: «Copies Pablo» (home), «Viaje · Costa Brava · Desktop», «Sobre nosotros · Desktop» y «Formulario» (lista de espera). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
+Hecha a partir de Figma, «Landing Dec 26»: «Home · Desktop optimizado», «Costa Brava · Desktop optimizado», «Sobre nosotros · Desktop optimizado» y «Formulario» (lista de espera). Contenido a 1344 px como máximo, márgenes de 48 px y la escala tipográfica de esos frames (bloque «v5» al final de `styles.css`). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
 Sirve para probar el responsive, las animaciones y la UX antes de pasarla a producción.
 
 ## Cómo abrirla
@@ -51,7 +51,7 @@ Rangos probados: 360, 390 y 430 (móvil), 844 × 390 (móvil en horizontal), 768
 | Cabecera | Fija, sin fondo. Cada elemento se pone blanco o negro según lo que tenga detrás, píxel a píxel cuando pasa por encima del wordmark del hero | Igual |
 | Menú móvil (< 900 px) | (no aplica) | Cabecera con logo, próximo viaje e icono de menú. El menú cae como una cortina; se cierra con la X, con Escape o al elegir un enlace, que baja a su sección. Bloquea el scroll de la página, mantiene el foco dentro y tiñe de azul la barra del navegador |
 | Óvalo de la guía (home) | Óvalo blanco «Apúntame a la lista de espera»: aparece bajo el puntero al entrar en las fotos y lo sigue. Clic: abre el formulario | Fijo como sello en la foto |
-| Óvalo del hero del viaje | Igual, en todo el hero. Al bajar, «viaja» hasta la cabecera y se queda anclado como botón «Lista de espera» | Fijo en el hero; al bajar, botón en la cabecera |
+| Óvalo del hero del viaje | Igual, en todo el hero. Al bajar, «viaja» hasta la esquina inferior derecha y se queda ahí como botón «Lista de espera», siempre visible | Fijo en el hero; al bajar, botón abajo a la derecha |
 | Formulario «Lista de espera» | Cajón a la derecha (592 px). Se abre desde el óvalo, «Cuenta conmigo», el botón de la cabecera o `#lista` en la dirección. Se cierra con la X, Escape o clic fuera. Valida los obligatorios y da las gracias | Hoja a pantalla completa |
 | Óvalo del footer | Aparece al entrar en el footer con «Llegaste al fondo»; encima de un enlace muestra su nombre. Con teclado se ve al enfocar | Fijo como sello arriba a la derecha |
 | Manifiesto | Dos frases. La foto va siempre detrás del texto: aparece al entrar, sigue al puntero y cambia con la frase que pisas (de gris a negro) | La frase activa cambia con el scroll; foto fija detrás |

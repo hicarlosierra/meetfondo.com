@@ -43,11 +43,10 @@
 
 <!-- ============ Cabecera fija ============ -->
 <header class="site-header" data-header>
-  <span class="site-header__ring" aria-hidden="true" data-tone="dark"></span>
   <a class="site-header__logo" href="../" aria-label="Fondo, inicio" data-tone="dark">
     <svg class="icon-iso" aria-hidden="true"><use href="#isotipo"/></svg>
   </a>
-  <nav class="site-header__nav" aria-label="Principal" data-tone="dark">
+  <nav class="site-header__nav" aria-label="Principal">
     <a href="../#viajes" data-tone="dark">Experiencias</a>
     <a href="../sobre-nosotros/" data-tone="dark" aria-current="page">Sobre fondo</a>
     <a href="../#cartas" data-tone="dark">Cartas</a>
@@ -99,10 +98,13 @@
   <section class="shero" id="top" aria-labelledby="shero-title">
     <div class="shero__top">
       <p class="eyebrow">Good things take depth</p>
-      <h1 class="shero__title" id="shero-title">Queremos salvar el mundo. <strong>Sin prisas.</strong></h1>
+      <h1 class="shero__title" id="shero-title">Queremos salvar el mundo. <strong>A nuestra manera.</strong></h1>
       <p class="shero__lead">La prisa y lo superficial lo han secuestrado. Por ello hemos creado Fondo, para gritarle al mundo que la forma en cómo se hacen las cosas sí que importa.</p>
     </div>
-    <img class="shero__img" src="../assets/img/puerta.webp" width="1200" height="720" alt="Una persona descansa en una hamaca frente al mar, vista desde dentro de la casa" decoding="async" fetchpriority="high">
+    <figure class="shero__media">
+      <img class="shero__img" src="../assets/img/puerta.webp" width="1200" height="720" alt="Una persona descansa en una hamaca frente al mar, vista desde dentro de la casa" decoding="async" fetchpriority="high">
+      <figcaption class="shero__over"><strong>Parar, respirar y disfrutar.</strong><span>Un ciclo simple pero no sencillo. Por ello es importante hacerlo con cariño.</span></figcaption>
+    </figure>
   </section>
 
   <!-- ============ 02 · Bucear, comer, coser o cantar ============ -->
@@ -110,13 +112,21 @@
     <p>Bucear, comer, coser o cantar pueden ser, si quieres, las cosas más trascendentales que te van a pasar en tu vida. <span>Pero para ello hay que ponerle intención y dejarse conmover.</span></p>
   </section>
 
-  <!-- ============ 03 · Parar, respirar y disfrutar ============ -->
-  <section class="sciclo" aria-labelledby="ciclo-title">
-    <h2 class="sciclo__title" id="ciclo-title">Parar, respirar y disfrutar.</h2>
-    <p class="sciclo__sub">Un ciclo simple pero no sencillo. Por ello es importante hacerlo con cariño.</p>
+  <!-- ============ 03 · Cinta azul ============ -->
+  <a class="cinta" href="../#viajes">
+    <span class="cinta__text">TU PRÓXIMA INMERSIÓN EMPIEZA AQUÍ. DESCUBRE NUESTRAS EXPERIENCIAS DE BUCEO.</span>
+    <span class="cinta__arrow" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M3 10H17M11.5 4.5L17 10L11.5 15.5"/></svg></span>
+  </a>
+
+  <!-- ============ 04 · Una nota de nuestra parte ============ -->
+  <section class="snota" aria-labelledby="snota-title">
+    <p class="eyebrow">Una nota de nuestra parte</p>
+    <h2 class="snota__title" id="snota-title">Empezamos a bucear<br>hace unos años.</h2>
+    <p class="snota__text">Fondo nace de un grupo de amigos que sentían lo mismo cada vez que subían a una barca: que el buceo se puede vivir de otra manera. Con más calma y más criterio. Con atención a lo que pasa antes y después del agua: una mesa en el puerto, una conversación al atardecer, un briefing que te prepara la cabeza y no solo el equipo.</p>
+    <p class="snota__firma"><svg aria-hidden="true"><use href="#isotipo"/></svg>El equipo de Fondo</p>
   </section>
 
-  <!-- ============ 04 · Cómo lo vivimos ============ -->
+  <!-- ============ 05 · Cómo lo vivimos ============ -->
   <section class="svivir" aria-labelledby="vivir-title">
     <div class="svivir__copy">
       <h2 class="svivir__title" id="vivir-title"><strong>El buceo debe ser metódico y calculador,</strong> pero también debe ser contemplativo, recreacional y transformador.</h2>
@@ -125,7 +135,7 @@
     <img class="svivir__img" src="../assets/img/postales.webp" width="622" height="777" alt="Alguien escribe postales al sol con un polo de menta en la mano" loading="lazy" decoding="async">
   </section>
 
-  <!-- ============ 05 · Cómo entendemos el buceo y la vida ============ -->
+  <!-- ============ 06 · Cómo entendemos el buceo y la vida ============ -->
   <section class="sprin" aria-labelledby="sprin-title">
     <div class="sprin__aside">
       <h2 class="eyebrow" id="sprin-title">Cómo entendemos el buceo y la vida</h2>
@@ -160,7 +170,7 @@
 </main>
 
 <!-- ============ Footer (el mismo en las tres páginas) ============ -->
-<footer class="footer" data-footer data-follow-area>
+<footer class="footer footer--azul" data-footer data-follow-area>
   <p class="footer__lema">
     <span class="u-line">Pocos viajes,<svg viewBox="0 0 243 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C48.6 3.18 109.35 10.18 170.1 6.18C230.85 2.18 223.56 4.18 241 8.18"/></svg></span>
     <span class="u-line">pocas personas,<svg viewBox="0 0 306 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 7.18C61.2 3.18 137.7 10.18 214.2 6.18C290.7 2.18 281.52 4.18 304 8.18"/></svg></span>

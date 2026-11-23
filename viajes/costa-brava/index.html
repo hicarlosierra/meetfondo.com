@@ -43,17 +43,18 @@
 
 <!-- ============ Cabecera fija ============ -->
 <header class="site-header" data-header>
-  <span class="site-header__ring" aria-hidden="true" data-tone="dark"></span>
   <a class="site-header__logo" href="../../" aria-label="Fondo, inicio" data-tone="dark">
     <svg class="icon-iso" aria-hidden="true"><use href="#isotipo"/></svg>
   </a>
-  <nav class="site-header__nav" aria-label="Principal" data-tone="dark">
+  <nav class="site-header__nav" aria-label="Principal">
     <a href="../../#viajes" data-tone="dark">Experiencias</a>
     <a href="../../sobre-nosotros/" data-tone="dark">Sobre fondo</a>
     <a href="../../#cartas" data-tone="dark">Cartas</a>
   </nav>
+  <!-- Móvil: próximo viaje en el centro -->
+  <a class="site-header__next site-header__next--m" href="../../viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
   <div class="site-header__right">
-    <a class="site-header__pill" href="#lista" data-waitlist data-tone="dark">Lista de espera</a>
+    <a class="site-header__next site-header__next--d" href="../../viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
     <button class="site-header__lang" type="button" aria-label="Cambiar idioma. Idioma actual: español" data-tone="dark">ES</button>
     <button class="site-header__menu" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu" data-menu-open data-tone="dark">
       <svg viewBox="0 0 22.6 13.2" aria-hidden="true"><path d="M0 0.94H22.6M0 12.24H22.6" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -90,6 +91,9 @@
   </div>
 </div>
 
+<!-- Botón fijo abajo a la derecha: aparece al bajar, cuando el óvalo del hero «se ancla» -->
+<a class="dock-pill" href="#lista" data-waitlist data-dock-pill>Lista de espera</a>
+
 <div class="page">
 <main id="contenido">
 
@@ -120,7 +124,7 @@
       <div class="facts__item"><dt class="facts__label">SEÑAL</dt><dd><span class="facts__value">200 €</span><span class="facts__note">Para reservar tu plaza</span></dd></div>
     </dl>
     <ul class="rowlinks vresumen__links" role="list">
-      <li><a class="rowlink" href="#lista" data-waitlist>Apúntame a la lista de espera <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#lista" data-waitlist>APÚNTAME A LA LISTA DE ESPERA <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
       <li><a class="rowlink" href="#preguntas">Tengo alguna pregunta <span class="rowlink__arrow rowlink__arrow--down" aria-hidden="true">↓</span></a></li>
     </ul>
   </section>
@@ -130,26 +134,26 @@
     <div class="vperfil__intro">
       <p class="vperfil__kicker">Qué es el Open Water</p>
       <h2 class="vperfil__title" id="perfil-title">De hacer pie<br>a dieciocho<br>metros.</h2>
-      <p class="vperfil__body">El Open Water Diver es la primera certificación de buceo recreativo. El curso que te abre la puerta a un nuevo mundo y te permite bajar hasta 18 metros. Durante tu estancia además de la parte teórica, realizarás seis inmersiones en cuatro días de forma progresiva. Con calma, grupos reducidos, a vuestro ritmo y de la mano de los mejores profesionales.</p>
     </div>
+    <p class="vperfil__body">El Open Water Diver es la primera certificación de buceo recreativo. El curso que te abre la puerta a un nuevo mundo y te permite bajar hasta 18 metros. Durante tu estancia además de la parte teórica, realizarás seis inmersiones en cuatro días de forma progresiva. Con calma, grupos reducidos, a vuestro ritmo y de la mano de los mejores profesionales.</p>
     <div class="vperfil__chart" data-reveal tabindex="0" aria-label="Gráfico de profundidad por día. En móvil, desliza para verlo entero.">
-      <svg class="vperfil__svg" viewBox="0 0 912 456" role="img" aria-labelledby="perfil-svg-t perfil-svg-d">
+      <svg class="vperfil__svg" viewBox="0 0 1344 600" role="img" aria-labelledby="perfil-svg-t perfil-svg-d">
           <title id="perfil-svg-t">Profundidad máxima de cada inmersión</title>
           <desc id="perfil-svg-d">Llegada: parte teórica. Día 2: habilidades, 3 metros, e inmersión 1, 6 metros. Día 3: inmersión 2, 10 metros, e inmersión 3, 12 metros. Día 4: inmersión 4, 18 metros. Ya eres Open Water.</desc>
-          <g class="pf-grid" aria-hidden="true"><path d="M228.5 0V340M456.5 0V340M684.5 0V340M0 130.5H912M0 220.5H912M0 310.5H912"/></g>
-          <path class="pf-zero" d="M0 40.5H912" aria-hidden="true"/>
+          <g class="pf-grid" aria-hidden="true"><path d="M335.5 0V447M671.5 0V447M1006.5 0V447M0 171.5H1344M0 289.5H1344M0 408.5H1344"/></g>
+          <path class="pf-zero" d="M0 53.5H1344" aria-hidden="true"/>
           <g class="pf-axis" aria-hidden="true">
-            <text x="0" y="20">LLEGADA</text><text x="240" y="20">DÍA 2</text><text x="468" y="20">DÍA 3</text><text x="696" y="20">DÍA 4</text>
-            <text x="912" y="32" class="pf-end">0 M</text><text x="912" y="122" class="pf-end">6 M</text><text x="912" y="212" class="pf-end">12 M</text><text x="912" y="302" class="pf-end">18 M</text>
+            <text x="0" y="27">LLEGADA</text><text x="353" y="27">DÍA 2</text><text x="688" y="27">DÍA 3</text><text x="1024" y="27">DÍA 4</text>
+            <text x="1344" y="42" class="pf-end">0 M</text><text x="1344" y="161" class="pf-end">6 M</text><text x="1344" y="279" class="pf-end">12 M</text><text x="1344" y="398" class="pf-end">18 M</text>
           </g>
-          <g class="pf-oval" aria-hidden="true"><ellipse cx="116" cy="267" rx="97.25" ry="37.25"/><text x="116" y="273.5">PARTE TEÓRICA</text></g>
+          <g class="pf-oval" aria-hidden="true"><ellipse cx="155" cy="351" rx="128" ry="49"/><text x="155" y="359">PARTE TEÓRICA</text></g>
           <g class="vperfil__dives" aria-hidden="true">
-            <g class="pf-fill"><path d="M248 40C264.80 40 256.40 85 274.88 85L305.12 85C323.60 85 315.20 40 332 40Z"/><path d="M354 40C371.20 40 362.60 130 381.52 130L412.48 130C431.40 130 422.80 40 440 40Z"/><path d="M474 40C491.20 40 482.60 190 501.52 190L532.48 190C551.40 190 542.80 40 560 40Z"/><path d="M582 40C599.20 40 590.60 220 609.52 220L640.48 220C659.40 220 650.80 40 668 40Z"/><path d="M716 40C745.60 40 730.80 310 763.36 310L816.64 310C849.20 310 834.40 40 864 40Z"/></g>
-            <g class="pf-line"><path d="M248 40C264.80 40 256.40 85 274.88 85L305.12 85C323.60 85 315.20 40 332 40"/><path d="M354 40C371.20 40 362.60 130 381.52 130L412.48 130C431.40 130 422.80 40 440 40"/><path d="M474 40C491.20 40 482.60 190 501.52 190L532.48 190C551.40 190 542.80 40 560 40"/><path d="M582 40C599.20 40 590.60 220 609.52 220L640.48 220C659.40 220 650.80 40 668 40"/><path d="M716 40C745.60 40 730.80 310 763.36 310L816.64 310C849.20 310 834.40 40 864 40"/></g>
-            <g class="pf-dot"><circle cx="290.5" cy="85.5" r="4.5"/><circle cx="397.5" cy="130.5" r="4.5"/><circle cx="517.5" cy="190.5" r="4.5"/><circle cx="625.5" cy="220.5" r="4.5"/><circle cx="790.5" cy="310.5" r="4.5"/></g>
-            <g class="pf-labels"><text x="290.5" y="111" class="pf-depth">3 M</text><text x="290.5" y="126" class="pf-name">HABILIDADES</text><text x="397.5" y="156" class="pf-depth">6 M</text><text x="397.5" y="171" class="pf-name">INMERSIÓN 1</text><text x="517.5" y="216" class="pf-depth">10 M</text><text x="517.5" y="231" class="pf-name">INMERSIÓN 2</text><text x="625.5" y="246" class="pf-depth">12 M</text><text x="625.5" y="261" class="pf-name">INMERSIÓN 3</text><text x="790.5" y="336" class="pf-depth">18 M</text><text x="790.5" y="351" class="pf-name">INMERSIÓN 4</text></g>
+            <g class="pf-fill"><path d="M365.5 53.5C390.2 53.5 377.9 112.8 405.1 112.8L449.7 112.8C476.9 112.8 464.5 53.5 489.3 53.5Z"/><path d="M521.7 53.5C547.0 53.5 534.4 172.0 562.2 172.0L607.9 172.0C635.7 172.0 623.1 53.5 648.4 53.5Z"/><path d="M698.5 53.5C723.9 53.5 711.2 251.0 739.1 251.0L784.7 251.0C812.6 251.0 799.9 53.5 825.3 53.5Z"/><path d="M857.7 53.5C883.0 53.5 870.4 290.5 898.2 290.5L943.9 290.5C971.7 290.5 959.1 53.5 984.4 53.5Z"/><path d="M1055.2 53.5C1098.8 53.5 1077.0 409.0 1125.0 409.0L1203.5 409.0C1251.5 409.0 1229.6 53.5 1273.3 53.5Z"/></g>
+            <g class="pf-line"><path d="M365.5 53.5C390.2 53.5 377.9 112.8 405.1 112.8L449.7 112.8C476.9 112.8 464.5 53.5 489.3 53.5"/><path d="M521.7 53.5C547.0 53.5 534.4 172.0 562.2 172.0L607.9 172.0C635.7 172.0 623.1 53.5 648.4 53.5"/><path d="M698.5 53.5C723.9 53.5 711.2 251.0 739.1 251.0L784.7 251.0C812.6 251.0 799.9 53.5 825.3 53.5"/><path d="M857.7 53.5C883.0 53.5 870.4 290.5 898.2 290.5L943.9 290.5C971.7 290.5 959.1 53.5 984.4 53.5"/><path d="M1055.2 53.5C1098.8 53.5 1077.0 409.0 1125.0 409.0L1203.5 409.0C1251.5 409.0 1229.6 53.5 1273.3 53.5"/></g>
+            <g class="pf-dot"><circle cx="427.4" cy="112.8" r="6"/><circle cx="585.1" cy="172.0" r="6"/><circle cx="761.9" cy="251.0" r="6"/><circle cx="921.1" cy="290.5" r="6"/><circle cx="1164.2" cy="409.0" r="6"/></g>
+            <g class="pf-labels"><text x="427.4" y="146.8">3 M</text><text x="427.4" y="167.8" class="pf-name">HABILIDADES</text><text x="585.1" y="206.0">6 M</text><text x="585.1" y="227.0" class="pf-name">INMERSIÓN 1</text><text x="761.9" y="285.0">10 M</text><text x="761.9" y="306.0" class="pf-name">INMERSIÓN 2</text><text x="921.1" y="324.5">12 M</text><text x="921.1" y="345.5" class="pf-name">INMERSIÓN 3</text><text x="1164.2" y="443.0">18 M</text><text x="1164.2" y="464.0" class="pf-name">INMERSIÓN 4</text></g>
           </g>
-          <g class="pf-oval pf-oval--solid" aria-hidden="true"><ellipse cx="790" cy="410" rx="97.25" ry="37.25"/><text x="790" y="406">YA ERES</text><text x="790" y="423">OPEN WATER</text></g>
+          <g class="pf-oval pf-oval--solid" aria-hidden="true"><ellipse cx="1150" cy="539" rx="128" ry="49"/><text x="1150" y="535">YA ERES</text><text x="1150" y="557">OPEN WATER</text></g>
         </svg>
     </div>
     <p class="vperfil__hint" aria-hidden="true">Desliza para ver los cuatro días →</p>
@@ -161,7 +165,7 @@
       <img src="../../assets/img/mar-calma.webp" width="1170" height="780" alt="Mar en calma con montañas en el horizonte" loading="lazy" decoding="async">
       <div class="vporque__caption">
         <p class="vporque__coords">41°43′N<br>2°56′E</p>
-        <p class="vporque__data"><span>GRUPOS REDUCIDOS</span><span class="vporque__sep" aria-hidden="true"> · </span><span>AGUA A 20&nbsp;°C</span><span class="vporque__sep" aria-hidden="true"> · </span><span>VISIBILIDAD 15&nbsp;M</span></p>
+        <p class="vporque__data"><span>GRUPOS PEQUEÑOS</span><span class="vporque__sep" aria-hidden="true"> · </span><span>AGUA A 20&nbsp;°C</span><span class="vporque__sep" aria-hidden="true"> · </span><span>VISIBILIDAD 15&nbsp;M</span></p>
       </div>
     </div>
     <h2 class="vporque__text" id="porque-title">La Costa Brava es el mejor sitio para empezar: agua clara, calas a un paso de casa y un pueblo que vive del mar. <span class="vporque__muted">Y en junio, con todo el verano por delante para seguir disfrutando del azul.</span></h2>
@@ -213,6 +217,16 @@
     </ul>
   </section>
 
+  <!-- ============ 07 · Una nota nuestra ============ -->
+  <section class="vnota" aria-labelledby="nota-title">
+    <p class="eyebrow vnota__kicker" id="nota-title">Una nota de nuestra parte</p>
+    <blockquote class="vnota__quote">
+      <p class="vnota__text">Bajar por primera vez no se olvida, así que queremos que la tuya sea tranquila, sin prisas y con buena gente alrededor. Elegimos la Costa Brava porque tiene todo lo que pide un buen comienzo: calas protegidas, agua clara en junio y un pueblo que vive mirando al mar. <em>Respiramos juntos, bajamos juntos y luego nos sentamos a la mesa.</em></p>
+    </blockquote>
+    <figure class="vnota__small"><img src="../../assets/img/respirar.webp" width="736" height="1104" alt="Un buceador con máscara asoma la cabeza en un mar en calma" loading="lazy" decoding="async"></figure>
+    <figure class="vnota__big"><img src="../../assets/img/velero.webp" width="949" height="957" alt="Un hombre sentado en la escalerilla de un barco, frente a unos acantilados" loading="lazy" decoding="async"></figure>
+  </section>
+
   <!-- ============ 06 · Resumen del viaje ============ -->
   <section class="vficha" aria-label="Qué incluye el campamento">
     <figure class="vficha__photo">
@@ -250,16 +264,6 @@
         </aside>
       </div>
     </div>
-  </section>
-
-  <!-- ============ 07 · Una nota nuestra ============ -->
-  <section class="vnota" aria-labelledby="nota-title">
-    <p class="eyebrow vnota__kicker" id="nota-title">Una nota de nuestra parte</p>
-    <blockquote class="vnota__quote">
-      <p class="vnota__text">Bajar por primera vez no se olvida, así que queremos que la tuya sea tranquila, sin prisas y con buena gente alrededor. Elegimos la Costa Brava porque tiene todo lo que pide un buen comienzo: calas protegidas, agua clara en junio y un pueblo que vive mirando al mar. <em>Respiramos juntos, bajamos juntos y luego nos sentamos a la mesa.</em></p>
-    </blockquote>
-    <figure class="vnota__small"><img src="../../assets/img/respirar.webp" width="736" height="1104" alt="Un buceador con máscara asoma la cabeza en un mar en calma" loading="lazy" decoding="async"></figure>
-    <figure class="vnota__big"><img src="../../assets/img/velero.webp" width="949" height="957" alt="Un hombre sentado en la escalerilla de un barco, frente a unos acantilados" loading="lazy" decoding="async"></figure>
   </section>
 
   <!-- ============ 08 · Preguntas ============ -->

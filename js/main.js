@@ -626,7 +626,7 @@
     const openBtn = $('[data-menu-open]');
     if (!menu || !openBtn) return;
     const closeBtn = $('[data-menu-close]', menu);
-    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink')].filter(Boolean);
+    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
     const meta = $('meta[name="theme-color"]');
     const metaDefault = meta ? (meta.getAttribute('data-default') || meta.content) : '';
     const mqMobile = matchMedia('(max-width: 899px)');
@@ -722,7 +722,7 @@
     const form = $('form', wl);
     const panel = $('.wl__panel', wl);
     const msg = $('.wl__msg', wl);
-    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink')].filter(Boolean);
+    const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
     let isOpen = false, lastFocus = null;
 
     const setOpen = (open) => {
@@ -804,36 +804,33 @@
   })();
 
   /* =======================================================================
-     12. Óvalo del hero del viaje → botón de la cabecera
+     12. Óvalo del hero del viaje → botón fijo «Lista de espera»
          En el hero el óvalo sigue al ratón. Al bajar, «viaja» hasta la
-         cabecera y se queda anclado como «Lista de espera». Al volver arriba,
-         regresa al hero.
+         esquina inferior derecha y se queda ahí, siempre visible. Al volver
+         arriba, regresa al hero.
      ======================================================================= */
   (() => {
     const hero = $('[data-dock-hero]');
-    const header = $('[data-header]');
-    const pill = header && $('.site-header__pill', header);
+    const pill = $('[data-dock-pill]');
     const oval = hero && $('.vhero__oval', hero);
     if (!hero || !pill || !oval) return;
-    header.classList.add('has-pill');
     let docked = false;
     const dock = (v) => {
       if (v === docked) return;
       docked = v;
-      if (!v) { header.classList.remove('is-docked'); oval.classList.remove('is-docked'); return; }
       const from = oval.getBoundingClientRect();
-      const fly = parseFloat(getComputedStyle(oval).opacity) > 0.5 && from.bottom > 0 && !mqReduce.matches;
+      const fly = v && parseFloat(getComputedStyle(oval).opacity) > 0.5 && from.bottom > 0 && !mqReduce.matches;
+      oval.classList.toggle('is-docked', v);
       pill.style.transition = 'none';
-      header.classList.add('is-docked');
-      oval.classList.add('is-docked');
+      pill.classList.toggle('is-on', v);
       if (!fly) { pill.getBoundingClientRect(); pill.style.transition = ''; return; }
       const to = pill.getBoundingClientRect();
       pill.style.transformOrigin = '0 0';
       pill.style.transform = `translate(${(from.left - to.left).toFixed(1)}px, ${(from.top - to.top).toFixed(1)}px) scale(${(from.width / to.width).toFixed(3)})`;
       pill.getBoundingClientRect();
-      pill.style.transition = 'transform 0.65s cubic-bezier(0.22, 0.61, 0.36, 1)';
+      pill.style.transition = 'transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1)';
       pill.style.transform = '';
-      setTimeout(() => { pill.style.transition = ''; pill.style.transformOrigin = ''; }, 700);
+      setTimeout(() => { pill.style.transition = ''; pill.style.transformOrigin = ''; }, 750);
     };
     const check = () => dock(scrollY > Math.min(80, hero.offsetHeight * 0.1));
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
