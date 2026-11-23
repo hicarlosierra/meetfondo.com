@@ -1795,5 +1795,45 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
   .tcard__media .tcard__img { height: 100%; }
 }
 
+/* =========================================================================
+   Sonidos desde el fondo: vinilo fijo abajo a la izquierda.
+   Al pasar por encima avisa («Dale al play»); al pulsar suena y gira.
+   ========================================================================= */
+.sonido { position: fixed; z-index: 46; left: var(--pad-x); bottom: calc(calc(16px * var(--z)) + env(safe-area-inset-bottom)); }
+.sonido__btn { position: relative; display: grid; place-items: center; width: calc(52px * var(--z)); height: calc(52px * var(--z)); border-radius: 50%; background: var(--blanco); box-shadow: 0 calc(6px * var(--z)) calc(20px * var(--z)) rgb(25 25 25 / 0.14); transition: transform 0.25s var(--ease-out); }
+.sonido__btn:hover { transform: scale(1.06); }
+.sonido__btn:focus-visible { outline: 2px solid var(--azul); outline-offset: calc(3px * var(--z)); }
+.sonido__vinilo { position: relative; width: calc(46px * var(--z)); height: calc(46px * var(--z)); }
+.sonido__vinilo img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.sonido__label { animation: vinilo 2.4s linear infinite paused; }
+.sonido.is-playing .sonido__label { animation-play-state: running; }
+@keyframes vinilo { to { transform: rotate(360deg); } }
+.sonido__tag {
+  position: absolute; left: calc(62px * var(--z)); bottom: calc(12px * var(--z)); display: flex; gap: calc(6px * var(--z)); align-items: baseline; padding: calc(7px * var(--z)) calc(12px * var(--z)); border-radius: calc(999px * var(--z));
+  background: var(--blanco); box-shadow: 0 calc(6px * var(--z)) calc(20px * var(--z)) rgb(25 25 25 / 0.1); white-space: nowrap; pointer-events: none;
+  font-weight: 600; font-size: calc(12px * var(--z)); line-height: 1; text-transform: uppercase; color: var(--azul);
+  opacity: 0; translate: calc(-6px * var(--z)) 0; transition: opacity 0.25s linear, translate 0.3s var(--ease-out);
+}
+.sonido__tag em { font-weight: 400; font-style: italic; text-transform: none; color: var(--negro); }
+.sonido:hover .sonido__tag, .sonido.is-hint .sonido__tag, .sonido__btn:focus-visible + .sonido__tag { opacity: 1; translate: 0 0; }
+.sonido.is-open .sonido__tag { opacity: 0; }
+.sonido.is-playing .sonido__tag em { display: none; }
+.sonido__panel {
+  position: absolute; left: 0; bottom: calc(64px * var(--z)); width: min(calc(340px * var(--z)), calc(100vw - 2 * var(--pad-x))); padding: calc(16px * var(--z)); border-radius: calc(12px * var(--z));
+  background: var(--blanco); box-shadow: 0 calc(10px * var(--z)) calc(32px * var(--z)) rgb(25 25 25 / 0.16);
+  opacity: 0; visibility: hidden; translate: 0 calc(8px * var(--z)); transition: opacity 0.25s linear, translate 0.3s var(--ease-out), visibility 0s linear 0.3s;
+}
+.sonido.is-open .sonido__panel { opacity: 1; visibility: visible; translate: 0 0; transition: opacity 0.25s linear, translate 0.3s var(--ease-out); }
+.sonido__head { display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: calc(12px * var(--z)); text-transform: uppercase; color: var(--azul); }
+.sonido__x { display: grid; place-items: center; width: calc(32px * var(--z)); height: calc(32px * var(--z)); margin: calc(-8px * var(--z)) calc(-8px * var(--z)) calc(-8px * var(--z)) 0; font-size: calc(22px * var(--z)); line-height: 1; color: var(--negro); }
+.sonido__tabs { display: flex; gap: calc(8px * var(--z)); margin-top: calc(12px * var(--z)); }
+.sonido__tabs button { height: calc(34px * var(--z)); padding: 0 calc(16px * var(--z)); border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--azul); font-weight: 700; font-size: calc(12px * var(--z)); letter-spacing: -0.02em; text-transform: uppercase; color: var(--azul); }
+.sonido__tabs button[aria-pressed="true"] { background: var(--azul); color: var(--blanco); }
+.sonido__embed { margin-top: calc(12px * var(--z)); min-height: calc(80px * var(--z)); border-radius: calc(12px * var(--z)); overflow: hidden; background: var(--beige); }
+.sonido__embed iframe { display: block; width: 100%; height: calc(80px * var(--z)); border: 0; }
+.sonido__note { margin-top: calc(10px * var(--z)); font-size: calc(12px * var(--z)); line-height: 1.35; color: var(--negro-64); }
+@media (prefers-reduced-motion: reduce) { .sonido__label { animation: none; } }
+html.menu-open .sonido, html.wl-open .sonido { visibility: hidden; }
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }

@@ -23,7 +23,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css?v=da4d72db">
+  <link rel="stylesheet" href="css/styles.css?v=fac4b3cf">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
        ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
@@ -37,7 +37,7 @@
     })(document);
   </script>
   <script src="js/loader.js?v=4b1fe7d7" defer></script>
-  <script src="js/main.js?v=f9b9e927" defer></script>
+  <script src="js/main.js?v=4d86b1ea" defer></script>
 </head>
 <body>
 
@@ -483,6 +483,28 @@
     <p><a href="#" data-todo="aviso legal">AVISO LEGAL</a> · <a href="#" data-todo="privacidad">PRIVACIDAD</a> · <a href="#" data-todo="cookies">COOKIES</a></p>
   </div>
 </footer>
+</div>
+
+<!-- ============ Sonidos desde el fondo (reproductor de Spotify, abajo a la izquierda) ============
+     Nunca suena solo: avisa al pasar por encima y solo suena al pulsar.
+     Las listas se configuran en FONDO.playlists (main.js). -->
+<div class="sonido" data-sonido>
+  <button class="sonido__btn" type="button" aria-controls="sonido-panel" aria-pressed="false" aria-label="Sonidos desde el fondo: poner música">
+    <span class="sonido__vinilo" aria-hidden="true"><img src="assets/img/vinilo-disco.png" alt="" width="288" height="288"><img class="sonido__label" src="assets/img/vinilo-etiqueta.png" alt="" width="288" height="288"></span>
+  </button>
+  <span class="sonido__tag" aria-hidden="true">Sonidos desde el fondo <em>Dale al play</em></span>
+  <div class="sonido__panel" id="sonido-panel" role="region" aria-label="Sonidos desde el fondo">
+    <div class="sonido__head">
+      <p>Sonidos desde el fondo</p>
+      <button class="sonido__x" type="button" aria-label="Ocultar el reproductor" data-sonido-hide>×</button>
+    </div>
+    <div class="sonido__tabs" role="group" aria-label="Lista">
+      <button type="button" data-list="am" aria-pressed="true">Fondo AM</button>
+      <button type="button" data-list="pm" aria-pressed="false">Fondo PM</button>
+    </div>
+    <div class="sonido__embed"><div data-embed></div></div>
+    <p class="sonido__note" data-sonido-note>La música que sonará durante el viaje.</p>
+  </div>
 </div>
 
 <!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============

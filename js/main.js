@@ -21,7 +21,11 @@
                Vacío: WhatsApp abre con el texto y deja elegir el contacto.
      formEndpoint: dirección a la que se envía la lista de espera (POST).
                Vacío: el formulario se valida y da las gracias, pero no envía nada. */
-  const FONDO = { whatsapp: '', formEndpoint: '' };
+  const FONDO = {
+    whatsapp: '', formEndpoint: '',
+    // Sonidos desde el fondo: enlaces de las listas de Spotify (open.spotify.com/playlist/…)
+    playlists: { am: '', pm: '' },
+  };
 
   /* ---------- Toast ---------- */
   const toastEl = $('[data-toast]');
@@ -1027,4 +1031,74 @@
       scrollTo({ top: top() + (range() * i) / (n - 1), behavior: smooth() });
     }, true);
   });
+
+  /* =======================================================================
+     18. Sonidos desde el fondo (vinilo abajo a la izquierda)
+         Nunca suena solo. Al pasar por encima avisa («Dale al play»), y la
+         primera vez que alguien entra en la web el aviso asoma unos segundos.
+         Al pulsar: se abre el reproductor de Spotify con Fondo AM (hasta las
+         15 h) o Fondo PM y suena; el vinilo gira mientras suena. Volver a
+         pulsar el vinilo pausa. Spotify da las canciones enteras a quien tiene
+         la sesión abierta y fragmentos de 30 s al resto.
+     ======================================================================= */
+  (() => {
+    const box = $('[data-sonido]');
+    if (!box) return;
+    const btn = $('.sonido__btn', box);
+    const tabs = $$('[data-list]', box);
+    const mount = $('[data-embed]', box);
+    const note = $('[data-sonido-note]', box);
+    const toUri = (url) => { const m = /playlist[/:]([A-Za-z0-9]+)/.exec(url || ''); return m ? `spotify:playlist:${m[1]}` : ''; };
+    let list = new Date().getHours() < 15 ? 'am' : 'pm';
+    let controller = null, loading = false, playing = false;
+
+    const setList = (l) => { list = l; tabs.forEach((t) => t.setAttribute('aria-pressed', String(t.dataset.list === l))); };
+    setList(list);
+    const setPlaying = (v) => {
+      playing = v; box.classList.toggle('is-playing', v);
+      btn.setAttribute('aria-pressed', String(v));
+      btn.setAttribute('aria-label', v ? 'Sonidos desde el fondo: pausar la música' : 'Sonidos desde el fondo: poner música');
+    };
+    const open = (v) => box.classList.toggle('is-open', v);
+
+    const start = () => {
+      const uri = toUri(FONDO.playlists[list]);
+      mount.parentElement.hidden = !uri;
+      if (!uri) { note.textContent = 'Fondo AM y Fondo PM, muy pronto.'; return; }
+      if (controller) { controller.play(); return; }
+      if (loading) return;
+      loading = true;
+      window.onSpotifyIframeApiReady = (API) => {
+        API.createController(mount, { uri, width: '100%', height: 80 }, (c) => {
+          controller = c;
+          c.addListener('ready', () => c.play());
+          c.addListener('playback_update', (e) => setPlaying(!e.data.isPaused));
+        });
+      };
+      const sc = document.createElement('script');
+      sc.src = 'https://open.spotify.com/embed/iframe-api/v1'; sc.async = true;
+      document.head.appendChild(sc);
+    };
+
+    btn.addEventListener('click', () => {
+      if (playing && controller) { controller.togglePlay(); return; }
+      open(true); start();
+    });
+    $('[data-sonido-hide]', box).addEventListener('click', () => open(false));
+    tabs.forEach((t) => t.addEventListener('click', () => {
+      setList(t.dataset.list);
+      const uri = toUri(FONDO.playlists[list]);
+      if (controller && uri) { controller.loadUri(uri); controller.play(); } else start();
+    }));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') open(false); });
+
+    // Aviso sutil la primera vez: asoma «Dale al play» unos segundos
+    let seen = false; try { seen = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
+    if (!seen) setTimeout(() => {
+      if (playing || box.classList.contains('is-open')) return;
+      box.classList.add('is-hint');
+      setTimeout(() => box.classList.remove('is-hint'), 4000);
+      try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
+    }, 6000);
+  })();
 })();
