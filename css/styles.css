@@ -1240,8 +1240,6 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 /* ---------- Home · Cinta de óvalos ---------- */
 .marquee { padding-block: clamp(16px, max(calc(11.5429px + 1.1429cqi), 1.9444cqi), 28px); }
 .marquee__track { gap: clamp(24px, max(calc(-10.1714px + 8.7619cqi), 8.0556cqi), 116px); }
-.marquee .oval { width: clamp(200px, max(calc(144.657px + 14.1905cqi), 24.2361cqi), 349px); }
-.marquee .oval > span { font-size: 8.94cqi; }
 
 /* ---------- Home · Sobre nosotros (avance) ---------- */
 .equipo { padding: clamp(48px, max(calc(42.0571px + 1.5238cqi), 4.4444cqi), 64px) var(--pad-x); }
@@ -1435,7 +1433,6 @@ html.wl-open, html.wl-open body { overflow: hidden; }
   .sprin__aside { gap: 32px; }
   .sprin__list { grid-column: 6 / 13; }
 }
-.marquee .oval { text-transform: none; }
 
 /* Cabecera solo con texto: sin subrayados ni líneas (y «Menú» en vez del icono) */
 .site-header__nav a::after { display: none; }
@@ -1602,9 +1599,9 @@ html.wl-open, html.wl-open body { overflow: hidden; }
   .footer, .guia__media, .guia__panel--photo, .vhero { overflow: clip; }
 }
 
-/* Cinta de óvalos: misma altura, más largos y más juntos */
-.marquee .oval { width: clamp(280px, max(calc(209.429px + 18.0952cqi), 32.6389cqi), 470px); aspect-ratio: 470 / 137; }
-.marquee .oval > span { font-size: 6.64cqi; }
+/* Cinta de óvalos: todos los óvalos en mayúsculas y bold, con la proporción
+   de los demás (303 × 119); 24 px entre ellos */
+.marquee .oval { width: clamp(200px, max(calc(144.657px + 14.1905cqi), 24.2361cqi), 349px); }
 .marquee__track { gap: clamp(12px, max(calc(7.5429px + 1.1429cqi), 1.6667cqi), 24px); }
 
 /* Cabecera que se esconde al bajar y vuelve al subir */
