@@ -1855,7 +1855,10 @@ html.menu-open .sonido, html.wl-open .sonido { visibility: hidden; }
   position: relative; justify-self: start; display: grid; place-items: center; height: calc(44px * var(--z)); margin-left: calc(-4px * var(--z));
   opacity: 0; visibility: hidden; transition: color 0.25s linear, opacity 0.3s linear, visibility 0s linear 0.3s;
 }
-.site-header__sonido svg { display: block; height: clamp(calc(36px * var(--z)), max(calc(calc(33.0286px * var(--z)) + 0.7619vw), 3.0556vw), calc(48.8889px * var(--z))); width: auto; aspect-ratio: 1200 / 1044; }
+.site-header__sonido svg { display: block; overflow: visible; }
+.site-header__sonido .sv-fondo { fill: var(--blanco); }
+.site-header__sonido .sv-azul { fill: var(--azul); }
+.site-header__sonido .sv-blanco { fill: var(--blanco); }
 .site-header.has-sonido .site-header__sonido { opacity: 1; visibility: visible; transition: color 0.25s linear, opacity 0.3s linear; }
 .site-header.has-sonido .site-header__logo { opacity: 0; pointer-events: none; }
 .site-header__sonido:focus-visible { outline: 2px solid currentColor; outline-offset: calc(4px * var(--z)); border-radius: calc(4px * var(--z)); }
