@@ -1437,3 +1437,10 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 }
 .marquee .oval { text-transform: none; }
 
+/* Cabecera solo con texto: sin subrayados ni líneas (y «Menú» en vez del icono) */
+.site-header__nav a::after { display: none; }
+.site-header__next, .site-header__next:hover { text-decoration: none; }
+.site-header__nav a, .site-header__next, .site-header__lang, .site-header__menu { transition: opacity 0.2s linear, color 0.25s linear; }
+.site-header__nav a:hover, .site-header__next:hover, .site-header__lang:hover, .site-header__menu:hover { opacity: 0.64; }
+.site-header__menu { width: auto; min-width: 44px; justify-items: end; font-weight: 500; font-size: 14px; line-height: 20px; }
+
