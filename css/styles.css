@@ -1835,5 +1835,7 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 @media (prefers-reduced-motion: reduce) { .sonido__label { animation: none; } }
 html.menu-open .sonido, html.wl-open .sonido { visibility: hidden; }
 
+.sonido .sonido__embed { position: fixed; left: calc(-10000px * var(--z)); top: 0; width: calc(300px * var(--z)); height: calc(80px * var(--z)); margin: 0; overflow: hidden; }
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }
