@@ -1607,3 +1607,8 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 .marquee .oval > span { font-size: 6.64cqi; }
 .marquee__track { gap: clamp(12px, max(calc(7.5429px + 1.1429cqi), 1.6667cqi), 24px); }
 
+/* Cabecera que se esconde al bajar y vuelve al subir */
+.site-header { transition: transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1); }
+.site-header.is-hidden { transform: translateY(-105%); }
+@media (prefers-reduced-motion: reduce) { .site-header { transition: none; } }
+

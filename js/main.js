@@ -866,4 +866,32 @@
     items.forEach((it) => io.observe(it));
     set(0);
   })();
+
+  /* =======================================================================
+     14. Cabecera que se esconde (como en Random Golf Club)
+         Arriba del todo siempre se ve. Al bajar, acompaña un poco y se
+         esconde. Al subir unos píxeles vuelve, y si no la usas se vuelve a
+         esconder a los 2,5 s. Con el ratón encima, el foco dentro o el menú
+         abierto se queda visible.
+     ======================================================================= */
+  (() => {
+    const header = $('[data-header]');
+    if (!header) return;
+    const all = () => [header, $('.site-header--ink')].filter(Boolean);
+    const root = document.documentElement;
+    let lastY = scrollY, hidden = false, down = 0, up = 0, timer = 0;
+    const TOP = 120, FOLLOW = 160, NUDGE = 6, IDLE = 2500;
+    const set = (h) => { if (h === hidden) return; hidden = h; all().forEach((el) => el.classList.toggle('is-hidden', h)); };
+    const busy = () => header.matches(':hover, :focus-within') || root.classList.contains('menu-open') || root.classList.contains('wl-open');
+    const later = () => { clearTimeout(timer); timer = setTimeout(() => { if (scrollY > TOP && !busy()) set(true); }, IDLE); };
+    addEventListener('scroll', () => {
+      const y = scrollY, dy = y - lastY; lastY = y;
+      if (y <= TOP) { set(false); clearTimeout(timer); down = up = 0; return; }
+      if (busy()) return;
+      if (dy > 0) { up = 0; down += dy; if (down > FOLLOW) { set(true); clearTimeout(timer); } }
+      else if (dy < 0) { down = 0; up -= dy; if (up >= NUDGE) { set(false); later(); } }
+    }, { passive: true });
+    header.addEventListener('pointerleave', () => { if (!hidden && scrollY > TOP) later(); });
+    header.addEventListener('focusin', () => set(false));
+  })();
 })();
