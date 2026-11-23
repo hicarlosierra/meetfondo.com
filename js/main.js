@@ -931,4 +931,39 @@
       if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 450); }
     }, { rootMargin: '200px 0px' }).observe(box);
   });
+
+  /* =======================================================================
+     16. Manifiesto que se pinta con el scroll (data-fill)
+         Cada palabra pasa de gris a negro a medida que el bloque cruza la
+         pantalla: empieza cuando su parte de arriba llega al 85 % de la altura
+         y termina cuando su parte de abajo llega al 45 %.
+     ======================================================================= */
+  $$('[data-fill]').forEach((sec) => {
+    if (mqReduce.matches) return;
+    const words = [];
+    $$('.manifiesto__phrase', sec).forEach((ph) => {
+      const parts = ph.textContent.trim().split(/\s+/);
+      ph.textContent = '';
+      parts.forEach((w, k) => {
+        const s = document.createElement('span'); s.className = 'mf-w'; s.textContent = w;
+        ph.appendChild(s); if (k < parts.length - 1) ph.appendChild(document.createTextNode(' '));
+        words.push(s);
+      });
+    });
+    sec.classList.add('is-filling');
+    let shown = -1, ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = sec.getBoundingClientRect(), vh = innerHeight;
+      const start = vh * 0.85, end = vh * 0.45;
+      const p = clamp((start - r.top) / ((start - end) + r.height), 0, 1);
+      const n = Math.round(p * words.length);
+      if (n === shown) return;
+      shown = n;
+      words.forEach((w, k) => w.classList.toggle('is-on', k < n));
+    };
+    addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+    addEventListener('resize', update);
+    update();
+  });
 })();
