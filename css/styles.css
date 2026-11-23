@@ -1778,5 +1778,22 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 .como.is-reveal .acc__item:not(.is-reached) .acc__sign { color: var(--gris); }
 @media (prefers-reduced-motion: reduce) { .como.is-reveal .acc__item .acc__num, .como.is-reveal .acc__item .acc__title, .como.is-reveal .acc__item .acc__sign { color: var(--negro); } }
 
+/* Viajes: óvalo que sigue al ratón sobre la foto de cada tarjeta
+   (Costa Brava: «Lista de espera», abre el formulario; los demás: «Avísame»).
+   En táctil queda fijo como sello abajo a la derecha. */
+.tcard__media { position: relative; display: block; overflow: hidden; }
+.tcard__media .tcard__img { display: block; }
+.tcard__oval { position: absolute; z-index: 2; right: calc(12px * var(--z)); bottom: calc(12px * var(--z)); width: calc(150px * var(--z)); }
+.tcard__oval > span { font-size: 10cqi; }
+.tcard__oval--one > span { font-size: 12cqi; }
+@media (hover: hover) and (pointer: fine) {
+  .tcard__oval { left: 0; top: 0; right: auto; bottom: auto; width: calc(220px * var(--z)); }
+  .tcard__media { overflow: clip; }
+}
+@media (min-width: 900px) and (min-height: 600px) {
+  .tcard__media { flex: 1 1 0; min-height: 0; }
+  .tcard__media .tcard__img { height: 100%; }
+}
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }

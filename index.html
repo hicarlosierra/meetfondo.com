@@ -23,7 +23,7 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="stylesheet" href="css/styles.css?v=217bb1ea">
+  <link rel="stylesheet" href="css/styles.css?v=da4d72db">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
        ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
@@ -226,7 +226,10 @@
       </div>
       <div class="viajes__strip" data-strip>
         <a class="tcard" href="viajes/costa-brava/" data-type="0">
-          <img class="tcard__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
+          <span class="tcard__media" data-follow-area data-waitlist>
+            <img class="tcard__img" src="assets/img/postal-costa-brava.webp" width="736" height="920" alt="" loading="lazy" decoding="async">
+            <span class="oval oval--light tcard__oval" data-follow aria-hidden="true"><span>Lista de<br>espera</span></span>
+          </span>
           <span class="tcard__labels" aria-hidden="true"><span>ESPAÑA</span><span>GIRONA</span><span>MEDITERRÁNEO</span></span>
           <span class="tcard__title" aria-hidden="true">Tu primera vez<br>en la <strong>Costa Brava</strong></span>
           <span class="tcard__meta" aria-hidden="true">CAMPAMENTO OPEN WATER · JUN 2027</span>
@@ -234,7 +237,10 @@
           <span class="sr-only">Campamento Open Water en la Costa Brava, junio de 2027. Ver campamento.</span>
         </a>
         <a class="tcard is-soon" href="#cartas" data-type="1">
-          <img class="tcard__img" src="assets/img/mar-rojo.webp" width="1600" height="1200" alt="" loading="lazy" decoding="async">
+          <span class="tcard__media" data-follow-area>
+            <img class="tcard__img" src="assets/img/mar-rojo.webp" width="1600" height="1200" alt="" loading="lazy" decoding="async">
+            <span class="oval oval--light tcard__oval tcard__oval--one" data-follow aria-hidden="true"><span>Avísame</span></span>
+          </span>
           <span class="tcard__labels" aria-hidden="true"><span>EGIPTO</span><span>MAR ROJO</span><span>2027</span></span>
           <span class="tcard__title" aria-hidden="true">Próximamente<br>en el <strong>Mar Rojo</strong></span>
           <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · FECHAS POR CONFIRMAR</span>
@@ -242,7 +248,10 @@
           <span class="sr-only">Viaje para buceadores al Mar Rojo, próximamente. Avísame cuando abra.</span>
         </a>
         <a class="tcard is-soon" href="#cartas" data-type="1">
-          <img class="tcard__img" src="assets/img/baja-california.webp" width="1400" height="1867" alt="" loading="lazy" decoding="async">
+          <span class="tcard__media" data-follow-area>
+            <img class="tcard__img" src="assets/img/baja-california.webp" width="1400" height="1867" alt="" loading="lazy" decoding="async">
+            <span class="oval oval--light tcard__oval tcard__oval--one" data-follow aria-hidden="true"><span>Avísame</span></span>
+          </span>
           <span class="tcard__labels" aria-hidden="true"><span>MÉXICO</span><span>BAJA CALIFORNIA SUR</span><span>PACÍFICO</span></span>
           <span class="tcard__title" aria-hidden="true">Próximamente en<br><strong>Baja California Sur</strong></span>
           <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · FECHAS POR CONFIRMAR</span>
