@@ -26,7 +26,7 @@
   <link rel="preload" href="../../assets/img/bahia.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="../../css/styles.css?v=39e93dd7">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="../../js/main.js?v=d43fcd86" defer></script>
+  <script src="../../js/main.js?v=c1ae18f5" defer></script>
 </head>
 <body class="page-viaje">
 
@@ -366,14 +366,12 @@
 
 <!-- ============ Sonidos desde el fondo (reproductor de Spotify, abajo a la izquierda) ============
      Nunca suena solo: avisa al pasar por encima y solo suena al pulsar.
-     La canción se configura en FONDO.track (main.js). -->
+     El audio está en assets/audio/sonidos-desde-el-fondo.mp3 (FONDO.audio en main.js). -->
 <div class="sonido" data-sonido>
   <button class="sonido__btn" type="button" aria-controls="sonido-panel" aria-pressed="false" aria-label="Sonidos desde el fondo: poner música">
     <span class="sonido__vinilo" aria-hidden="true"><img src="../../assets/img/vinilo-disco.png" alt="" width="288" height="288"><img class="sonido__label" src="../../assets/img/vinilo-etiqueta.png" alt="" width="288" height="288"></span>
   </button>
-  <span class="sonido__tag" aria-hidden="true">Sonidos desde el fondo <em>Dale al play</em></span>
-  <!-- Reproductor de Spotify fuera de la vista: el vinilo lo controla -->
-  <div class="sonido__embed" aria-hidden="true"><div data-embed></div></div>
+  <span class="sonido__tag" aria-hidden="true">Sonidos desde el fondo <em>Así suenan nuestras experiencias</em></span>
 </div>
 
 <!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============

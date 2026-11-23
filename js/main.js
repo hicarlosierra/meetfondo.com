@@ -23,8 +23,8 @@
                Vacío: el formulario se valida y da las gracias, pero no envía nada. */
   const FONDO = {
     whatsapp: '', formEndpoint: '',
-    // Sonidos desde el fondo: canción de Spotify que suena al pulsar el vinilo
-    track: 'https://open.spotify.com/track/5qZKuuKGngifO5psg19XdO',
+    // Sonidos desde el fondo: audio propio que suena al pulsar el vinilo (ruta desde la raíz)
+    audio: '/assets/audio/sonidos-desde-el-fondo.mp3',
   };
 
   /* ---------- Toast ---------- */
@@ -1034,53 +1034,34 @@
 
   /* =======================================================================
      18. Sonidos desde el fondo (vinilo abajo a la izquierda)
-         Nunca suena solo: al pasar por encima avisa («Dale al play») y la
-         primera vez que alguien entra el aviso asoma unos segundos. Pulsar
-         el vinilo pone la canción (FONDO.track) y gira; volver a pulsar la
-         para. Spotify la da entera a quien tiene la sesión abierta y un
-         fragmento de 30 s al resto.
+         Nunca suena solo: al pasar por encima avisa y la primera vez que
+         alguien entra el aviso asoma unos segundos. Pulsar el vinilo pone el
+         audio (FONDO.audio, en bucle) y el vinilo gira; volver a pulsar lo para.
      ======================================================================= */
   (() => {
     const box = $('[data-sonido]');
-    if (!box) return;
+    if (!box || !FONDO.audio) return;
     const btn = $('.sonido__btn', box);
-    const mount = $('[data-embed]', box);
-    const m = /(track|playlist|album)[/:]([A-Za-z0-9]+)/.exec(FONDO.track || '');
-    if (!m) { box.hidden = true; return; }
-    const uri = `spotify:${m[1]}:${m[2]}`;
-    let controller = null, loading = false, pending = false;
-
+    const audio = new Audio();
+    audio.src = FONDO.audio; audio.loop = true; audio.preload = 'none';
     const setPlaying = (v) => {
       box.classList.toggle('is-playing', v);
       btn.setAttribute('aria-pressed', String(v));
       btn.setAttribute('aria-label', v ? 'Sonidos desde el fondo: parar la música' : 'Sonidos desde el fondo: poner música');
     };
-    // Carga el reproductor al acercarse al botón (sin sonar), así el clic responde al momento
-    const load = () => {
-      if (loading) return;
-      loading = true;
-      window.onSpotifyIframeApiReady = (API) => {
-        API.createController(mount, { uri, width: 300, height: 80 }, (c) => {
-          controller = c;
-          c.addListener('ready', () => { if (pending) { pending = false; c.play(); } });
-          c.addListener('playback_update', (e) => setPlaying(!e.data.isPaused && e.data.position < e.data.duration));
-        });
-      };
-      const sc = document.createElement('script');
-      sc.src = 'https://open.spotify.com/embed/iframe-api/v1'; sc.async = true;
-      document.head.appendChild(sc);
-    };
-    btn.addEventListener('pointerenter', load, { once: true });
-    btn.addEventListener('focus', load, { once: true });
+    audio.addEventListener('play', () => setPlaying(true));
+    audio.addEventListener('pause', () => setPlaying(false));
     btn.addEventListener('click', () => {
-      if (!controller) { pending = true; setPlaying(true); load(); return; }
-      controller.togglePlay();
+      if (audio.paused) {
+        const p = audio.play();
+        if (p && p.catch) p.catch(() => { setPlaying(false); toast('El sonido llega muy pronto.'); });
+      } else audio.pause();
     });
 
-    // Aviso sutil la primera vez: asoma «Dale al play» unos segundos
+    // Aviso sutil la primera vez que alguien entra
     let seen = false; try { seen = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
     if (!seen) setTimeout(() => {
-      if (box.classList.contains('is-playing')) return;
+      if (!audio.paused) return;
       box.classList.add('is-hint');
       setTimeout(() => box.classList.remove('is-hint'), 4000);
       try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
