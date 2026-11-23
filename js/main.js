@@ -1034,37 +1034,91 @@
 
   /* =======================================================================
      18. Sonidos desde el fondo (vinilo abajo a la izquierda)
-         Nunca suena solo: al pasar por encima avisa y la primera vez que
-         alguien entra el aviso asoma unos segundos. Pulsar el vinilo pone el
-         audio (FONDO.audio, en bucle) y el vinilo gira; volver a pulsar lo para.
+         Aparece al pasar el hero. Nunca suena solo: al pasar por encima avisa
+         y la primera vez que aparece el aviso asoma unos segundos.
+         Al pulsar, el disco arranca despacio y coge velocidad, y el sonido
+         entra con un fundido. Al volver a pulsar, el volumen cae rápido y el
+         disco frena poco a poco (no en seco).
      ======================================================================= */
   (() => {
     const box = $('[data-sonido]');
     if (!box || !FONDO.audio) return;
     const btn = $('.sonido__btn', box);
+    const spin = $('[data-spin]', box);
     const audio = new Audio();
     audio.src = FONDO.audio; audio.loop = true; audio.preload = 'none';
-    const setPlaying = (v) => {
-      box.classList.toggle('is-playing', v);
+
+    // Volumen con Web Audio (en iPhone audio.volume no funciona)
+    let ctx = null, gain = null;
+    const setupAudio = () => {
+      if (ctx) return;
+      try {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        gain = ctx.createGain(); gain.gain.value = 0;
+        ctx.createMediaElementSource(audio).connect(gain).connect(ctx.destination);
+      } catch (_) { ctx = null; }
+    };
+    const fade = (to, secs) => {
+      if (gain) { const t = ctx.currentTime; gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(gain.gain.value, t); gain.gain.linearRampToValueAtTime(to, t + secs); }
+      else audio.volume = to;
+    };
+
+    // Giro con inercia: la velocidad persigue al objetivo (arranque y frenada suaves)
+    const MAX = 150;                       // grados por segundo (una vuelta cada 2,4 s)
+    let angle = 0, speed = 0, target = 0, last = 0, raf = 0;
+    const frame = (t) => {
+      const dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+      const tau = target > speed ? 0.55 : 0.5;
+      speed += (target - speed) * (1 - Math.exp(-dt / tau));
+      angle = (angle + speed * dt) % 360;
+      spin.setAttribute('transform', `rotate(${angle.toFixed(2)} 675 675)`);
+      if (target === 0 && speed < 1) { speed = 0; raf = 0; last = 0; return; }
+      raf = requestAnimationFrame(frame);
+    };
+    const run = () => { if (!raf) { last = 0; raf = requestAnimationFrame(frame); } };
+
+    let playing = false, startTimer = 0, stopTimer = 0;
+    const setState = (v) => {
+      playing = v; box.classList.toggle('is-playing', v);
       btn.setAttribute('aria-pressed', String(v));
       btn.setAttribute('aria-label', v ? 'Sonidos desde el fondo: parar la música' : 'Sonidos desde el fondo: poner música');
     };
-    audio.addEventListener('play', () => setPlaying(true));
-    audio.addEventListener('pause', () => setPlaying(false));
-    btn.addEventListener('click', () => {
-      if (audio.paused) {
-        const p = audio.play();
-        if (p && p.catch) p.catch(() => { setPlaying(false); toast('El sonido llega muy pronto.'); });
-      } else audio.pause();
-    });
+    const play = () => {
+      setState(true); clearTimeout(stopTimer);
+      setupAudio(); if (ctx && ctx.state === 'suspended') ctx.resume();
+      target = mqReduce.matches ? 0 : MAX; run();
+      if (!gain) audio.volume = 0;
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => { stop(); toast('No se ha podido poner el sonido.'); });
+      clearTimeout(startTimer);
+      startTimer = setTimeout(() => fade(1, 0.9), 350);   // el sonido entra cuando el disco ya gira
+    };
+    const stop = () => {
+      setState(false); clearTimeout(startTimer);
+      fade(0, 0.25);                                       // el volumen cae rápido
+      stopTimer = setTimeout(() => audio.pause(), 280);
+      target = 0; run();                                   // el disco frena poco a poco
+    };
+    btn.addEventListener('click', () => (playing ? stop() : play()));
 
-    // Aviso sutil la primera vez que alguien entra
-    let seen = false; try { seen = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
-    if (!seen) setTimeout(() => {
-      if (!audio.paused) return;
-      box.classList.add('is-hint');
-      setTimeout(() => box.classList.remove('is-hint'), 4000);
-      try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
-    }, 6000);
+    // Aparece al pasar el hero (y se queda mientras suena)
+    const hero = $('#top');
+    let shownOnce = false;
+    const check = () => {
+      const past = !hero || scrollY > hero.offsetHeight * 0.8;
+      box.classList.toggle('is-shown', past || playing);
+      if (past && !shownOnce) {
+        shownOnce = true;
+        let seen = false; try { seen = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
+        if (!seen) setTimeout(() => {
+          if (playing) return;
+          box.classList.add('is-hint');
+          setTimeout(() => box.classList.remove('is-hint'), 4000);
+          try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
+        }, 700);
+      }
+    };
+    addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
+    check();
   })();
 })();
