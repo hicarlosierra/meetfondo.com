@@ -1875,7 +1875,12 @@ html.menu-open .sonido, html.wl-open .sonido { visibility: hidden; }
 .sonido-dock .site-header__sonido:hover .sonido__tag, .sonido-dock .site-header__sonido:focus-visible .sonido__tag, .sonido-dock .site-header__sonido.is-hint .sonido__tag { translate: 0 0; }
 html.menu-open .sonido-dock, html.wl-open .sonido-dock { visibility: hidden; }
 .sonido-dock .site-header__sonido { display: grid; }
-@media (max-width: 899px) { .sonido-dock .site-header__sonido svg { width: calc(60 * var(--zu)); height: calc(64 * var(--zu)); } }
+@media (max-width: 899px) {
+  .site-header__sonido svg { width: calc(60 * var(--zu)); height: calc(64 * var(--zu)); }
+  .site-header__sonido .sonido__tag { top: calc(100% + calc(14 * var(--zu))); }
+}
+/* En pantallas táctiles el texto solo sale al pulsar (con .is-hint), no con el :hover que se queda pegado */
+@media (hover: none) { .site-header__sonido:hover:not(.is-hint) .sonido__tag { opacity: 0; translate: 0 calc(-6 * var(--zu)); } }
 
 
 @media (min-width: 900px) { :root { --zu: 0.9px; } }
