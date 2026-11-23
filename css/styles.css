@@ -1595,3 +1595,15 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 .sprin__list { gap: clamp(80px, max(calc(50.2857px + 7.619cqi), 11.1111cqi), 160px); }
 .acc--faq .acc__body { margin-top: -4px; }
 
+/* Óvalos que siguen al cursor: sin aparecer ni crecer. La zona los recorta
+   como una ventana y el óvalo entra y sale con el ratón. */
+@media (hover: hover) and (pointer: fine) {
+  [data-follow], [data-follow].is-visible, [data-follow-area]:focus-within [data-follow] { opacity: 1; scale: 1; transition: none; will-change: translate; }
+  .footer, .guia__media, .guia__panel--photo, .vhero { overflow: clip; }
+}
+
+/* Cinta de óvalos: misma altura, más largos y más juntos */
+.marquee .oval { width: clamp(280px, max(calc(209.429px + 18.0952cqi), 32.6389cqi), 470px); aspect-ratio: 470 / 137; }
+.marquee .oval > span { font-size: 6.64cqi; }
+.marquee__track { gap: clamp(12px, max(calc(7.5429px + 1.1429cqi), 1.6667cqi), 24px); }
+

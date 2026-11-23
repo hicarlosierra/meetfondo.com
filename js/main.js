@@ -335,68 +335,81 @@
 
 
   /* =======================================================================
-     4. Óvalos que aparecen con el cursor (guía, hero del viaje y footer)
-        No están a la vista: al entrar en su zona aparecen bajo el puntero,
-        lo siguen con un poco de retardo y desaparecen al salir.
-        En táctil quedan fijos como sello (lo resuelve el CSS).
+     4. Óvalos que siguen al cursor (guía, hero del viaje y footer)
+        El óvalo sigue al puntero siempre, también fuera de su zona; la zona
+        hace de ventana y lo recorta. Así, al entrar, el óvalo «entra» con el
+        ratón cortado por el borde, sin aparecer ni crecer; al salir se va
+        con él. En táctil quedan fijos como sello (lo resuelve el CSS).
         En el footer, sobre un enlace, el óvalo muestra el nombre del enlace.
+        Con teclado se coloca en el centro de la zona.
      ======================================================================= */
-  $$('[data-follow-area]').forEach((area) => {
-    const el = $('[data-follow]', area);
-    if (!el) return;
-    const label = el.querySelector('span');
-    const defaultHTML = label ? label.innerHTML : '';
-    let cx = 0, cy = 0, tx = 0, ty = 0, raf = 0, inside = false, hideTimer = 0;
+  (() => {
+    const items = $$('[data-follow-area]').map((area) => {
+      const el = $('[data-follow]', area);
+      if (!el) return null;
+      const label = el.querySelector('span');
+      return { area, el, label, html: label ? label.innerHTML : '', cx: -2000, cy: -2000, tx: -2000, ty: -2000, inside: false };
+    }).filter(Boolean);
+    if (!items.length) return;
 
-    // translate (no transform): así el «scale» de la entrada no multiplica el desplazamiento
-    const paint = () => { el.style.translate = `${cx.toFixed(2)}px ${cy.toFixed(2)}px`; };
+    let px = -9999, py = -9999, raf = 0;
+    const paint = (it) => { it.el.style.translate = `${it.cx.toFixed(2)}px ${it.cy.toFixed(2)}px`; };
+    const aim = (it, x, y) => {
+      const r = it.el.getBoundingClientRect();
+      it.tx = x - (r.left - it.cx + r.width / 2);
+      it.ty = y - (r.top - it.cy + r.height / 2);
+    };
     const tick = () => {
-      const k = mqReduce.matches ? 1 : 0.22;
-      cx = lerp(cx, tx, k); cy = lerp(cy, ty, k); paint();
-      raf = inside && (Math.abs(cx - tx) > 0.2 || Math.abs(cy - ty) > 0.2) ? requestAnimationFrame(tick) : 0;
+      raf = 0;
+      const k = mqReduce.matches ? 1 : 0.2;
+      let moving = false;
+      for (const it of items) {
+        if (Math.abs(it.cx - it.tx) < 0.2 && Math.abs(it.cy - it.ty) < 0.2) continue;
+        it.cx = lerp(it.cx, it.tx, k); it.cy = lerp(it.cy, it.ty, k); paint(it); moving = true;
+      }
+      if (moving) raf = requestAnimationFrame(tick);
     };
-    const target = (e) => {
-      const r = el.getBoundingClientRect();           // el escalado no mueve el centro
-      tx = e.clientX - (r.left - cx + r.width / 2);
-      ty = e.clientY - (r.top - cy + r.height / 2);
+    const near = (it) => {
+      const r = it.area.getBoundingClientRect(), m = it.el.offsetWidth;
+      return px > r.left - m && px < r.right + m && py > r.top - m && py < r.bottom + m;
     };
-
-    area.addEventListener('pointerenter', (e) => {
-      if (!isMouse(e)) return;
-      clearTimeout(hideTimer);
-      inside = true;
-      target(e); cx = tx; cy = ty; paint();          // aparece justo bajo el puntero
-      area.classList.add('has-cursor');
-      requestAnimationFrame(() => el.classList.add('is-visible'));
-    });
-    area.addEventListener('pointermove', (e) => {
-      if (!inside || !isMouse(e)) return;
-      target(e);
+    const update = () => {
+      if (!mqFine.matches) return;
+      for (const it of items) {
+        if (!near(it) && Math.abs(it.cx - it.tx) < 0.2) continue;   // lejos y quieto: no hace falta moverlo
+        aim(it, px, py);
+      }
       if (!raf) raf = requestAnimationFrame(tick);
-    });
-    area.addEventListener('pointerleave', () => {
-      if (!inside) return;
-      inside = false;
-      el.classList.remove('is-visible');            // desaparece donde está
-      area.classList.remove('has-cursor');
-      hideTimer = setTimeout(() => {
-        if (inside) return;
-        cx = cy = tx = ty = 0; el.style.translate = '';
-        if (label) label.innerHTML = defaultHTML;
-      }, 380);
-    });
+    };
+    addEventListener('pointermove', (e) => { if (!isMouse(e)) return; px = e.clientX; py = e.clientY; update(); }, { passive: true });
+    addEventListener('scroll', update, { passive: true });
+    items.forEach(paint);
 
-    if (el.hasAttribute('data-cursor-default') && label) {
-      area.addEventListener('pointerover', (e) => {
-        const a = e.target.closest('a, button');
-        if (a && area.contains(a) && inside) label.textContent = a.textContent.trim();
+    for (const it of items) {
+      const { area, el, label } = it;
+      area.addEventListener('pointerenter', (e) => { if (isMouse(e)) { it.inside = true; area.classList.add('has-cursor'); } });
+      area.addEventListener('pointerleave', () => {
+        it.inside = false; area.classList.remove('has-cursor');
+        if (label) label.innerHTML = it.html;
       });
-      area.addEventListener('pointerout', (e) => {
-        const a = e.target.closest('a, button');
-        if (a && !a.contains(e.relatedTarget)) label.innerHTML = defaultHTML;
+      // Teclado: el óvalo se coloca en el centro de la zona
+      area.addEventListener('focusin', () => {
+        if (it.inside || !mqFine.matches) return;
+        const r = area.getBoundingClientRect();
+        aim(it, r.left + r.width / 2, r.top + r.height / 2); it.cx = it.tx; it.cy = it.ty; paint(it);
       });
+      if (el.hasAttribute('data-cursor-default') && label) {
+        area.addEventListener('pointerover', (e) => {
+          const a = e.target.closest('a, button');
+          if (a && area.contains(a) && it.inside) label.textContent = a.textContent.trim();
+        });
+        area.addEventListener('pointerout', (e) => {
+          const a = e.target.closest('a, button');
+          if (a && !a.contains(e.relatedTarget)) label.innerHTML = it.html;
+        });
+      }
     }
-  });
+  })();
 
   /* =======================================================================
      5. Manifiesto: dos frases, dos fotos. La foto va siempre detrás del texto.
