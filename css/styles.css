@@ -1089,3 +1089,28 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 .vhero__oval { pointer-events: auto; }
 @media (hover: hover) and (pointer: fine) { .vhero__oval { pointer-events: none; } }
 
+/* =========================================================================
+   Cabecera v2: barra en cápsula con borde fino y el menú en una cápsula
+   central. El borde toma el mismo color que el texto (blanco o negro según
+   lo que haya detrás).
+   ========================================================================= */
+.site-header { --bar-h: 56px; --bar-top: 12px; padding: var(--bar-top) calc(var(--pad-x) + 16px) 0; grid-template-rows: var(--bar-h); }
+.site-header__ring { position: absolute; z-index: -1; top: var(--bar-top); left: var(--pad-x); right: var(--pad-x); height: var(--bar-h); border: 1px solid currentColor; border-radius: 999px; pointer-events: none !important; }
+.site-header__logo { margin-left: -2px; }
+.site-header__nav a, .site-header__next { font-weight: 600; }
+@media (min-width: 900px) {
+  .site-header { --bar-h: 64px; --bar-top: 16px; padding-inline: calc(var(--pad-x) + 20px) calc(var(--pad-x) + 24px); }
+  .site-header__nav { align-self: stretch; align-items: center; justify-content: center; gap: 32px; width: min(448px, 34vw); border: 1px solid currentColor; border-radius: 999px; }
+  .site-header__right { gap: clamp(24px, 5.7vw, 82px); }
+  .site-header__lang { font-size: 12px; }
+}
+
+/* Claim en el hero, centrado sobre el wordmark */
+.hero__claim {
+  position: absolute; z-index: 1; left: 50%; top: 45%; transform: translate(-50%, -50%);
+  width: max-content; text-align: center; color: var(--blanco); text-transform: uppercase;
+  font-weight: 400; font-size: clamp(24px, max(calc(18.0571px + 1.5238cqi), 2.7778cqi), 44.4444px); line-height: 1.125; letter-spacing: -0.01em;
+}
+.hero__claim strong { font-weight: 700; }
+@media (max-width: 899px) and (orientation: portrait) { .hero__claim { top: 50%; } }
+
