@@ -1639,5 +1639,10 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 /* Cabecera al 80 % del tamaño anterior (18 → 14,4 en desktop) */
 .site-header__nav a, .site-header__next, .site-header__lang { font-size: clamp(14.4px, max(calc(15.2229px - 0.0571cqi), 1cqi), 15px); }
 
+/* Secuencia de fotos (tipo gif) en «Sobre nosotros» de la home: corte seco, foto a foto */
+.flipbook { position: relative; overflow: hidden; border-radius: var(--r); background: var(--beige); }
+.flipbook img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.flipbook img.is-on { opacity: 1; }
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }

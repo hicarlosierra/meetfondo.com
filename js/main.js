@@ -896,4 +896,20 @@
     header.addEventListener('pointerleave', () => { if (!hidden && scrollY > TOP) later(); });
     header.addEventListener('focusin', () => set(false));
   })();
+
+  /* =======================================================================
+     15. Secuencia de fotos tipo gif (data-flipbook)
+         Cambia de foto cada 280 ms, con corte seco. Solo corre cuando está
+         a la vista; con «reducir movimiento» se queda en la primera.
+     ======================================================================= */
+  $$('[data-flipbook]').forEach((box) => {
+    const imgs = $$('img', box);
+    if (imgs.length < 2 || mqReduce.matches) return;
+    let i = 0, timer = 0;
+    const step = () => { imgs[i].classList.remove('is-on'); i = (i + 1) % imgs.length; imgs[i].classList.add('is-on'); };
+    new IntersectionObserver(([e]) => {
+      clearInterval(timer);
+      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 280); }
+    }, { rootMargin: '200px 0px' }).observe(box);
+  });
 })();
