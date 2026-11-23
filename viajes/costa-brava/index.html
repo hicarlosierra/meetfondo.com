@@ -372,34 +372,61 @@
 </footer>
 </div>
 
-<!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============ -->
+<!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============
+     Paso 1: apuntarse (nombre, email y teléfono). Paso 2, opcional: tres preguntas.
+     Por ahora no envía nada (ver FONDO.formEndpoint en main.js). -->
 <div class="wl" id="lista" role="dialog" aria-modal="true" aria-labelledby="wl-title" aria-hidden="true" data-wl>
   <div class="wl__overlay" data-wl-close></div>
   <button class="wl__close" type="button" aria-label="Cerrar formulario" data-wl-close><span aria-hidden="true">×</span></button>
   <div class="wl__panel">
-    <p class="wl__kicker">Costa Brava&nbsp; / &nbsp;Junio 2027</p>
-    <h2 class="wl__title" id="wl-title">Tu primera vez te espera <strong>en el fondo.</strong></h2>
-    <p class="wl__intro">Déjanos tus datos y te avisaremos antes que a nadie cuando abramos las plazas. El mar puede esperar. Tú no.</p>
-    <p class="wl__trip">Tossa de Mar · Open Water · 4 días, 3 noches</p>
-    <form class="wl__form" novalidate>
-      <input type="hidden" name="viaje" value="Campamento Open Water · Costa Brava · Junio 2027">
-      <p class="wl__fieldset-head"><span>Empezamos por conocernos</span><span>* Obligatorio</span></p>
-      <div class="wl__grid">
-        <label><span>Nombre *</span><input type="text" name="nombre" autocomplete="given-name" placeholder="Tu nombre" required></label>
-        <label><span>Apellidos *</span><input type="text" name="apellidos" autocomplete="family-name" placeholder="Tus apellidos" required></label>
-        <label class="is-wide"><span>Email *</span><input type="email" name="email" inputmode="email" autocomplete="email" placeholder="hola@ejemplo.com" required></label>
-        <label><span>Ciudad</span><input type="text" name="ciudad" autocomplete="address-level2" placeholder="¿Desde dónde vienes?"></label>
-        <label><span>Teléfono</span><input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000"></label>
-      </div>
-      <label class="wl__check"><input type="checkbox" name="privacidad" required><span>He leído y acepto la <a href="#" data-todo="política de privacidad">política de privacidad</a>.*</span></label>
-      <button class="wl__submit" type="submit">Apúntame a la lista de espera</button>
-      <p class="wl__msg" role="alert" aria-live="assertive"></p>
-      <p class="wl__note">Sin compromiso. Te avisaremos de las fechas y el precio muy pronto.</p>
-    </form>
-    <div class="wl__done" role="status">
-      <p class="wl__done-title" tabindex="-1">Estás en la lista. <strong>Nos vemos en el fondo.</strong></p>
-      <p>Te escribiremos antes que a nadie cuando abramos las plazas. Mientras, si tienes alguna duda, <a href="#" data-wa="Hola, me he apuntado a la lista de espera del campamento de la Costa Brava y tengo una pregunta." style="text-decoration:underline">escríbenos por WhatsApp</a>.</p>
-    </div>
+
+    <section class="wl__step" data-wl-step="1">
+      <p class="wl__top"><span>Costa Brava&nbsp; / &nbsp;Junio 2027</span><span>01/02</span></p>
+      <h2 class="wl__title" id="wl-title">Tu primera vez te espera <strong>en el fondo.</strong></h2>
+      <p class="wl__intro">Déjanos tus datos y te avisaremos antes que a nadie cuando abramos las plazas. Forma parte de nuestra primera experiencia.</p>
+      <form class="wl__form" data-wl-form="1" novalidate>
+        <input type="hidden" name="viaje" value="Campamento Open Water · Costa Brava · Junio 2027">
+        <p class="wl__req">* Obligatorio</p>
+        <label class="wl__field"><span>Nombre *</span><input type="text" name="nombre" autocomplete="given-name" placeholder="Cómo te llamas" required></label>
+        <label class="wl__field"><span>Email *</span><input type="email" name="email" inputmode="email" autocomplete="email" placeholder="hola@ejemplo.com" required></label>
+        <label class="wl__field"><span>Teléfono</span><input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000"><small>Te avisamos por WhatsApp antes que a nadie.</small></label>
+        <label class="wl__check"><input type="checkbox" name="privacidad" required><span>He leído y acepto la <a href="#" data-todo="política de privacidad">política de privacidad</a>.*</span></label>
+        <button class="wl__submit" type="submit">Apúntame a la lista de espera</button>
+        <p class="wl__msg" role="alert" aria-live="assertive"></p>
+        <p class="wl__note">Sin compromiso. Te avisaremos de las fechas y el precio muy pronto.</p>
+      </form>
+    </section>
+
+    <section class="wl__step" data-wl-step="2" hidden>
+      <p class="wl__top"><span>Estás en la lista</span><span>02/02</span></p>
+      <h2 class="wl__title" tabindex="-1">Tu primera vez te espera <strong>en el fondo.</strong></h2>
+      <p class="wl__intro">¿Nos ayudas a preparar un campamento a tu medida?<br>Responde solo si te apetece.</p>
+      <form class="wl__form" data-wl-form="2" novalidate>
+        <fieldset class="wl__q">
+          <legend>¿Cómo te llevas con el agua?</legend>
+          <div class="wl__chips">
+            <label class="chip"><input type="radio" name="agua" value="Nunca he buceado"><span>Nunca he buceado</span></label>
+            <label class="chip"><input type="radio" name="agua" value="Hice un bautizo"><span>Hice un bautizo</span></label>
+            <label class="chip"><input type="radio" name="agua" value="Me da un poco de respeto"><span>Me da un poco de respeto</span></label>
+            <label class="chip"><input type="radio" name="agua" value="Estoy deseando"><span>Estoy deseando</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="wl__q">
+          <legend>¿Con quién vendrías?</legend>
+          <div class="wl__chips">
+            <label class="chip"><input type="radio" name="con" value="Solo"><span>Solo</span></label>
+            <label class="chip"><input type="radio" name="con" value="En pareja"><span>En pareja</span></label>
+            <label class="chip"><input type="radio" name="con" value="Con amigos"><span>Con amigos</span></label>
+          </div>
+        </fieldset>
+        <label class="wl__q wl__open"><span>Si solo pudiéramos cuidar un detalle por ti, ¿cuál sería?</span>
+          <textarea name="detalle" rows="4" placeholder="Huevos revueltos y bacon, que me expliquen las cosas sin prisas y con dibujitos, algo dulce después de bañarme en el mar, dormir escuchando el mar, gente de otras ciudades…"></textarea>
+        </label>
+        <button class="wl__submit" type="submit">Compartir mis respuestas</button>
+        <button class="wl__skip" type="button" data-wl-close>Lo dejo aquí</button>
+      </form>
+    </section>
+
   </div>
 </div>
 

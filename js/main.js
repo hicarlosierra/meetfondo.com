@@ -725,24 +725,37 @@
   });
 
   /* =======================================================================
-     11. Formulario «Lista de espera» (cajón lateral)
+     11. Formulario «Lista de espera» (cajón lateral, dos pasos)
          Lo abre cualquier elemento con data-waitlist (y, con ratón, un clic
-         en una zona data-waitlist-area: el hero del viaje, donde el óvalo
-         sigue al puntero). Se cierra con la X, Escape o clic fuera.
-         Mientras está abierto la página no hace scroll ni recibe el foco.
+         en una zona data-waitlist-area). Se cierra con la X, Escape, clic
+         fuera o «Lo dejo aquí». Paso 1: nombre, email y teléfono. Paso 2,
+         opcional: tres preguntas. Por ahora no envía nada salvo que haya
+         FONDO.formEndpoint.
      ======================================================================= */
   (() => {
     const wl = $('[data-wl]');
     if (!wl) return;
-    const form = $('form', wl);
     const panel = $('.wl__panel', wl);
-    const msg = $('.wl__msg', wl);
+    const steps = $$('[data-wl-step]', wl);
+    const form1 = $('[data-wl-form="1"]', wl), form2 = $('[data-wl-form="2"]', wl);
+    const msg = $('.wl__msg', form1);
     const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
-    let isOpen = false, lastFocus = null;
+    let isOpen = false, lastFocus = null, finished = false;
 
+    const show = (n) => {
+      steps.forEach((s) => { s.hidden = s.dataset.wlStep !== String(n); });
+      panel.scrollTop = 0;
+    };
+    const send = async (form, extra) => {
+      if (!FONDO.formEndpoint) return;
+      const data = new FormData(form); if (extra) data.append('paso', extra);
+      const res = await fetch(FONDO.formEndpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(res.status);
+    };
     const setOpen = (open) => {
       if (open === isOpen) return;
       isOpen = open;
+      if (open && finished) { form1.reset(); form2.reset(); finished = false; show(1); }
       wl.classList.toggle('is-open', open);
       wl.setAttribute('aria-hidden', String(!open));
       document.documentElement.classList.toggle('wl-open', open);
@@ -750,7 +763,7 @@
       if (open) {
         lastFocus = document.activeElement;
         panel.scrollTop = 0;
-        setTimeout(() => ($('input', form) || panel).focus({ preventScroll: true }), 420);
+        setTimeout(() => ($('[data-wl-step]:not([hidden]) input:not([type="hidden"])', wl) || panel).focus({ preventScroll: true }), 420);
       } else if (lastFocus && lastFocus.focus) {
         lastFocus.focus({ preventScroll: true });
       }
@@ -764,19 +777,22 @@
       e.preventDefault();
       setOpen(true);
     });
-    $$('[data-wl-close]', wl).forEach((b) => b.addEventListener('click', () => setOpen(false)));
+    $$('[data-wl-close]', wl).forEach((b) => b.addEventListener('click', () => {
+      if (b.classList.contains('wl__skip')) finished = true;
+      setOpen(false);
+    }));
     wl.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') { e.preventDefault(); setOpen(false); return; }
       if (e.key !== 'Tab') return;
-      const f = $$('a[href], button:not([disabled]), input', wl).filter((x) => x.offsetParent !== null);
+      const f = $$('a[href], button:not([disabled]), input:not([type="hidden"]), textarea', wl).filter((x) => x.offsetParent !== null);
       if (!f.length) return;
       const first = f[0], last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
       else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
     });
 
-    // Validación sencilla, campo a campo
-    const required = $$('[required]', form);
+    // Paso 1: validación campo a campo
+    const required = $$('[required]', form1);
     const fieldOf = (input) => input.closest('label');
     const check = (input) => {
       const ok = input.type === 'checkbox' ? input.checked : input.value.trim() && input.checkValidity();
@@ -787,32 +803,35 @@
       if (fieldOf(input).classList.contains('is-invalid')) check(input);
       msg.textContent = '';
     }));
-
-    form.addEventListener('submit', async (e) => {
+    form1.addEventListener('submit', async (e) => {
       e.preventDefault();
       const bad = required.filter((input) => !check(input));
       if (bad.length) {
-        msg.textContent = bad.some((i) => i.type === 'email' && i.value.trim())
-          ? 'Revisa el email, parece que falta algo.'
-          : 'Faltan los campos marcados con *.';
+        msg.textContent = bad.some((i) => i.type === 'email' && i.value.trim()) ? 'Revisa el email, parece que falta algo.' : 'Faltan los campos marcados con *.';
         bad[0].focus();
         return;
       }
-      const btn = $('.wl__submit', form);
+      const btn = $('.wl__submit', form1);
       btn.disabled = true;
       try {
-        // TODO: conectar con la herramienta de la lista de espera (Brevo, Mailchimp, Formspree…)
-        if (FONDO.formEndpoint) {
-          const res = await fetch(FONDO.formEndpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-          if (!res.ok) throw new Error(res.status);
-        }
-        wl.classList.add('is-done');
-        $('.wl__done-title', wl).focus();
+        await send(form1, 'lista');
+        show(2);
+        $('[data-wl-step="2"] .wl__title', wl).focus({ preventScroll: true });
       } catch (_) {
         msg.textContent = 'No se ha podido enviar. Vuelve a probar en un momento.';
-      } finally {
-        btn.disabled = false;
-      }
+      } finally { btn.disabled = false; }
+    });
+
+    // Paso 2: respuestas opcionales
+    form2.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = $('.wl__submit', form2);
+      btn.disabled = true;
+      try { await send(form2, 'preguntas'); } catch (_) { /* las respuestas son opcionales */ }
+      btn.disabled = false;
+      finished = true;
+      setOpen(false);
+      toast('Gracias por contárnoslo. Nos vemos en el fondo.');
     });
 
     if (location.hash === '#lista') setOpen(true);

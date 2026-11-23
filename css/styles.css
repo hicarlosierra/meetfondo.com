@@ -1644,5 +1644,58 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 .flipbook img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 .flipbook img.is-on { opacity: 1; }
 
+/* =========================================================================
+   Formulario v2 (Figma «Formulario v2 · Paso 1 / Paso 2»)
+   ========================================================================= */
+.wl__top { display: flex; justify-content: space-between; gap: calc(16px * var(--z)); font-weight: 500; font-size: calc(12px * var(--z)); line-height: calc(16px * var(--z)); letter-spacing: 0; text-transform: uppercase; color: var(--azul); }
+@media (max-width: 699px) { .wl__top { padding-right: calc(56px * var(--z)); } }
+.wl .wl__title { margin-top: calc(20px * var(--z)); }
+.wl .wl__intro { margin-top: calc(24px * var(--z)); max-width: calc(508px * var(--z)); }
+.wl .wl__form { margin-top: 0; }
+.wl__step[data-wl-step="1"] .wl__form { margin-top: calc(32px * var(--z)); padding-top: calc(24px * var(--z)); border-top: 1px solid var(--negro-16); }
+.wl__step[data-wl-step="2"] .wl__form { margin-top: calc(24px * var(--z)); padding-top: calc(24px * var(--z)); border-top: 1px solid var(--negro-16); }
+.wl__req { align-self: flex-end; font-weight: 500; font-size: calc(12px * var(--z)); line-height: calc(16px * var(--z)); color: var(--negro-64); }
+.wl .wl__field { gap: 0; margin-top: calc(24px * var(--z)); }
+.wl .wl__field + .wl__field { margin-top: calc(28px * var(--z)); }
+.wl .wl__field > span { font-weight: 500; font-size: calc(12px * var(--z)); line-height: calc(16px * var(--z)); letter-spacing: 0; text-transform: uppercase; }
+.wl .wl__field input {
+  height: auto; padding: calc(12px * var(--z)) 0 calc(11px * var(--z)); border: 0; border-bottom: 1px solid var(--negro); border-radius: 0; background: transparent;
+  font-size: calc(18px * var(--z)); line-height: calc(24px * var(--z));
+}
+.wl .wl__field input::placeholder { color: var(--negro); opacity: 0.4; }
+.wl .wl__field input:focus { border-color: var(--azul); box-shadow: 0 1px 0 0 var(--azul); }
+.wl .wl__field.is-invalid input { border-color: #c2410c; box-shadow: 0 1px 0 0 #c2410c; }
+.wl__field small { margin-top: calc(10px * var(--z)); font-size: calc(14px * var(--z)); line-height: calc(20px * var(--z)); color: var(--negro-64); }
+.wl .wl__check { margin-top: calc(36px * var(--z)); }
+.wl .wl__submit { margin-top: calc(32px * var(--z)); }
+.wl .wl__note { margin-top: calc(16px * var(--z)); color: var(--negro-64); }
+
+.wl__q { margin: 0; padding: 0; border: 0; min-width: 0; }
+.wl__q + .wl__q { margin-top: calc(32px * var(--z)); }
+.wl__q > legend, .wl__q > span { padding: 0; font-weight: 500; font-size: calc(12px * var(--z)); line-height: calc(16px * var(--z)); text-transform: uppercase; color: var(--negro); }
+.wl__chips { display: flex; flex-wrap: wrap; gap: calc(8px * var(--z)); margin-top: calc(12px * var(--z)); }
+.chip { position: relative; display: block; cursor: pointer; }
+.chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.chip span {
+  display: grid; place-items: center; height: calc(44px * var(--z)); padding: 0 calc(22px * var(--z)); border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--azul);
+  font-weight: 700; font-size: calc(13px * var(--z)); line-height: 1; letter-spacing: -0.02em; text-transform: uppercase; color: var(--azul);
+  transition: background-color 0.2s, color 0.2s;
+}
+.chip:hover span { background: rgb(30 87 177 / 0.08); }
+.chip input:checked + span { background: var(--azul); color: var(--blanco); }
+.chip input:focus-visible + span { outline: 2px solid var(--azul); outline-offset: calc(3px * var(--z)); }
+.wl .wl__open { display: block; gap: 0; }
+.wl__open textarea {
+  display: block; width: 100%; height: calc(128px * var(--z)); margin-top: calc(12px * var(--z)); padding: calc(16px * var(--z)); resize: vertical;
+  border: 1px solid var(--negro-16); border-radius: calc(4px * var(--z)); background: var(--blanco); outline: 0;
+  font: inherit; font-size: calc(16px * var(--z)); line-height: calc(24px * var(--z)); color: var(--negro);
+}
+.wl__open textarea::placeholder { color: var(--negro); opacity: 0.4; }
+.wl__open textarea:focus { border-color: var(--azul); box-shadow: 0 0 0 1px var(--azul); }
+.wl__skip { align-self: center; margin-top: calc(16px * var(--z)); min-height: calc(32px * var(--z)); font-weight: 500; font-size: calc(14px * var(--z)); line-height: calc(20px * var(--z)); text-decoration: underline; text-underline-offset: 0.2em; }
+.wl__skip:hover { opacity: 0.6; }
+.wl__title:focus { outline: none; }
+.wl .wl__msg:empty { display: none; }
+
 
 @media (min-width: 900px) { :root { --z: 0.9; } }
