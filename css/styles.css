@@ -1702,8 +1702,8 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 
 /* Manifiesto: fotos pequeñas dentro del texto, del alto de una línea */
 .mf-pic {
-  display: inline-block; width: 2em; height: 0.8em; margin: 0 0.04em; vertical-align: -0.05em;
-  overflow: hidden; border-radius: 0.14em; background: var(--beige);
+  display: inline-block; width: 1.3em; height: 0.82em; margin: 0 0.05em; vertical-align: -0.1em;
+  overflow: hidden; border-radius: calc(999px * var(--z)); background: var(--beige);
 }
 .mf-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
