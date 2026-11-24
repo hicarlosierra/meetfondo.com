@@ -1,6 +1,6 @@
 # Fondo · Web v4 (home, página de viaje y sobre nosotros)
 
-Hecha a partir de Figma, «Landing Dec 26»: «Home · Desktop optimizado», «Costa Brava · Desktop optimizado», «Sobre nosotros · Desktop optimizado» y «Formulario» (lista de espera). Contenido a 1344 px como máximo, márgenes de 48 px y la escala tipográfica de esos frames (bloque «v5» al final de `styles.css`). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
+Hecha a partir de Figma, «Landing Dec 26»: «Home · Desktop optimizado», «Costa Brava · Desktop optimizado», «Sobre nosotros v2 · Desktop» (24 nov 2026) y «Formulario» (lista de espera). Contenido a 1344 px como máximo, márgenes de 48 px y la escala tipográfica de esos frames (bloque «v5» al final de `styles.css`). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
 Sirve para probar el responsive, las animaciones y la UX antes de pasarla a producción.
 
 ## Cómo abrirla
