@@ -1640,8 +1640,9 @@ html.menu-open .site-header .site-header__menu { color: var(--blanco); }
 
 /* Secuencia de fotos (tipo gif) en «Sobre nosotros» de la home: corte seco, foto a foto */
 .flipbook { position: relative; overflow: hidden; border-radius: var(--r); background: var(--beige); }
-.flipbook img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-.flipbook img.is-on { opacity: 1; }
+.flipbook img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; z-index: 0; transition: opacity 1.2s cubic-bezier(0.45, 0, 0.55, 1); }
+.flipbook img.is-on { opacity: 1; z-index: 2; }
+.flipbook img.is-prev { opacity: 1; z-index: 1; transition: none; }
 
 /* =========================================================================
    Formulario v2 (Figma «Formulario v2 · Paso 1 / Paso 2»)

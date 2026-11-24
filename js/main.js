@@ -930,17 +930,24 @@
 
   /* =======================================================================
      15. Secuencia de fotos tipo gif (data-flipbook)
-         Cambia de foto cada 450 ms, con corte seco. Solo corre cuando está
+         Cambia de foto cada 1,8 s con un fundido lento (calma, como la
+         propuesta de valor). Solo corre cuando está
          a la vista; con «reducir movimiento» se queda en la primera.
      ======================================================================= */
   $$('[data-flipbook]').forEach((box) => {
     const imgs = $$('img', box);
     if (imgs.length < 2 || mqReduce.matches) return;
     let i = 0, timer = 0;
-    const step = () => { imgs[i].classList.remove('is-on'); i = (i + 1) % imgs.length; imgs[i].classList.add('is-on'); };
+    // La nueva entra fundiéndose por encima; la anterior se queda debajo hasta que termina el fundido
+    const step = () => {
+      const prev = imgs[i];
+      prev.classList.replace('is-on', 'is-prev');
+      i = (i + 1) % imgs.length; imgs[i].classList.add('is-on');
+      setTimeout(() => prev.classList.remove('is-prev'), 1300);
+    };
     new IntersectionObserver(([e]) => {
       clearInterval(timer);
-      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 450); }
+      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 1800); }
     }, { rootMargin: '200px 0px' }).observe(box);
   });
 
