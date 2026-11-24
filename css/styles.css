@@ -102,8 +102,6 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 @media (max-width: 899px) { #viajes { scroll-margin-top: calc(28 * var(--zu)); } }
 
 .cta { display: inline-flex; align-items: center; gap: 0.3em; min-height: calc(44 * var(--zu)); font-weight: 600; font-size: calc(14 * var(--zu)); line-height: 1; }
-.cta span { display: inline-block; transition: transform 0.25s var(--ease-out); }
-.cta:hover span { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu))); }
 
 /* ---------- Óvalo (sello de la marca) ----------
    El texto escala con el propio óvalo (unidades de contenedor). */
@@ -254,10 +252,8 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 .filtro__dest { margin-top: clamp(16px, max(calc(13.2514px + 0.7048vw), 1.625vw), calc(26 * var(--zw))); margin-top: clamp(16px, max(calc(13.2514px + 0.7048cqi), 1.625cqi), calc(26 * var(--zw))); font-size: calc(14 * var(--zu)); line-height: 1.43; }
 .filtro[aria-pressed="true"] .filtro__desc, .filtro[aria-pressed="true"] .filtro__dest { opacity: 0.72; }
 @media (hover: hover) { .filtro[aria-pressed="false"]:hover { background: var(--beige); } }
-.viajes__any { order: 10; align-self: flex-start; display: inline-flex; align-items: center; min-height: calc(44 * var(--zu)); margin-top: calc(16 * var(--zu)); font-weight: 500; font-size: calc(12 * var(--zu)); letter-spacing: 0.06em; color: var(--negro-64); text-decoration: underline; text-underline-offset: 0.3em; }
-.viajes__any:hover { color: var(--negro); }
-/* Icono de WhatsApp de línea (Tabler Icons, MIT) al final de «No sé por dónde empezar»: en el color del texto */
-.viajes__wa { flex: none; width: calc(16 * var(--zu)); height: calc(16 * var(--zu)); margin-left: calc(8 * var(--zu)); }
+.viajes__any { order: 10; align-self: flex-start; display: inline-flex; align-items: center; gap: calc(8 * var(--zu)); min-height: calc(44 * var(--zu)); margin-top: calc(16 * var(--zu)); font-weight: 500; font-size: calc(14 * var(--zu)); color: var(--negro); }
+.viajes__any:hover { opacity: 0.6; }
 
 .viajes__strip {
   display: flex; gap: var(--g); margin: clamp(24px, max(calc(22.2171px + 0.4571vw), 2vw), calc(32 * var(--zw))) calc(var(--pad-x) * -1) 0; margin: clamp(24px, max(calc(22.2171px + 0.4571cqi), 2cqi), calc(32 * var(--zw))) calc(var(--pad-x) * -1) 0; padding-inline: var(--pad-x);
@@ -274,8 +270,6 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 .tcard__title strong { font-weight: 700; }
 .tcard__meta { margin-top: 3vw; margin-top: 3cqi; font-weight: 500; font-size: calc(12 * var(--zu)); line-height: calc(16 * var(--zu)); letter-spacing: 0.06em; color: var(--negro-64); }
 .tcard__link { display: inline-flex; gap: 0.3em; margin-top: 10vw; margin-top: 10cqi; font-size: calc(16 * var(--zu)); line-height: 1.5; }
-.tcard__link span { transition: transform 0.25s var(--ease-out); }
-.tcard:hover .tcard__link span { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu))); }
 .tcard.is-soon .tcard__img { filter: saturate(0.85); }
 
 @media (min-width: 900px) and (min-height: 600px) {
@@ -452,10 +446,7 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
   display: flex; justify-content: space-between; align-items: center; gap: calc(16 * var(--zu)); width: 100%; min-height: clamp(64px, max(calc(63.7029px + 0.0762vw), 4.5vw), calc(72 * var(--zw))); min-height: clamp(64px, max(calc(63.7029px + 0.0762cqi), 4.5cqi), calc(72 * var(--zw))); text-align: left;
   border-bottom: 1px solid currentColor; font-weight: 500; font-size: clamp(18px, max(calc(16.6629px + 0.3429vw), 1.5vw), calc(24 * var(--zw))); font-size: clamp(18px, max(calc(16.6629px + 0.3429cqi), 1.5cqi), calc(24 * var(--zw))); line-height: 1.2; letter-spacing: -0.015em; text-transform: uppercase;
 }
-.rowlink__arrow { flex: none; text-transform: none; letter-spacing: 0; transition: transform 0.25s var(--ease-out); }
-.rowlink:hover .rowlink__arrow { transform: translate(calc(4 * var(--zu)), calc(-4 * var(--zu))); }
-.rowlink__arrow--down { transition: transform 0.25s var(--ease-out); }
-.rowlink:hover .rowlink__arrow--down { transform: translateY(calc(4 * var(--zu))); }
+.rowlink__arrow { flex: none; text-transform: none; letter-spacing: 0; }
 @media (min-width: 900px) {
   .rowlinks { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--g); }
 }
@@ -633,7 +624,7 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 .mmenu__next { display: inline-flex; align-items: baseline; gap: 1.5px; margin-top: calc(6 * var(--zu)); font-weight: 500; font-size: calc(20 * var(--zu)); line-height: 1.2; letter-spacing: -0.03em; }
 .mmenu__next-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: calc(3.8 * var(--zu)); }
 .mmenu__arrow { position: relative; top: calc(3 * var(--zu)); font-weight: 400; font-size: calc(19.5 * var(--zu)); letter-spacing: 0; transition: transform 0.25s var(--ease-out); }
-.mmenu__next:active .mmenu__arrow { transform: translate(2px, -2px); }
+.mmenu__next:active .mmenu__arrow { transform: translateX(2px); }
 .mmenu__social { margin-top: calc(28 * var(--zu)); }
 .mmenu__social a { display: inline-block; padding-right: calc(24 * var(--zu)); font-size: calc(16 * var(--zu)); line-height: calc(30 * var(--zu)); }
 
@@ -839,7 +830,7 @@ html.is-loading .hero__title { transform: translateY(18%); }
 .vdonde__head { display: flex; justify-content: space-between; align-items: flex-end; gap: calc(24 * var(--zu)); padding-inline: var(--pad-x); }
 .vdonde__title { margin-top: clamp(16px, max(calc(13.92px + 0.5333vw), 1.5vw), calc(24 * var(--zw))); margin-top: clamp(16px, max(calc(13.92px + 0.5333cqi), 1.5cqi), calc(24 * var(--zw))); max-width: calc(994 * var(--zu)); font-weight: 400; font-size: clamp(26px, max(calc(22.2857px + 0.9524vw), 2.5vw), calc(40 * var(--zw))); font-size: clamp(26px, max(calc(22.2857px + 0.9524cqi), 2.5cqi), calc(40 * var(--zw))); line-height: 1.12; letter-spacing: -0.015em; }
 .vdonde__nav { display: none; gap: calc(16 * var(--zu)); flex: none; margin-bottom: 1px; }
-.vbtn { display: grid; place-items: center; width: calc(72 * var(--zu)); height: calc(44 * var(--zu)); border: 1px solid var(--negro); border-radius: 50%; font-weight: 500; font-size: calc(18 * var(--zu)); transition: background-color 0.2s, color 0.2s, opacity 0.2s; }
+.vbtn { display: grid; place-items: center; width: calc(48 * var(--zu)); height: calc(48 * var(--zu)); border: 1px solid var(--negro); border-radius: 50%; font-weight: 500; font-size: calc(18 * var(--zu)); transition: background-color 0.2s, color 0.2s, opacity 0.2s; }
 .vbtn:hover:not(:disabled) { background: var(--negro); color: var(--mantequilla); }
 .vbtn:disabled { opacity: 0.3; cursor: default; }
 .vdonde__track {
@@ -875,8 +866,6 @@ html.is-loading .hero__title { transform: translateY(18%); }
 .acomp__title { margin-top: calc(13 * var(--zu)); max-width: 10em; font-weight: 500; font-size: var(--t-titulo); line-height: 1; letter-spacing: -0.035em; }
 .acomp__text { margin: calc(20 * var(--zu)) 0 calc(44 * var(--zu)); font-size: calc(16 * var(--zu)); line-height: 1.5; }
 .acomp__link { display: flex; align-items: center; gap: 0.3em; margin-top: auto; padding-top: calc(20 * var(--zu)); border-top: 1px solid var(--negro); font-size: clamp(20px, max(calc(19.4057px + 0.1524vw), 1.5vw), calc(24 * var(--zw))); font-size: clamp(20px, max(calc(19.4057px + 0.1524cqi), 1.5cqi), calc(24 * var(--zw))); line-height: 1; letter-spacing: -0.035em; }
-.acomp__link span { font-weight: 300; transition: transform 0.25s var(--ease-out); }
-.acomp__link:hover span { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu))); }
 .vficha__photo { margin: 0; display: flex; flex-direction: column; }
 .vficha__photo img { width: 100%; aspect-ratio: 332 / 529; object-fit: cover; border-radius: var(--r); }
 .vficha__photo figcaption { margin-top: calc(16 * var(--zu)); font-size: calc(16 * var(--zu)); line-height: 1.4; }
@@ -1477,7 +1466,6 @@ html.wl-open, html.wl-open body { overflow: hidden; }
 .dentro__caption { font-size: var(--bmd); line-height: 1.34; letter-spacing: 0.01em; max-width: 34em; }
 .dentro__more, .tcard__link, .equipo .cta, .guia__foot .cta, .vfaq__intro .cta, .acomp__link {
   font-weight: 600; font-size: var(--blg); line-height: 1.2; letter-spacing: 0.01em;
-  text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.35em;
 }
 .dentro__more:hover, .tcard:hover .tcard__link, .equipo .cta:hover, .guia__foot .cta:hover, .vfaq__intro .cta:hover, .acomp__link:hover { opacity: 0.6; }
 .acomp__link { border-top: 0; padding-top: 0; }
@@ -1937,3 +1925,29 @@ html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
 .como { --cstep: 55vh; }
 }
 }
+
+/* =========================================================================
+   Sistema de botones (24 nov 2026): tres tipos
+   1. Óvalo relleno = acción (Me interesa, Lista de espera). El óvalo de línea
+      es para elegir opciones o como sello, nunca botón.
+   2. Enlace = texto subrayado (.u) + marca final (.mk) que dice adónde va:
+      → otra página o el formulario · ↓ más abajo · icono WhatsApp · ↗ fuera de la web.
+      Sin marca: cierra o vuelve («Lo dejo aquí»).
+   3. Círculo = control: carrusel, abrir pregunta, cerrar, música.
+   Aparte: el botón azul de los formularios, y los menús (cabecera, footer,
+   menú móvil), que van sin subrayar y se subrayan al pasar el ratón.
+   Las mayúsculas pequeñas son solo etiquetas: nada en ellas se puede pulsar.
+   ========================================================================= */
+.u { text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.35em; }
+.mk { display: inline-block; flex: none; transition: transform 0.25s var(--ease-out); }
+a:hover .mk--r { transform: translateX(calc(3 * var(--zu))); }
+a:hover .mk--d { transform: translateY(calc(3 * var(--zu))); }
+a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu))); }
+.ico-wa { width: 1.15em; height: 1.15em; }
+.footer__legal a { letter-spacing: 0.01em; }
+/* «Llegaste al fondo»: sello de línea, con fondo para que tape el texto al hacer de cursor */
+.oval--ring { background: var(--beige); color: var(--azul); box-shadow: inset 0 0 0 1.5px var(--azul); }
+/* Abrir pregunta: el + / − dentro de un círculo */
+.acc__sign { width: calc(40 * var(--zu)); height: calc(40 * var(--zu)); border-radius: 50%; box-shadow: inset 0 0 0 1px currentColor; }
+.acc__sign::before, .acc__sign::after { width: 38%; }
+.acc--faq .acc__sign { width: calc(32 * var(--zu)); height: calc(32 * var(--zu)); }
