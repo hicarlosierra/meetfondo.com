@@ -1892,6 +1892,9 @@ html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
 .vhero { overflow: clip; }
 .vhero__title { margin-bottom: -0.075em; }
 
+/* «fondo» de la home: como mucho se corta el 12 % de abajo, para que siempre se vea el hueco de la d */
+.hero__title { bottom: calc(-1 * clamp(calc(var(--wm-h) * 0.05), calc(var(--wm-h) - 52svh), calc(var(--wm-h) * 0.12))); }
+
 
 @media (min-width: 900px) { :root { --zu: 0.9px; } }
 @media (min-width: 1440px) { :root { --zu: max(0.9px, min(0.0625vw, 0.1125vh)); --zw: var(--zu); --max: 90vw; } }
