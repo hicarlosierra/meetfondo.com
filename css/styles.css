@@ -2049,7 +2049,7 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
 /* Sonidos desde el fondo (escritorio): escondido, más discreto (55 %); al sacarlo, opaco */
 @media (min-width: 900px) {
   .sonido-dock .site-header__sonido svg { opacity: 0.55; transition: opacity 0.3s linear; }
-  .sonido-dock.is-out .site-header__sonido svg, .sonido-dock .site-header__sonido:focus-visible svg { opacity: 1; }
+  .sonido-dock.is-out .site-header__sonido svg { opacity: 1; }
 }
 /* Sonidos desde el fondo (escritorio): saludo cada 8 s con una vibración corta y dos corcheas
    que suben y desaparecen. Solo escondido y sin sonar. */
@@ -2160,7 +2160,7 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .sonido-dock .site-header__sonido { translate: calc(31 * var(--zu)) 0; transition: translate 0.5s var(--ease-out), color 0.25s linear, opacity 0.3s linear; }
   .sonido-dock.is-out .site-header__sonido { translate: calc(-16 * var(--zu)) 0; }
   .sonido-dock .site-header__sonido svg { width: calc(54 * var(--zu)); height: calc(58 * var(--zu)); opacity: 0.55; transition: opacity 0.3s linear; }
-  .sonido-dock.is-out .site-header__sonido svg, .sonido-dock .site-header__sonido:focus-visible svg { opacity: 1; }
+  .sonido-dock.is-out .site-header__sonido svg { opacity: 1; }
   .sonido-dock.is-shown:not(.is-out) .site-header__sonido:not(.is-playing) svg { animation: sonido-saluda-der 8s linear 1.2s infinite; transform-origin: 70% 60%; }
   .sonido-dock .site-header__sonido .sonido__tag { display: none; }
   .sonido__notas { display: block; position: absolute; right: calc(14 * var(--zu)); bottom: calc(36 * var(--zu)); width: calc(40 * var(--zu)); height: calc(44 * var(--zu)); pointer-events: none; }
@@ -2317,3 +2317,5 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   98% { opacity: 0; translate: calc(-40 * var(--zu)) calc(-12 * var(--zu)); scale: 1; rotate: 9deg; }
   100% { opacity: 0; }
 }
+/* En la cueva (escondido y en pausa) siempre transparente y con el saludo: el foco no lo enciende.
+   Con teclado, al enfocarlo sale (.is-out) y se ve entero. */

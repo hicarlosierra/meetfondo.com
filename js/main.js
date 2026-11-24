@@ -1160,7 +1160,10 @@
     // Tras pulsar: la ficha se va. Al parar, el vinilo se queda fuera un momento
     // (.is-hold) para que se vea frenar el disco, y luego se esconde.
     let holdT;
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      // Con ratón o dedo el botón no se queda con el foco: si no, la barra espaciadora
+      // (para bajar la página) pondría o pararía la música y el vinilo se vería encendido en la cueva.
+      if (e.detail > 0) btn.blur();
       clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);
       if (!playing) { dock.classList.add('is-hold'); clearTimeout(holdT); holdT = setTimeout(() => dock.classList.remove('is-hold'), 900); }
     });
