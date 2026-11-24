@@ -930,7 +930,7 @@
 
   /* =======================================================================
      15. Secuencia de fotos tipo gif (data-flipbook)
-         Cambia de foto cada 1,8 s con un fundido lento (calma, como la
+         Cambia de foto cada 1,8 s con un fundido corto de 0,3 s (calma, como la
          propuesta de valor). Solo corre cuando está
          a la vista; con «reducir movimiento» se queda en la primera.
      ======================================================================= */
@@ -943,7 +943,7 @@
       const prev = imgs[i];
       prev.classList.replace('is-on', 'is-prev');
       i = (i + 1) % imgs.length; imgs[i].classList.add('is-on');
-      setTimeout(() => prev.classList.remove('is-prev'), 1300);
+      setTimeout(() => prev.classList.remove('is-prev'), 400);
     };
     new IntersectionObserver(([e]) => {
       clearInterval(timer);
