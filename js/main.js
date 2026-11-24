@@ -1011,63 +1011,30 @@
   });
 
   /* =======================================================================
-     17. Cómo viajamos: foto de la fila abierta y apertura con el scroll
-         La foto de la izquierda cambia con la fila abierta. En desktop con
-         pantalla alta, la sección se queda fija y cada paso de scroll (con
-         snap suave) abre la fila siguiente; clic en una fila lleva a su paso.
+     17. Cómo viajamos (tabla): la foto ancha muestra la fila abierta y las
+         filas pasan de gris a negro al bajar. Se abren al pulsar (acordeón
+         general, una abierta cada vez).
      ======================================================================= */
   $$('[data-como]').forEach((sec) => {
     const acc = $('[data-accordion]', sec);
     const items = $$('.acc__item', acc);
     const pics = $$('.como__media img', sec);
-    const n = items.length;
-    const mqStageComo = matchMedia('(min-width: 900px) and (min-height: 760px)');
     const syncPic = () => {
       const i = items.findIndex((it) => it.classList.contains('is-open'));
       if (i < 0) return;
       pics.forEach((im, k) => im.classList.toggle('is-on', k === i));
     };
     new MutationObserver(syncPic).observe(acc, { subtree: true, attributes: true, attributeFilter: ['class'] });
-
-    const openAt = (i) => {
-      items.forEach((it, k) => {
-        it.classList.toggle('is-open', k === i);
-        $('.acc__head', it).setAttribute('aria-expanded', String(k === i));
-      });
-    };
-    const range = () => sec.offsetHeight - innerHeight;
-    const top = () => sec.getBoundingClientRect().top + scrollY;
-    // Gris → negro al bajar: las filas ya «alcanzadas» pasan a negro
     sec.classList.add('is-reveal');
-    const reach = (fn) => items.forEach((it, k) => it.classList.toggle('is-reached', fn(it, k)));
-    let current = -1, ticking = false;
+    let ticking = false;
     const onScroll = () => {
       ticking = false;
-      if (!mqStageComo.matches) {
-        // Negro en cuanto la fila asoma bien; y todas en cuanto se ve el final de la lista
-        const all = sec.getBoundingClientRect().bottom <= innerHeight + 4;
-        reach((it) => all || it.getBoundingClientRect().top < innerHeight * 0.88);
-        return;
-      }
-      const p = clamp(-sec.getBoundingClientRect().top / range(), 0, 1);
-      const i = Math.round(p * (n - 1));
-      if (i !== current) { current = i; openAt(i); }
-      reach((it, k) => k <= i && sec.getBoundingClientRect().top < innerHeight * 0.5);
+      const all = sec.getBoundingClientRect().bottom <= innerHeight + 4;
+      items.forEach((it) => it.classList.toggle('is-reached', all || it.getBoundingClientRect().top < innerHeight * 0.88));
     };
     addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
     addEventListener('resize', onScroll);
-    mqStageComo.addEventListener('change', () => { current = -1; onScroll(); });
     onScroll();
-
-    // En modo fijo, el clic en una fila lleva a su paso (en vez de abrir/cerrar)
-    acc.addEventListener('click', (e) => {
-      if (!mqStageComo.matches) return;
-      const head = e.target.closest('.acc__head');
-      if (!head) return;
-      e.stopPropagation();
-      const i = items.indexOf(head.closest('.acc__item'));
-      scrollTo({ top: top() + (range() * i) / (n - 1), behavior: smooth() });
-    }, true);
   });
 
   /* =======================================================================
