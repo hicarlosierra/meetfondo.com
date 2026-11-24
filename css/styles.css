@@ -651,7 +651,7 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 }
 
 /* Página bloqueada mientras el menú está abierto */
-html.menu-open, html.menu-open body { overflow: hidden; overscroll-behavior: none; }
+html.menu-open { overflow: hidden; overscroll-behavior: none; }   /* solo en <html>: en <body> rompía las secciones fijas (sticky) */
 
 
 /* =========================================================================
@@ -1055,7 +1055,7 @@ html.is-loading .hero__title { transform: translateY(18%); }
   .wl__close { right: calc(calc(592 * var(--zu)) + calc(32 * var(--zu))); top: calc(16 * var(--zu)); z-index: 3; }
   .wl__kicker { padding-right: 0; }
 }
-html.wl-open, html.wl-open body { overflow: hidden; }
+html.wl-open { overflow: hidden; }   /* solo en <html>: en <body> la sección de viajes (sticky) se descolgaba detrás del formulario */
 
 /* =========================================================================
    Botón «Lista de espera» anclado en la cabecera (página de viaje)
@@ -2319,3 +2319,8 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
 }
 /* En la cueva (escondido y en pausa) siempre transparente y con el saludo: el foco no lo enciende.
    Con teclado, al enfocarlo sale (.is-out) y se ve entero. */
+
+/* Bloqueo de scroll al abrir el formulario o el menú: se reserva el hueco de la barra
+   de scroll (Windows) para que la página de detrás no se mueva de lado. */
+html { scrollbar-gutter: stable; }
+.wl__overlay { touch-action: none; }   /* en móvil, arrastrar sobre el fondo oscuro no mueve la página */
