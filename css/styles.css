@@ -1961,3 +1961,15 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
    Las fotos sueltas usan --r (10). */
 :root { --r-caja: clamp(12px, max(calc(9.7714px + 0.5714vw), 1.25vw), calc(20 * var(--zw))); }
 .guia__panel--photo, .acc__img { border-radius: var(--r-caja); }
+/* Gráfico de inmersiones: el texto del SVG va en unidades del dibujo (el SVG ya escala solo).
+   Con --zu crecía dos veces en pantallas grandes y se salía de los óvalos. Mismos tamaños que antes en móvil y portátil. */
+.pf-axis text, .pf-labels text { font-size: 15.8px; }
+.pf-labels .pf-name { font-size: 13.2px; }
+.pf-oval text { font-size: 23.7px; }
+@media (min-width: 900px) {
+  .pf-axis text, .pf-labels text { font-size: 14.2px; }
+  .pf-labels .pf-name { font-size: 11.9px; }
+  .pf-oval text { font-size: 21.3px; }
+}
+/* Cabecera: «Costa Brava, Jun 27» también se subraya al pasar, como el resto del menú */
+.site-header__next:hover, .site-header__next:focus-visible { text-decoration-line: underline; text-decoration-color: currentColor; }
