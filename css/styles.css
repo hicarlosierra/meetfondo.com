@@ -63,7 +63,7 @@
   --pad-x: calc(var(--edge) + var(--mx));            /* padding lateral de sección */
   --col: calc((var(--cw) - 2 * var(--mx) - 11 * var(--g)) / 12);
   --header-h: clamp(calc(76 * var(--zu)), max(calc(calc(64.1143 * var(--zu)) + 3.0476vw), 7.5vw), calc(120 * var(--zu)));
-  --r: clamp(12px, max(calc(9.7714px + 0.5714cqi), 1.25cqi), calc(20 * var(--zw)));                                   /* esquinas de las fotos */
+  --r: clamp(6px, max(calc(4.8857px + 0.2857cqi), 0.625cqi), calc(10 * var(--zw)));                                   /* esquinas de las fotos sueltas (10 en Figma) */
 
   /* Escala tipográfica (Inter 3.19; DM Mono solo para números y etiquetas de datos)
        Display 72/40 · Titular 44/26 · Título 32/24 · Entradilla 24/20
@@ -1892,7 +1892,7 @@ html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
 
 /* Reservas para navegadores sin cqi/svh (ver legacy.py) */
 @supports not (width: 1cqi) {
-:root { --mx: clamp(calc(20 * var(--zu)), max(calc(calc(15.5429 * var(--zu)) + 1.1429vw), 2.2222vw), calc(35.5556 * var(--zu))); --g: clamp(calc(12 * var(--zu)), max(calc(calc(10.5143 * var(--zu)) + 0.381vw), 1.1111vw), calc(17.7778 * var(--zu))); --cw: min(100vw, var(--max)); --edge: calc((100vw - var(--cw)) / 2); --r: clamp(12px, max(calc(9.7714px + 0.5714vw), 1.25vw), calc(20 * var(--zw))); --t-display: clamp(40px, max(calc(30.7886px + 2.3619vw), 4.5vw), calc(72 * var(--zw))); --t-titular: clamp(26px, max(calc(20.9486px + 1.2952vw), 2.75vw), calc(44 * var(--zw))); --t-titulo: clamp(24px, max(calc(22.2171px + 0.4571vw), 2vw), calc(32 * var(--zw))); --t-entradilla: clamp(20px, max(calc(19.4057px + 0.1524vw), 1.5vw), calc(24 * var(--zw))); --t-cuerpo-l: max(calc(18 * var(--zw)), min(17px, calc(17.2971px - 0.0762vw))); }
+:root { --mx: clamp(calc(20 * var(--zu)), max(calc(calc(15.5429 * var(--zu)) + 1.1429vw), 2.2222vw), calc(35.5556 * var(--zu))); --g: clamp(calc(12 * var(--zu)), max(calc(calc(10.5143 * var(--zu)) + 0.381vw), 1.1111vw), calc(17.7778 * var(--zu))); --cw: min(100vw, var(--max)); --edge: calc((100vw - var(--cw)) / 2); --r: clamp(6px, max(calc(4.8857px + 0.2857vw), 0.625vw), calc(10 * var(--zw))); --t-display: clamp(40px, max(calc(30.7886px + 2.3619vw), 4.5vw), calc(72 * var(--zw))); --t-titular: clamp(26px, max(calc(20.9486px + 1.2952vw), 2.75vw), calc(44 * var(--zw))); --t-titulo: clamp(24px, max(calc(22.2171px + 0.4571vw), 2vw), calc(32 * var(--zw))); --t-entradilla: clamp(20px, max(calc(19.4057px + 0.1524vw), 1.5vw), calc(24 * var(--zw))); --t-cuerpo-l: max(calc(18 * var(--zw)), min(17px, calc(17.2971px - 0.0762vw))); }
 .hero { --wm-w: min(calc(var(--cw) - 2 * var(--mx)), calc(100vh * 1.93)); }
 .viajes { --cw-card: min(84vw, calc(360 * var(--zu))); }
 @media (min-width: 900px) and (min-height: 600px) {
@@ -1957,3 +1957,7 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
 .news .field--dark .field__send svg { width: calc(24 * var(--zu)); height: calc(24 * var(--zu)); fill: none; stroke: currentColor; stroke-width: 1.8; }
 /* Preguntas de Costa Brava en móvil: que la lista no se salga de su columna (el + quedaba cortado) */
 .vfaq > * { min-width: 0; }
+/* Fotos dentro de una caja o panel (guía de Costa Brava, foto del acordeón abierto): radio 20 como en Figma.
+   Las fotos sueltas usan --r (10). */
+:root { --r-caja: clamp(12px, max(calc(9.7714px + 0.5714vw), 1.25vw), calc(20 * var(--zw))); }
+.guia__panel--photo, .acc__img { border-radius: var(--r-caja); }
