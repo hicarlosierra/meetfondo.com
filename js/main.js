@@ -25,6 +25,8 @@
     whatsapp: '', formEndpoint: '',
     // Sonidos desde el fondo: audio propio que suena al pulsar el vinilo (ruta desde la raíz)
     audio: '/assets/audio/sonidos-desde-el-fondo.mp3',
+    // Playlist de «Sonidos desde el fondo» (enlace de Spotify). Vacío: avisa de que está pendiente.
+    playlist: '',
   };
 
   /* ---------- Toast ---------- */
@@ -1110,6 +1112,14 @@
     // Dos corcheas pequeñas que salen con el saludo (solo escritorio, por CSS)
     const NOTA = '<svg class="sonido__nota" viewBox="0 0 14 18" aria-hidden="true"><ellipse cx="5" cy="14.5" rx="3.8" ry="2.8" transform="rotate(-22 5 14.5)"/><rect x="7.6" y="2" width="1.5" height="12.6" rx=".7"/><path d="M8.4 2c.6 2.6 2.8 3.4 3.9 5.1.9 1.4.6 3.2-.3 4.4.2-1.6-.4-2.8-1.6-3.6-.7-.5-1.4-.8-2-1.1z"/></svg>';
     dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}</span>`);
+    // Ficha de escritorio (fuera del botón para que el enlace a la playlist se pueda pulsar)
+    const ficha = document.createElement('div');
+    ficha.className = 'sonido__tag sonido__ficha';
+    ficha.innerHTML = '<strong>Sonidos desde el fondo</strong><a href="#"><span class="u">Descubre cómo suenan nuestras experiencias</span><span class="mk mk--x" aria-hidden="true">↗</span></a>';
+    dock.append(ficha);
+    const fichaLink = $('a', ficha);
+    if (FONDO.playlist) { fichaLink.href = FONDO.playlist; fichaLink.target = '_blank'; fichaLink.rel = 'noopener'; }
+    else fichaLink.addEventListener('click', (e) => { e.preventDefault(); toast('Pendiente: enlace a la playlist.'); });
     const logo = $('.site-header__logo', header);
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
@@ -1129,8 +1139,8 @@
     const out = (v) => { clearTimeout(tuckT); dock.classList.toggle('is-out', v); };
     dock.addEventListener('pointerenter', (e) => { if (mqDesk.matches && e.pointerType === 'mouse') out(true); });
     dock.addEventListener('pointerleave', () => out(false));
-    btn.addEventListener('focus', () => { if (mqDesk.matches && btn.matches(':focus-visible')) out(true); });
-    btn.addEventListener('blur', () => out(false));
+    dock.addEventListener('focusin', (e) => { if (mqDesk.matches && e.target.matches(':focus-visible')) out(true); });
+    dock.addEventListener('focusout', (e) => { if (!dock.contains(e.relatedTarget)) out(false); });
     btn.addEventListener('click', () => {
       if (!mqDesk.matches) return;
       clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);   // se ve arrancar o frenar el disco y se esconde

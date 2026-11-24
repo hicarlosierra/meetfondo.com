@@ -2134,3 +2134,13 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   98% { opacity: 0; translate: calc(-26 * var(--zu)) calc(-22 * var(--zu)); scale: 1; rotate: 6deg; }
   100% { opacity: 0; }
 }
+/* Sonidos desde el fondo (escritorio): ficha fuera del botón, con enlace a la playlist */
+.sonido__ficha { display: none; }
+@media (min-width: 900px) {
+  .sonido-dock .site-header__sonido .sonido__tag { display: none; }
+  .sonido-dock > .sonido__ficha { display: flex; left: auto; right: calc(100% + calc(30 * var(--zu))); bottom: calc(6 * var(--zu)); pointer-events: none; opacity: 0; translate: calc(6 * var(--zu)) 0; }
+  .sonido-dock.is-out > .sonido__ficha { pointer-events: auto; opacity: 1; translate: 0 0; transition-delay: 0.15s; }
+  .sonido__ficha a { display: inline-flex; align-items: baseline; gap: 0.3em; font-weight: 400; font-style: italic; font-size: calc(13 * var(--zu)); line-height: 1.15; letter-spacing: 0; text-transform: none; color: var(--negro); }
+  .sonido__ficha a .mk { font-style: normal; }
+  .sonido__ficha a:hover { color: var(--azul); }
+}
