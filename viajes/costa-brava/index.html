@@ -7,7 +7,7 @@
   <meta name="description" content="Cuatro días en Tossa de Mar para sacarte el Open Water, tu primera certificación. Con casa para todo el grupo, chef in-house y tiempo de verdad fuera del agua. Junio de 2027.">
   <meta name="theme-color" content="#191919" data-default="#191919">
   <meta property="og:title" content="Aprende a bucear en la Costa Brava">
-  <meta property="og:description" content="Campamento Open Water de Fondo en Tossa de Mar. Junio de 2027. Apúntate a la lista de espera.">
+  <meta property="og:description" content="Campamento Open Water de Fondo en Tossa de Mar. Junio de 2027. Cuéntanos si te interesa.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://meetfondo.com/assets/img/og-costa-brava.jpg">
   <meta property="og:image:width" content="1200">
@@ -26,7 +26,7 @@
   <link rel="preload" href="../../assets/img/bahia.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="../../css/styles.css?v=0be2deef">
   <script>document.documentElement.classList.add('js');</script>
-  <script src="../../js/main.js?v=1694c095" defer></script>
+  <script src="../../js/main.js?v=6336c0a8" defer></script>
 </head>
 <body class="page-viaje">
 
@@ -101,7 +101,7 @@
 </div>
 
 <!-- Botón fijo abajo a la derecha: aparece al bajar, cuando el óvalo del hero «se ancla» -->
-<a class="dock-pill" href="#lista" data-waitlist data-dock-pill>Lista de espera</a>
+<a class="dock-pill" href="#lista" data-waitlist data-dock-pill>Me interesa</a>
 
 <div class="page">
 <main id="contenido">
@@ -111,7 +111,7 @@
     <img class="vhero__img" src="../../assets/img/costa-brava-hero.webp" width="2576" height="1717" alt="Un buceador entre bancos de peces, sobre las rocas del fondo" decoding="async" fetchpriority="high">
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>
     <div class="vhero__shade" aria-hidden="true" data-shade="0.42" data-shade-dir="up"></div>
-    <button class="oval oval--light vhero__oval" type="button" data-follow data-waitlist><span>Apúntame a la<br>lista de espera</span></button>
+    <button class="oval oval--light vhero__oval" type="button" data-follow data-waitlist><span>Me<br>interesa</span></button>
     <div class="vhero__content">
       <div class="vhero__row">
         <p class="vhero__lead">Aprende a bucear en la</p>
@@ -133,7 +133,7 @@
       <div class="facts__item"><dt class="facts__label">SEÑAL</dt><dd><span class="facts__value">200 €</span><span class="facts__note">Para reservar tu plaza</span></dd></div>
     </dl>
     <ul class="rowlinks vresumen__links" role="list">
-      <li><a class="rowlink" href="#lista" data-waitlist>APÚNTAME A LA LISTA DE ESPERA <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
+      <li><a class="rowlink" href="#lista" data-waitlist>ME INTERESA <span class="rowlink__arrow" aria-hidden="true">↗</span></a></li>
       <li><a class="rowlink" href="#preguntas">Tengo alguna pregunta <span class="rowlink__arrow rowlink__arrow--down" aria-hidden="true">↓</span></a></li>
     </ul>
   </section>
@@ -367,8 +367,9 @@
 </footer>
 </div>
 
-<!-- ============ Formulario · Lista de espera (lo abre cualquier [data-waitlist]) ============
-     Paso 1: apuntarse (nombre, email y teléfono). Paso 2, opcional: tres preguntas.
+<!-- ============ Formulario · «Me interesa» / lista de espera (lo abre cualquier [data-waitlist]) ============
+     Costa Brava ([data-waitlist] vacío): «Me interesa», paso 2 opcional con tres preguntas.
+     Viajes sin fechas ([data-waitlist="mar-rojo"], etc.): lista de espera, solo paso 1. Textos en WL_TRIPS (main.js).
      Por ahora no envía nada (ver FONDO.formEndpoint en main.js). -->
 <div class="wl" id="lista" role="dialog" aria-modal="true" aria-labelledby="wl-title" aria-hidden="true" data-wl>
   <div class="wl__overlay" data-wl-close></div>
@@ -376,24 +377,24 @@
   <div class="wl__panel">
 
     <section class="wl__step" data-wl-step="1">
-      <p class="wl__top"><span>Costa Brava&nbsp; / &nbsp;Junio 2027</span><span>01/02</span></p>
-      <h2 class="wl__title" id="wl-title">Tu primera vez te espera <strong>en el fondo.</strong></h2>
-      <p class="wl__intro">Déjanos tus datos y te avisaremos antes que a nadie cuando abramos las plazas. Forma parte de nuestra primera experiencia.</p>
+      <p class="wl__top"><span data-wl-top>Costa Brava&nbsp; / &nbsp;Junio 2027</span><span data-wl-count>01/02</span></p>
+      <h2 class="wl__title" id="wl-title" data-wl-title>Tu primera vez te espera <strong>en el fondo.</strong></h2>
+      <p class="wl__intro" data-wl-intro>¿Te interesa? Déjanos tus datos y te enviaremos antes que a nadie las fechas, el precio y cómo reservar tu plaza.</p>
       <form class="wl__form" data-wl-form="1" novalidate>
-        <input type="hidden" name="viaje" value="Campamento Open Water · Costa Brava · Junio 2027">
+        <input type="hidden" name="viaje" value="Campamento Open Water · Costa Brava · Junio 2027 · Me interesa" data-wl-viaje>
         <p class="wl__req">* Obligatorio</p>
         <label class="wl__field"><span>Nombre *</span><input type="text" name="nombre" autocomplete="given-name" placeholder="Cómo te llamas" required></label>
         <label class="wl__field"><span>Email *</span><input type="email" name="email" inputmode="email" autocomplete="email" placeholder="hola@ejemplo.com" required></label>
         <label class="wl__field"><span>Teléfono</span><input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="+34 600 000 000"><small>Te avisamos por WhatsApp antes que a nadie.</small></label>
         <label class="wl__check"><input type="checkbox" name="privacidad" required><span>He leído y acepto la <a href="#" data-todo="política de privacidad">política de privacidad</a>.*</span></label>
-        <button class="wl__submit" type="submit">Apúntame a la lista de espera</button>
+        <button class="wl__submit" type="submit" data-wl-submit>Me interesa</button>
         <p class="wl__msg" role="alert" aria-live="assertive"></p>
-        <p class="wl__note">Sin compromiso. Te avisaremos de las fechas y el precio muy pronto.</p>
+        <p class="wl__note" data-wl-note>Sin compromiso. Solo nos dices que, si sale, cuentas con venir.</p>
       </form>
     </section>
 
     <section class="wl__step" data-wl-step="2" hidden>
-      <p class="wl__top"><span>Estás en la lista</span><span>02/02</span></p>
+      <p class="wl__top"><span>Te tenemos en cuenta</span><span>02/02</span></p>
       <h2 class="wl__title" tabindex="-1">Tu primera vez te espera <strong>en el fondo.</strong></h2>
       <p class="wl__intro">¿Nos ayudas a preparar un campamento a tu medida?<br>Responde solo si te apetece.</p>
       <form class="wl__form" data-wl-form="2" novalidate>

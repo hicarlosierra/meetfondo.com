@@ -737,7 +737,7 @@
   });
 
   /* =======================================================================
-     11. Formulario «Lista de espera» (cajón lateral, dos pasos)
+     11. Formulario «Me interesa» / lista de espera (cajón lateral)
          Lo abre cualquier elemento con data-waitlist (y, con ratón, un clic
          en una zona data-waitlist-area). Se cierra con la X, Escape, clic
          fuera o «Lo dejo aquí». Paso 1: nombre, email y teléfono. Paso 2,
@@ -753,6 +753,28 @@
     const msg = $('.wl__msg', form1);
     const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
     let isOpen = false, lastFocus = null, finished = false;
+    // Textos por viaje. '' = Costa Brava («Me interesa», con paso 2). El resto: lista de espera, solo paso 1.
+    const WL_TRIPS = {
+      'mar-rojo': { top: 'Mar Rojo&nbsp; / &nbsp;Fechas por confirmar', viaje: 'Viaje para buceadores · Mar Rojo · Lista de espera',
+        title: 'El Mar Rojo te espera <strong>en el fondo.</strong>', toast: 'Estás en la lista de espera del Mar Rojo. Te avisaremos.' },
+      'baja-california': { top: 'Baja California Sur&nbsp; / &nbsp;Fechas por confirmar', viaje: 'Viaje para buceadores · Baja California Sur · Lista de espera',
+        title: 'Baja California te espera <strong>en el fondo.</strong>', toast: 'Estás en la lista de espera de Baja California. Te avisaremos.' },
+    };
+    const WAIT = { intro: 'Este viaje aún no tiene fechas. Apúntate a la lista de espera y serás de los primeros en saber cuándo abrimos plazas.',
+      submit: 'Apúntame a la lista de espera', note: 'Sin compromiso. Te escribiremos en cuanto haya fechas.', count: '01/01' };
+    const base = {};
+    ['top', 'title', 'intro', 'submit', 'note', 'count'].forEach((k) => { base[k] = $(`[data-wl-${k}]`, wl).innerHTML; });
+    base.viaje = $('[data-wl-viaje]', wl).value;
+    let trip = null;
+    const setTrip = (key) => {
+      if (key === (trip ? trip.key : '')) return;
+      const t = WL_TRIPS[key];
+      trip = t ? { key, ...WAIT, ...t } : null;
+      const c = trip || base;
+      ['top', 'title', 'intro', 'submit', 'note', 'count'].forEach((k) => { $(`[data-wl-${k}]`, wl).innerHTML = c[k]; });
+      $('[data-wl-viaje]', wl).value = c.viaje;
+      form1.reset(); form2.reset(); finished = false; show(1);
+    };
 
     const show = (n) => {
       steps.forEach((s) => { s.hidden = s.dataset.wlStep !== String(n); });
@@ -787,6 +809,7 @@
       if (!t && !area) return;
       if (area && e.target.closest('a, button, input')) return;
       e.preventDefault();
+      setTrip((t && t.dataset.waitlist) || '');
       setOpen(true);
     });
     $$('[data-wl-close]', wl).forEach((b) => b.addEventListener('click', () => {
@@ -826,7 +849,8 @@
       const btn = $('.wl__submit', form1);
       btn.disabled = true;
       try {
-        await send(form1, 'lista');
+        await send(form1, trip ? 'lista de espera' : 'me interesa');
+        if (trip) { finished = true; setOpen(false); toast(trip.toast); return; }
         show(2);
         $('[data-wl-step="2"] .wl__title', wl).focus({ preventScroll: true });
       } catch (_) {
