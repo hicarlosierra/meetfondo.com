@@ -256,7 +256,7 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 @media (hover: hover) { .filtro[aria-pressed="false"]:hover { background: var(--beige); } }
 .viajes__any { order: 10; align-self: flex-start; display: inline-flex; align-items: center; min-height: calc(44 * var(--zu)); margin-top: calc(16 * var(--zu)); font-weight: 500; font-size: calc(12 * var(--zu)); letter-spacing: 0.06em; color: var(--negro-64); text-decoration: underline; text-underline-offset: 0.3em; }
 .viajes__any:hover { color: var(--negro); }
-/* Icono de WhatsApp relleno (Phosphor, MIT) al final de «No sé por dónde empezar»: en el color del texto */
+/* Icono de WhatsApp de línea (Tabler Icons, MIT) al final de «No sé por dónde empezar»: en el color del texto */
 .viajes__wa { flex: none; width: calc(16 * var(--zu)); height: calc(16 * var(--zu)); margin-left: calc(8 * var(--zu)); }
 
 .viajes__strip {
