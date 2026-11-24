@@ -1011,20 +1011,13 @@
   });
 
   /* =======================================================================
-     17. Cómo viajamos (tabla): la foto ancha muestra la fila abierta y las
-         filas pasan de gris a negro al bajar. Se abren al pulsar (acordeón
-         general, una abierta cada vez).
+     17. Cómo viajamos (tabla): las filas pasan de gris a negro al bajar.
+         Se abren al pulsar (acordeón general, una abierta cada vez). La foto
+         ancha es fija.
      ======================================================================= */
   $$('[data-como]').forEach((sec) => {
     const acc = $('[data-accordion]', sec);
     const items = $$('.acc__item', acc);
-    const pics = $$('.como__media img', sec);
-    const syncPic = () => {
-      const i = items.findIndex((it) => it.classList.contains('is-open'));
-      if (i < 0) return;
-      pics.forEach((im, k) => im.classList.toggle('is-on', k === i));
-    };
-    new MutationObserver(syncPic).observe(acc, { subtree: true, attributes: true, attributeFilter: ['class'] });
     sec.classList.add('is-reveal');
     let ticking = false;
     const onScroll = () => {

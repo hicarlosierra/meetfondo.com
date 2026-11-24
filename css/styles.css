@@ -2007,3 +2007,9 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .como .como__lead { max-width: 16em; }
 }
 .como.is-reveal .acc__item.is-open .ct__num, .como.is-reveal .acc__item.is-open .ct__btn, .como.is-reveal .acc__item.is-open .acc__sign { color: var(--negro); }
+/* Cómo viajamos: cerradas, solo foto, número y título; etiquetas y texto al abrir. Foto ancha fija. */
+@media (min-width: 900px) {
+  .ct__tags { display: none; }
+  .ct__row.is-open .ct__tags { display: flex; }
+  .ct__row:not(.is-open) .ct__p { display: none; }
+}
