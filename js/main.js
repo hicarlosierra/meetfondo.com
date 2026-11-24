@@ -324,7 +324,9 @@
     };
     const firstOfType = (t) => Math.max(0, cards.findIndex((c, k) => typeOf(k) === t));
     filters.forEach((f) => f.addEventListener('click', () => goTo(firstOfType(Number(f.dataset.filter)))));
-    cards.forEach((c, i) => c.addEventListener('focus', () => { if (mqStage.matches && i !== active) goTo(i); }));
+    // Solo con teclado (Tab): al hacer clic con el ratón no se mueve la página.
+    // Si no, al abrir la lista de espera de Mar Rojo o Baja California la página saltaba por detrás.
+    cards.forEach((c, i) => c.addEventListener('focus', () => { if (mqStage.matches && i !== active && c.matches(':focus-visible')) goTo(i); }));
 
     // Enlaces de fuera que llevan a un tipo de viaje («Ya tengo el Open Water»)
     $$('[data-goto-type]').forEach((a) => a.addEventListener('click', (e) => {
@@ -772,6 +774,7 @@
       if (key === (trip ? trip.key : '')) return;
       const t = WL_TRIPS[key];
       trip = t ? { key, ...WAIT, ...t } : null;
+      wl.classList.toggle('is-wait', !!trip);   // lista de espera: el cajón va en azul
       const c = trip || base;
       ['top', 'title', 'intro', 'submit', 'note', 'count'].forEach((k) => { $(`[data-wl-${k}]`, wl).innerHTML = c[k]; });
       $('[data-wl-viaje]', wl).value = c.viaje;
@@ -1034,9 +1037,11 @@
 
   /* =======================================================================
      18. Sonidos desde el fondo (vinilo)
-         Aparece al pasar el hero. Nunca suena solo. Asoma por el borde derecho
-         como un easter egg (escritorio y móvil), sale al acercarte o al tocarlo
-         y se esconde al pulsar.
+         Aparece al pasar el hero. Nunca suena solo. En pausa asoma por el borde
+         derecho como un easter egg (escritorio y móvil) y saluda cada 8 s con una
+         vibración y cuatro corcheas. Sale al acercarte o al tocarlo, con su ficha.
+         Al darle al play se queda fuera, girando, sin ficha (la ficha solo sale al
+         pasar por encima). Al pararlo vuelve a esconderse.
          Al pulsar, el disco arranca despacio y coge velocidad, y el sonido
          entra con un fundido. Al volver a pulsar, el volumen cae rápido y el
          disco frena poco a poco (no en seco).
@@ -1107,9 +1112,9 @@
     const hero = $('#top');
     const mqDesk = matchMedia('(min-width: 900px)');
     const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
-    // Dos corcheas pequeñas que salen con el saludo
+    // Cuatro corcheas pequeñas que salen con el saludo
     const NOTA = '<svg class="sonido__nota" viewBox="0 0 14 18" aria-hidden="true"><ellipse cx="5" cy="14.5" rx="3.8" ry="2.8" transform="rotate(-22 5 14.5)"/><rect x="7.6" y="2" width="1.5" height="12.6" rx=".7"/><path d="M8.4 2c.6 2.6 2.8 3.4 3.9 5.1.9 1.4.6 3.2-.3 4.4.2-1.6-.4-2.8-1.6-3.6-.7-.5-1.4-.8-2-1.1z"/></svg>';
-    dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}</span>`);
+    dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}${NOTA}${NOTA}</span>`);
     // Ficha con el enlace a la playlist (fuera del botón para que se pueda pulsar)
     const ficha = document.createElement('div');
     ficha.className = 'sonido__tag sonido__ficha';
@@ -1129,10 +1134,10 @@
     const reset = () => { dock.classList.remove('is-out'); check(); };
     reset(); mqDesk.addEventListener('change', reset);
 
-    // Easter egg: el vinilo asoma por el borde derecho y saluda de vez en cuando.
-    // Ratón: al acercarte sale entero con su texto. Táctil: el primer toque lo saca
-    // (no suena) y el segundo lo pone o lo para. Al pulsar vuelve a esconderse.
-    // Para volver a sacarlo hay que salir y volver a acercarse (o tocar otra vez).
+    // Easter egg: en pausa el vinilo asoma por el borde derecho y saluda de vez en cuando.
+    // Ratón: al acercarte sale entero con su ficha. Táctil: el primer toque lo saca
+    // (no suena) y el segundo lo pone. Mientras suena se queda fuera girando (por CSS,
+    // con .is-playing) y un toque lo para. Al parar, el disco frena a la vista y se esconde.
     let tuckT, ptr = 'mouse', outY = 0;
     const out = (v) => { clearTimeout(tuckT); dock.classList.toggle('is-out', v); if (v) outY = scrollY; };
     dock.addEventListener('pointerdown', (e) => { ptr = e.pointerType; }, true);
@@ -1142,7 +1147,7 @@
     dock.addEventListener('focusout', (e) => { if (!dock.contains(e.relatedTarget)) out(false); });
     // Toque con el vinilo escondido: solo lo saca (se corta el clic antes de que llegue al botón)
     dock.addEventListener('click', (e) => {
-      if (dock.classList.contains('is-out') || e.detail === 0 || ptr === 'mouse') return;
+      if (dock.classList.contains('is-out') || playing || e.detail === 0 || ptr === 'mouse') return;
       e.stopPropagation(); e.preventDefault(); out(true);
     }, true);
     // Táctil: se esconde al tocar fuera o al hacer scroll
@@ -1152,8 +1157,12 @@
     addEventListener('scroll', () => {
       if (ptr !== 'mouse' && dock.classList.contains('is-out') && Math.abs(scrollY - outY) > 40) out(false);
     }, { passive: true });
+    // Tras pulsar: la ficha se va. Al parar, el vinilo se queda fuera un momento
+    // (.is-hold) para que se vea frenar el disco, y luego se esconde.
+    let holdT;
     btn.addEventListener('click', () => {
-      clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);   // se ve arrancar o frenar el disco y se esconde
+      clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);
+      if (!playing) { dock.classList.add('is-hold'); clearTimeout(holdT); holdT = setTimeout(() => dock.classList.remove('is-hold'), 900); }
     });
   })();
 })();
