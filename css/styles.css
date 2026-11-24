@@ -1985,10 +1985,10 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
 .news .field--dark .field__send svg { width: calc(24 * var(--zu)); height: calc(24 * var(--zu)); fill: none; stroke: currentColor; stroke-width: 1.8; }
 /* Preguntas de Costa Brava en móvil: que la lista no se salga de su columna (el + quedaba cortado) */
 .vfaq > * { min-width: 0; }
-/* Fotos dentro de una caja o panel (guía de Costa Brava, foto del acordeón abierto): radio 20 como en Figma.
-   Las fotos sueltas usan --r (10). */
-:root { --r-caja: clamp(12px, max(calc(9.7714px + 0.5714vw), 1.25vw), calc(20 * var(--zw))); }
-.guia__panel--photo, .acc__img { border-radius: var(--r-caja); }
+/* Radios de foto: sueltas a 10 (--r). Dentro de cuadrículas, tarjetas o paneles, sin radio:
+   panel de foto de la guía, miniaturas y foto de la fila abierta de «Cómo viajamos»
+   (tarjetas de viaje, «Dónde pasa» y newsletter ya iban sin radio). */
+.guia__panel--photo, .ct__thumb img, .ct__img { border-radius: 0; }
 /* Gráfico de inmersiones: el texto del SVG va en unidades del dibujo (el SVG ya escala solo).
    Con --zu crecía dos veces en pantallas grandes y se salía de los óvalos. Mismos tamaños que antes en móvil y portátil. */
 .pf-axis text, .pf-labels text { font-size: 15.8px; }
