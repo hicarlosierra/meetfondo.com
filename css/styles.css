@@ -2023,3 +2023,26 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .ct .ct__row { grid-template-columns: calc(216 * var(--zu)) calc(184 * var(--zu)) 1fr 1fr; }
   .ct__thumb img { width: calc(56 * var(--zu)); height: calc(56 * var(--zu)); }
 }
+/* =========================================================================
+   Sonidos desde el fondo · escritorio (24 nov 2026): easter egg en el borde izquierdo
+   En reposo solo asoma la puntita del vinilo; cada 9 s se asoma un poco y saluda.
+   Al acercar el ratón sale entero con su texto; al pulsar vuelve a esconderse.
+   Mientras suena, la puntita sigue girando.
+   ========================================================================= */
+@media (min-width: 900px) {
+  .sonido-dock { left: 0; }
+  .sonido-dock::before { content: ""; position: absolute; left: 0; bottom: calc(-18 * var(--zu)); width: calc(96 * var(--zu)); height: calc(104 * var(--zu)); }
+  .sonido-dock .site-header__sonido { translate: calc(-36 * var(--zu)) 0; transition: translate 0.5s var(--ease-out), color 0.25s linear, opacity 0.3s linear; }
+  .sonido-dock.is-out .site-header__sonido { translate: calc(16 * var(--zu)) 0; }
+  html .sonido-dock:not(.is-out) .site-header__sonido .sonido__tag { opacity: 0; translate: calc(-6 * var(--zu)) 0; }
+  html .sonido-dock.is-out .site-header__sonido .sonido__tag { opacity: 1; translate: 0 0; transition-delay: 0.15s; }
+  .sonido-dock.is-shown:not(.is-out) .site-header__sonido:not(.is-playing) svg { animation: sonido-saluda 9s var(--ease-out) 1.2s infinite; transform-origin: 30% 50%; }
+}
+@keyframes sonido-saluda {
+  0%, 84%, 100% { translate: 0 0; rotate: 0deg; }
+  87% { translate: calc(12 * var(--zu)) 0; rotate: -10deg; }
+  90% { translate: calc(10 * var(--zu)) 0; rotate: 7deg; }
+  93% { translate: calc(12 * var(--zu)) 0; rotate: -5deg; }
+  96% { translate: calc(6 * var(--zu)) 0; rotate: 2deg; }
+}
+@media (prefers-reduced-motion: reduce) { .sonido-dock .site-header__sonido svg { animation: none !important; } }

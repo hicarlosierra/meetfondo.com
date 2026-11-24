@@ -1031,9 +1031,10 @@
   });
 
   /* =======================================================================
-     18. Sonidos desde el fondo (vinilo abajo a la izquierda)
-         Aparece al pasar el hero. Nunca suena solo: al pasar por encima avisa
-         y la primera vez que aparece el aviso asoma unos segundos.
+     18. Sonidos desde el fondo (vinilo)
+         Aparece al pasar el hero. Nunca suena solo. Escritorio: asoma por el
+         borde izquierdo como un easter egg, sale al acercarte y se esconde al
+         pulsar. Móvil: ocupa el sitio del isotipo en la cabecera.
          Al pulsar, el disco arranca despacio y coge velocidad, y el sonido
          entra con un fundido. Al volver a pulsar, el volumen cae rápido y el
          disco frena poco a poco (no en seco).
@@ -1107,23 +1108,30 @@
     const mqDesk = matchMedia('(min-width: 900px)');
     const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
     const logo = $('.site-header__logo', header);
-    let hinted = false;
-    try { hinted = sessionStorage.getItem('fondo-sonido-aviso') === '1'; } catch (_) {}
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
       const on = past || playing, desk = mqDesk.matches;
       header.classList.toggle('has-sonido', on && !desk);
       dock.classList.toggle('is-shown', on && desk);
-      if (desk && !hinted && past && !playing) {   // en móvil el texto solo sale al pulsar
-        hinted = true;
-        try { sessionStorage.setItem('fondo-sonido-aviso', '1'); } catch (_) {}
-        setTimeout(() => { box.classList.add('is-hint'); setTimeout(() => box.classList.remove('is-hint'), 4000); }, 400);
-      }
     };
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
     new MutationObserver(check).observe(header, { attributes: true, attributeFilter: ['class'] });
-    const place = () => { if (mqDesk.matches) dock.append(box); else logo.after(box); check(); };
+    const place = () => { if (mqDesk.matches) dock.append(box); else logo.after(box); dock.classList.remove('is-out'); check(); };
     place(); mqDesk.addEventListener('change', place);
+
+    // Escritorio (easter egg): el vinilo asoma por el borde izquierdo y saluda de vez en cuando.
+    // Al acercar el ratón sale entero con su texto; al pulsar (poner o parar) vuelve a esconderse.
+    // Para volver a sacarlo hay que salir y volver a acercarse.
+    let tuckT;
+    const out = (v) => { clearTimeout(tuckT); dock.classList.toggle('is-out', v); };
+    dock.addEventListener('pointerenter', (e) => { if (mqDesk.matches && e.pointerType === 'mouse') out(true); });
+    dock.addEventListener('pointerleave', () => out(false));
+    btn.addEventListener('focus', () => { if (mqDesk.matches && btn.matches(':focus-visible')) out(true); });
+    btn.addEventListener('blur', () => out(false));
+    btn.addEventListener('click', () => {
+      if (!mqDesk.matches) return;
+      clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);   // se ve arrancar o frenar el disco y se esconde
+    });
     let tagT;
     box.addEventListener('click', () => {
       if (mqDesk.matches) return;
