@@ -1882,6 +1882,11 @@ html.menu-open .sonido-dock, html.wl-open .sonido-dock { visibility: hidden; }
 /* En pantallas táctiles el texto solo sale al pulsar (con .is-hint), no con el :hover que se queda pegado */
 @media (hover: none) { .site-header__sonido:hover:not(.is-hint) .sonido__tag { opacity: 0; translate: 0 calc(-6 * var(--zu)); } }
 
+/* Recuadros de foco: solo con teclado (html.is-kb). Con ratón o dedo no aparecen. */
+html:not(.is-kb) :focus, html:not(.is-kb) :focus-visible { outline: none; }
+html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
+[tabindex="-1"]:focus { outline: none; }
+
 
 @media (min-width: 900px) { :root { --zu: 0.9px; } }
 @media (min-width: 1440px) { :root { --zu: max(0.9px, min(0.0625vw, 0.1125vh)); --zw: var(--zu); --max: 90vw; } }

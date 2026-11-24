@@ -38,6 +38,10 @@
     toastTimer = setTimeout(() => toastEl.classList.remove('is-visible'), 2600);
   };
 
+  // Teclado vs puntero: los recuadros de foco solo se ven al navegar con el teclado
+  addEventListener('keydown', (e) => { if (e.key === 'Tab') document.documentElement.classList.add('is-kb'); }, true);
+  addEventListener('pointerdown', () => document.documentElement.classList.remove('is-kb'), true);
+
   /* =======================================================================
      1. Cabecera fija sin fondo
         Cada elemento (logo, enlaces, idioma) mira qué tiene justo detrás y se
@@ -627,10 +631,11 @@
     if (!els.length) return;
     if (mqReduce.matches || !('IntersectionObserver' in window)) { els.forEach((el) => el.classList.add('is-in')); return; }
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
-      if (!e.isIntersecting) return;
+      // 35 % visible, o un buen trozo de pantalla si el elemento es más alto que ella
+      if (!e.isIntersecting || (e.intersectionRatio < 0.35 && e.intersectionRect.height < innerHeight * 0.35)) return;
       e.target.classList.add('is-in');
       io.unobserve(e.target);
-    }), { threshold: 0.35 });
+    }), { threshold: [0, 0.1, 0.2, 0.35] });
     els.forEach((el) => io.observe(el));
   })();
 
@@ -1008,7 +1013,9 @@
     const onScroll = () => {
       ticking = false;
       if (!mqStageComo.matches) {
-        reach((it) => it.getBoundingClientRect().top < innerHeight * 0.75);
+        // Negro en cuanto la fila asoma bien; y todas en cuanto se ve el final de la lista
+        const all = sec.getBoundingClientRect().bottom <= innerHeight + 4;
+        reach((it) => all || it.getBoundingClientRect().top < innerHeight * 0.88);
         return;
       }
       const p = clamp(-sec.getBoundingClientRect().top / range(), 0, 1);
