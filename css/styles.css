@@ -1887,6 +1887,11 @@ html:not(.is-kb) :focus, html:not(.is-kb) :focus-visible { outline: none; }
 html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
 [tabindex="-1"]:focus { outline: none; }
 
+/* Título del hero de viaje «fundido» con el blanco de abajo, como «fondo» en la home:
+   la base de las letras queda unos px por debajo del borde de la foto y se corta ahí. */
+.vhero { overflow: clip; }
+.vhero__title { margin-bottom: -0.075em; }
+
 
 @media (min-width: 900px) { :root { --zu: 0.9px; } }
 @media (min-width: 1440px) { :root { --zu: max(0.9px, min(0.0625vw, 0.1125vh)); --zw: var(--zu); --max: 90vw; } }
