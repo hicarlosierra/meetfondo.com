@@ -1039,7 +1039,7 @@
      18. Sonidos desde el fondo (vinilo)
          Aparece al pasar el hero. Nunca suena solo. En pausa asoma por el borde
          derecho como un easter egg (escritorio y móvil) y saluda cada 8 s con una
-         vibración y cuatro corcheas. Sale al acercarte o al tocarlo, con su ficha.
+         vibración y tres corcheas. Sale al acercarte o al tocarlo, con su ficha.
          Al darle al play se queda fuera, girando, sin ficha (la ficha solo sale al
          pasar por encima). Al pararlo vuelve a esconderse.
          Al pulsar, el disco arranca despacio y coge velocidad, y el sonido
@@ -1112,9 +1112,9 @@
     const hero = $('#top');
     const mqDesk = matchMedia('(min-width: 900px)');
     const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
-    // Cuatro corcheas pequeñas que salen con el saludo
+    // Tres corcheas pequeñas que salen con el saludo
     const NOTA = '<svg class="sonido__nota" viewBox="0 0 14 18" aria-hidden="true"><ellipse cx="5" cy="14.5" rx="3.8" ry="2.8" transform="rotate(-22 5 14.5)"/><rect x="7.6" y="2" width="1.5" height="12.6" rx=".7"/><path d="M8.4 2c.6 2.6 2.8 3.4 3.9 5.1.9 1.4.6 3.2-.3 4.4.2-1.6-.4-2.8-1.6-3.6-.7-.5-1.4-.8-2-1.1z"/></svg>';
-    dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}${NOTA}${NOTA}</span>`);
+    dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}${NOTA}</span>`);
     // Ficha con el enlace a la playlist (fuera del botón para que se pueda pulsar)
     const ficha = document.createElement('div');
     ficha.className = 'sonido__tag sonido__ficha';
