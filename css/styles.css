@@ -2046,3 +2046,8 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   96% { translate: calc(6 * var(--zu)) 0; rotate: 2deg; }
 }
 @media (prefers-reduced-motion: reduce) { .sonido-dock .site-header__sonido svg { animation: none !important; } }
+/* Sonidos desde el fondo (escritorio): escondido, más discreto (55 %); al sacarlo, opaco */
+@media (min-width: 900px) {
+  .sonido-dock .site-header__sonido svg { opacity: 0.55; transition: opacity 0.3s linear; }
+  .sonido-dock.is-out .site-header__sonido svg, .sonido-dock .site-header__sonido:focus-visible svg { opacity: 1; }
+}
