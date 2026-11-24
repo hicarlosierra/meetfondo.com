@@ -624,7 +624,7 @@ html:not(.js) .site-header__menu { display: none; }   /* sin JS se queda el men�
 .mmenu__next { display: inline-flex; align-items: baseline; gap: 1.5px; margin-top: calc(6 * var(--zu)); font-weight: 500; font-size: calc(20 * var(--zu)); line-height: 1.2; letter-spacing: -0.03em; }
 .mmenu__next-text { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: calc(3.8 * var(--zu)); }
 .mmenu__arrow { position: relative; top: calc(3 * var(--zu)); font-weight: 400; font-size: calc(19.5 * var(--zu)); letter-spacing: 0; transition: transform 0.25s var(--ease-out); }
-.mmenu__next:active .mmenu__arrow { transform: translateX(2px); }
+.mmenu__next:active .mmenu__arrow { transform: translate(2px, -2px); }
 .mmenu__social { margin-top: calc(28 * var(--zu)); }
 .mmenu__social a { display: inline-block; padding-right: calc(24 * var(--zu)); font-size: calc(16 * var(--zu)); line-height: calc(30 * var(--zu)); }
 
@@ -830,7 +830,7 @@ html.is-loading .hero__title { transform: translateY(18%); }
 .vdonde__head { display: flex; justify-content: space-between; align-items: flex-end; gap: calc(24 * var(--zu)); padding-inline: var(--pad-x); }
 .vdonde__title { margin-top: clamp(16px, max(calc(13.92px + 0.5333vw), 1.5vw), calc(24 * var(--zw))); margin-top: clamp(16px, max(calc(13.92px + 0.5333cqi), 1.5cqi), calc(24 * var(--zw))); max-width: calc(994 * var(--zu)); font-weight: 400; font-size: clamp(26px, max(calc(22.2857px + 0.9524vw), 2.5vw), calc(40 * var(--zw))); font-size: clamp(26px, max(calc(22.2857px + 0.9524cqi), 2.5cqi), calc(40 * var(--zw))); line-height: 1.12; letter-spacing: -0.015em; }
 .vdonde__nav { display: none; gap: calc(16 * var(--zu)); flex: none; margin-bottom: 1px; }
-.vbtn { display: grid; place-items: center; width: calc(48 * var(--zu)); height: calc(48 * var(--zu)); border: 1px solid var(--negro); border-radius: 50%; font-weight: 500; font-size: calc(18 * var(--zu)); transition: background-color 0.2s, color 0.2s, opacity 0.2s; }
+.vbtn { display: grid; place-items: center; width: calc(72 * var(--zu)); height: calc(44 * var(--zu)); border: 1px solid var(--negro); border-radius: 50%; font-weight: 500; font-size: calc(18 * var(--zu)); transition: background-color 0.2s, color 0.2s, opacity 0.2s; }
 .vbtn:hover:not(:disabled) { background: var(--negro); color: var(--mantequilla); }
 .vbtn:disabled { opacity: 0.3; cursor: default; }
 .vdonde__track {
@@ -1927,13 +1927,15 @@ html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
 }
 
 /* =========================================================================
-   Sistema de botones (24 nov 2026): tres tipos
-   1. Óvalo relleno = acción (Me interesa, Lista de espera). El óvalo de línea
-      es para elegir opciones o como sello, nunca botón.
-   2. Enlace = texto subrayado (.u) + marca final (.mk) que dice adónde va:
-      → otra página o el formulario · ↓ más abajo · icono WhatsApp · ↗ fuera de la web.
+   Sistema de botones (24 nov 2026)
+   1. Óvalo = acción o control.
+      Relleno = acción: «Me interesa» en blanco, «Lista de espera» en azul.
+      De línea = controles (flechas del carrusel) y opciones en formularios.
+   2. Enlace = texto subrayado (.u) + marca final (.mk) sin subrayar:
+      siempre ↗, o el icono de WhatsApp si abre WhatsApp.
+      Única flecha horizontal: enviar en los campos de newsletter (línea de puntos).
       Sin marca: cierra o vuelve («Lo dejo aquí»).
-   3. Círculo = control: carrusel, abrir pregunta, cerrar, música.
+   3. Abrir/cerrar (+/−): sin forma alrededor, trazo de 2 px.
    Aparte: el botón azul de los formularios, y los menús (cabecera, footer,
    menú móvil), que van sin subrayar y se subrayan al pasar el ratón.
    «Llegaste al fondo» va relleno y siempre del color de la palabra «fondo»
@@ -1942,12 +1944,16 @@ html:not(.is-kb) .chip input:focus-visible + span { outline: none; }
    ========================================================================= */
 .u { text-decoration: underline; text-decoration-thickness: 0.08em; text-underline-offset: 0.35em; }
 .mk { display: inline-block; flex: none; transition: transform 0.25s var(--ease-out); }
-a:hover .mk--r { transform: translateX(calc(3 * var(--zu))); }
-a:hover .mk--d { transform: translateY(calc(3 * var(--zu))); }
 a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu))); }
 .ico-wa { width: 1.15em; height: 1.15em; }
 .footer__legal a { letter-spacing: 0.01em; }
-/* Abrir pregunta: el + / − dentro de un círculo */
-.acc__sign { width: calc(40 * var(--zu)); height: calc(40 * var(--zu)); border-radius: 50%; box-shadow: inset 0 0 0 1px currentColor; }
-.acc__sign::before, .acc__sign::after { width: 38%; }
-.acc--faq .acc__sign { width: calc(32 * var(--zu)); height: calc(32 * var(--zu)); }
+/* + / − de los acordeones: sin círculo, algo más pequeños y con trazo de 2 px */
+.acc__sign { width: clamp(12px, 0.9vw, calc(14 * var(--zw))); height: clamp(12px, 0.9vw, calc(14 * var(--zw))); }
+.acc__sign::before, .acc__sign::after { height: 2px; }
+.acc--faq .acc__sign { width: calc(11 * var(--zu)); height: calc(11 * var(--zu)); }
+/* Newsletter de la home: línea de puntos y flecha, igual que en el footer */
+.news .field--dark { border-bottom: 2px dotted var(--blanco); }
+.news .field--dark:focus-within { box-shadow: none; border-bottom-style: solid; }
+.news .field--dark .field__send svg { width: calc(24 * var(--zu)); height: calc(24 * var(--zu)); fill: none; stroke: currentColor; stroke-width: 1.8; }
+/* Preguntas de Costa Brava en móvil: que la lista no se salga de su columna (el + quedaba cortado) */
+.vfaq > * { min-width: 0; }
