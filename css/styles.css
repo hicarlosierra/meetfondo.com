@@ -2156,7 +2156,7 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
    ========================================================================= */
 @media (max-width: 899px) {
   .sonido-dock { left: auto; right: 0; bottom: calc(calc(16 * var(--zu)) + env(safe-area-inset-bottom)); transition: opacity 0.35s linear, translate 0.45s var(--ease-out), bottom 0.35s var(--ease-out); }
-  body:has(.dock-pill.is-on) .sonido-dock { bottom: calc(calc(78 * var(--zu)) + env(safe-area-inset-bottom)); }
+  body:has(.dock-pill.is-on) .sonido-dock { bottom: calc(calc(90 * var(--zu)) + env(safe-area-inset-bottom)); }
   .sonido-dock .site-header__sonido { translate: calc(31 * var(--zu)) 0; transition: translate 0.5s var(--ease-out), color 0.25s linear, opacity 0.3s linear; }
   .sonido-dock.is-out .site-header__sonido { translate: calc(-16 * var(--zu)) 0; }
   .sonido-dock .site-header__sonido svg { width: calc(54 * var(--zu)); height: calc(58 * var(--zu)); opacity: 0.55; transition: opacity 0.3s linear; }
@@ -2183,4 +2183,18 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .dentro__intro,
   .manifiesto__text,
   .vporque__text { max-width: 88%; text-wrap: pretty; }
+}
+
+/* ==========================================================================
+   Óvalos en móvil (24 nov 2026)
+   Todos iguales: misma forma (150 × 59, la de las tarjetas de viaje), misma
+   letra (15 px) y el mismo interlineado cuando el texto va en dos líneas.
+   «Me interesa» fijo de Costa Brava también en dos líneas (en escritorio sigue
+   en una). Sin óvalo en el footer ni en el hero de Costa Brava.
+   ========================================================================== */
+@media (min-width: 900px) { .dock-pill__br { display: none; } }
+@media (max-width: 899px) {
+  .oval, .marquee .oval, .dock-pill { width: calc(150 * var(--zu)); height: auto; aspect-ratio: 303 / 119; }
+  .oval > span, .dock-pill > span { display: block; padding-top: 0.08em; font-size: calc(15 * var(--zu)); line-height: 1.1; letter-spacing: -0.055em; }
+  .footer__oval, .vhero__oval { display: none !important; }
 }
