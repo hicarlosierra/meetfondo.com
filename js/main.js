@@ -1034,9 +1034,9 @@
 
   /* =======================================================================
      18. Sonidos desde el fondo (vinilo)
-         Aparece al pasar el hero. Nunca suena solo. Escritorio: asoma por el
-         borde izquierdo como un easter egg, sale al acercarte y se esconde al
-         pulsar. Móvil: ocupa el sitio del isotipo en la cabecera.
+         Aparece al pasar el hero. Nunca suena solo. Asoma por el borde derecho
+         como un easter egg (escritorio y móvil), sale al acercarte o al tocarlo
+         y se esconde al pulsar.
          Al pulsar, el disco arranca despacio y coge velocidad, y el sonido
          entra con un fundido. Al volver a pulsar, el volumen cae rápido y el
          disco frena poco a poco (no en seco).
@@ -1103,53 +1103,57 @@
     };
     btn.addEventListener('click', () => (playing ? stop() : play()));
 
-    // Al pasar el hero, el vinilo ocupa el sitio del isotipo (y se queda mientras suena).
-    // La primera vez que se ve, el aviso asoma unos segundos.
+    // Al pasar el hero aparece (y se queda mientras suena).
     const hero = $('#top');
-    // Móvil: el vinilo ocupa el sitio del isotipo en la cabecera. Escritorio: fijo abajo a la izquierda.
     const mqDesk = matchMedia('(min-width: 900px)');
     const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
-    // Dos corcheas pequeñas que salen con el saludo (solo escritorio, por CSS)
+    // Dos corcheas pequeñas que salen con el saludo
     const NOTA = '<svg class="sonido__nota" viewBox="0 0 14 18" aria-hidden="true"><ellipse cx="5" cy="14.5" rx="3.8" ry="2.8" transform="rotate(-22 5 14.5)"/><rect x="7.6" y="2" width="1.5" height="12.6" rx=".7"/><path d="M8.4 2c.6 2.6 2.8 3.4 3.9 5.1.9 1.4.6 3.2-.3 4.4.2-1.6-.4-2.8-1.6-3.6-.7-.5-1.4-.8-2-1.1z"/></svg>';
     dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}</span>`);
-    // Ficha de escritorio (fuera del botón para que el enlace a la playlist se pueda pulsar)
+    // Ficha con el enlace a la playlist (fuera del botón para que se pueda pulsar)
     const ficha = document.createElement('div');
     ficha.className = 'sonido__tag sonido__ficha';
-    ficha.innerHTML = '<strong>Sonidos desde el fondo</strong><a href="#"><span class="u">Descubre cómo suenan nuestras experiencias</span></a>';
+    ficha.innerHTML = '<strong>Sonidos desde el fondo</strong><a href="#"><span class="u">Descubre cómo suenan <br class="sonido__br">nuestras experiencias</span></a>';
     dock.append(ficha);
     const fichaLink = $('a', ficha);
     if (FONDO.playlist) { fichaLink.href = FONDO.playlist; fichaLink.target = '_blank'; fichaLink.rel = 'noopener'; }
     else fichaLink.addEventListener('click', (e) => { e.preventDefault(); toast('Pendiente: enlace a la playlist.'); });
-    const logo = $('.site-header__logo', header);
+    // Escritorio y móvil: el vinilo vive fijo abajo a la derecha (ya no en la cabecera)
+    header.classList.remove('has-sonido');
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
-      const on = past || playing, desk = mqDesk.matches;
-      header.classList.toggle('has-sonido', on && !desk);
-      dock.classList.toggle('is-shown', on && desk);
+      dock.classList.toggle('is-shown', past || playing);
     };
     addEventListener('scroll', () => requestAnimationFrame(check), { passive: true });
-    new MutationObserver(check).observe(header, { attributes: true, attributeFilter: ['class'] });
-    const place = () => { if (mqDesk.matches) dock.append(box); else logo.after(box); dock.classList.remove('is-out'); check(); };
-    place(); mqDesk.addEventListener('change', place);
+    dock.append(box);
+    const reset = () => { dock.classList.remove('is-out'); check(); };
+    reset(); mqDesk.addEventListener('change', reset);
 
-    // Escritorio (easter egg): el vinilo asoma por el borde izquierdo y saluda de vez en cuando.
-    // Al acercar el ratón sale entero con su texto; al pulsar (poner o parar) vuelve a esconderse.
-    // Para volver a sacarlo hay que salir y volver a acercarse.
-    let tuckT;
-    const out = (v) => { clearTimeout(tuckT); dock.classList.toggle('is-out', v); };
-    dock.addEventListener('pointerenter', (e) => { if (mqDesk.matches && e.pointerType === 'mouse') out(true); });
-    dock.addEventListener('pointerleave', () => out(false));
-    dock.addEventListener('focusin', (e) => { if (mqDesk.matches && e.target.matches(':focus-visible')) out(true); });
+    // Easter egg: el vinilo asoma por el borde derecho y saluda de vez en cuando.
+    // Ratón: al acercarte sale entero con su texto. Táctil: el primer toque lo saca
+    // (no suena) y el segundo lo pone o lo para. Al pulsar vuelve a esconderse.
+    // Para volver a sacarlo hay que salir y volver a acercarse (o tocar otra vez).
+    let tuckT, ptr = 'mouse', outY = 0;
+    const out = (v) => { clearTimeout(tuckT); dock.classList.toggle('is-out', v); if (v) outY = scrollY; };
+    dock.addEventListener('pointerdown', (e) => { ptr = e.pointerType; }, true);
+    dock.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') out(true); });
+    dock.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') out(false); });
+    dock.addEventListener('focusin', (e) => { if (e.target.matches(':focus-visible')) out(true); });
     dock.addEventListener('focusout', (e) => { if (!dock.contains(e.relatedTarget)) out(false); });
+    // Toque con el vinilo escondido: solo lo saca (se corta el clic antes de que llegue al botón)
+    dock.addEventListener('click', (e) => {
+      if (dock.classList.contains('is-out') || e.detail === 0 || ptr === 'mouse') return;
+      e.stopPropagation(); e.preventDefault(); out(true);
+    }, true);
+    // Táctil: se esconde al tocar fuera o al hacer scroll
+    document.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' && dock.classList.contains('is-out') && !dock.contains(e.target)) out(false);
+    }, true);
+    addEventListener('scroll', () => {
+      if (ptr !== 'mouse' && dock.classList.contains('is-out') && Math.abs(scrollY - outY) > 40) out(false);
+    }, { passive: true });
     btn.addEventListener('click', () => {
-      if (!mqDesk.matches) return;
       clearTimeout(tuckT); tuckT = setTimeout(() => dock.classList.remove('is-out'), 650);   // se ve arrancar o frenar el disco y se esconde
-    });
-    let tagT;
-    box.addEventListener('click', () => {
-      if (mqDesk.matches) return;
-      box.classList.add('is-hint'); clearTimeout(tagT);
-      tagT = setTimeout(() => box.classList.remove('is-hint'), 2600);
     });
   })();
 })();

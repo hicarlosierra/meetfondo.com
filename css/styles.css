@@ -2136,6 +2136,7 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
 }
 /* Sonidos desde el fondo (escritorio): ficha fuera del botón, con enlace a la playlist */
 .sonido__ficha { display: none; }
+@media (min-width: 900px) { .sonido__br { display: none; } }   /* en móvil el enlace va en dos líneas */
 @media (min-width: 900px) {
   .sonido-dock .site-header__sonido .sonido__tag { display: none; }
   .sonido-dock > .sonido__ficha { display: flex; left: auto; right: calc(100% + calc(30 * var(--zu))); bottom: calc(6 * var(--zu)); pointer-events: none; opacity: 0; translate: calc(6 * var(--zu)) 0; }
@@ -2143,6 +2144,33 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .sonido__ficha a { display: inline-flex; align-items: baseline; gap: 0.3em; font-weight: 400; font-style: italic; font-size: calc(13 * var(--zu)); line-height: 1.15; letter-spacing: 0; text-transform: none; color: var(--negro); }
   .sonido__ficha a .mk { font-style: normal; }
   .sonido__ficha a:hover { color: var(--azul); }
+}
+
+/* =========================================================================
+   Sonidos desde el fondo · móvil (24 nov 2026)
+   Mismo easter egg que en escritorio: abajo a la derecha, asoma una parte del
+   disco (el brazo queda escondido), saluda cada 8 s con vibración y corcheas.
+   Primer toque: sale entero con su ficha. Segundo toque: suena o para y se
+   esconde. Tocar fuera o hacer scroll lo vuelve a esconder.
+   Vinilo un 10 % más pequeño que el que estaba en la cabecera (60 → 54).
+   ========================================================================= */
+@media (max-width: 899px) {
+  .sonido-dock { left: auto; right: 0; bottom: calc(calc(16 * var(--zu)) + env(safe-area-inset-bottom)); transition: opacity 0.35s linear, translate 0.45s var(--ease-out), bottom 0.35s var(--ease-out); }
+  body:has(.dock-pill.is-on) .sonido-dock { bottom: calc(calc(78 * var(--zu)) + env(safe-area-inset-bottom)); }
+  .sonido-dock .site-header__sonido { translate: calc(31 * var(--zu)) 0; transition: translate 0.5s var(--ease-out), color 0.25s linear, opacity 0.3s linear; }
+  .sonido-dock.is-out .site-header__sonido { translate: calc(-16 * var(--zu)) 0; }
+  .sonido-dock .site-header__sonido svg { width: calc(54 * var(--zu)); height: calc(58 * var(--zu)); opacity: 0.55; transition: opacity 0.3s linear; }
+  .sonido-dock.is-out .site-header__sonido svg, .sonido-dock .site-header__sonido:focus-visible svg { opacity: 1; }
+  .sonido-dock.is-shown:not(.is-out) .site-header__sonido:not(.is-playing) svg { animation: sonido-saluda-der 8s linear 1.2s infinite; transform-origin: 70% 60%; }
+  .sonido-dock .site-header__sonido .sonido__tag { display: none; }
+  .sonido__notas { display: block; position: absolute; right: calc(14 * var(--zu)); bottom: calc(36 * var(--zu)); width: calc(40 * var(--zu)); height: calc(44 * var(--zu)); pointer-events: none; }
+  .sonido__nota { position: absolute; right: 0; bottom: 0; width: calc(13 * var(--zu)); height: calc(17 * var(--zu)); fill: var(--azul); stroke: var(--blanco); stroke-width: 1.6; paint-order: stroke fill; opacity: 0; }
+  .sonido__nota + .sonido__nota { width: calc(11 * var(--zu)); height: calc(14 * var(--zu)); }
+  .sonido-dock.is-shown:not(.is-out):not(:has(.is-playing)) .sonido__nota { animation: sonido-nota-1-der 8s var(--ease-out) 1.2s infinite; }
+  .sonido-dock.is-shown:not(.is-out):not(:has(.is-playing)) .sonido__nota + .sonido__nota { animation-name: sonido-nota-2-der; animation-delay: 1.45s; }
+  .sonido-dock > .sonido__ficha { display: flex; left: auto; right: calc(100% + calc(28 * var(--zu))); bottom: calc(6 * var(--zu)); width: max-content; max-width: calc(100vw - 100% - calc(28 * var(--zu)) - var(--pad-x)); white-space: normal; pointer-events: none; opacity: 0; translate: calc(6 * var(--zu)) 0; }
+  .sonido-dock.is-out > .sonido__ficha { pointer-events: auto; opacity: 1; translate: 0 0; transition-delay: 0.15s; }
+  .sonido__ficha a { display: inline-flex; font-weight: 400; font-style: italic; font-size: calc(13 * var(--zu)); line-height: 1.25; letter-spacing: 0; text-transform: none; color: var(--negro); }
 }
 
 /* ==========================================================================
