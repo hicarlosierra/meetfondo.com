@@ -2013,3 +2013,12 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .ct__row.is-open .ct__tags { display: flex; }
   .ct__row:not(.is-open) .ct__p { display: none; }
 }
+/* Cómo viajamos: miniatura pequeña en las cerradas que crece x3 al abrir; foto ancha encima del título (como en Figma) */
+.ct .ct__row { grid-template-columns: calc(40 * var(--zu)) 1fr auto; }
+.ct__thumb img { width: calc(40 * var(--zu)); height: calc(40 * var(--zu)); }
+@media (min-width: 900px) {
+  .como__media { margin: 0 0 calc(48 * var(--zu)); }
+  .ct { margin-top: calc(48 * var(--zu)); }
+  .ct .ct__row { grid-template-columns: calc(216 * var(--zu)) calc(184 * var(--zu)) 1fr 1fr; }
+  .ct__thumb img { width: calc(56 * var(--zu)); height: calc(56 * var(--zu)); }
+}
