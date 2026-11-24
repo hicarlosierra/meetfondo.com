@@ -1107,6 +1107,9 @@
     // Móvil: el vinilo ocupa el sitio del isotipo en la cabecera. Escritorio: fijo abajo a la izquierda.
     const mqDesk = matchMedia('(min-width: 900px)');
     const dock = document.createElement('div'); dock.className = 'sonido-dock'; document.body.append(dock);
+    // Dos corcheas pequeñas que salen con el saludo (solo escritorio, por CSS)
+    const NOTA = '<svg class="sonido__nota" viewBox="0 0 14 18" aria-hidden="true"><ellipse cx="5" cy="14.5" rx="3.8" ry="2.8" transform="rotate(-22 5 14.5)"/><rect x="7.6" y="2" width="1.5" height="12.6" rx=".7"/><path d="M8.4 2c.6 2.6 2.8 3.4 3.9 5.1.9 1.4.6 3.2-.3 4.4.2-1.6-.4-2.8-1.6-3.6-.7-.5-1.4-.8-2-1.1z"/></svg>';
+    dock.insertAdjacentHTML('beforeend', `<span class="sonido__notas" aria-hidden="true">${NOTA}${NOTA}</span>`);
     const logo = $('.site-header__logo', header);
     const check = () => {
       const past = !hero || scrollY > hero.offsetHeight * 0.8;
