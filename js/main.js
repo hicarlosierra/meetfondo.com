@@ -1115,7 +1115,7 @@
     // Ficha de escritorio (fuera del botón para que el enlace a la playlist se pueda pulsar)
     const ficha = document.createElement('div');
     ficha.className = 'sonido__tag sonido__ficha';
-    ficha.innerHTML = '<strong>Sonidos desde el fondo</strong><a href="#"><span class="u">Descubre cómo suenan nuestras experiencias</span><span class="mk mk--x" aria-hidden="true">↗</span></a>';
+    ficha.innerHTML = '<strong>Sonidos desde el fondo</strong><a href="#"><span class="u">Descubre cómo suenan nuestras experiencias</span></a>';
     dock.append(ficha);
     const fichaLink = $('a', ficha);
     if (FONDO.playlist) { fichaLink.href = FONDO.playlist; fichaLink.target = '_blank'; fichaLink.rel = 'noopener'; }
