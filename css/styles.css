@@ -2144,3 +2144,15 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
   .sonido__ficha a .mk { font-style: normal; }
   .sonido__ficha a:hover { color: var(--azul); }
 }
+
+/* ==========================================================================
+   Textos grandes con el peso a la izquierda (24 nov 2026)
+   En desktop, los párrafos de titular (Dentro y fuera, Manifiesto y el
+   «Por qué» de Costa Brava) no llegan al margen derecho: ocupan ~88 % del
+   ancho útil, así queda ~17 % de aire a la derecha de la pantalla.
+   ========================================================================== */
+@media (min-width: 900px) {
+  .dentro__intro,
+  .manifiesto__text,
+  .vporque__text { max-width: 88%; text-wrap: pretty; }
+}
