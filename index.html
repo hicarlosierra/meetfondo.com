@@ -28,7 +28,7 @@
     /* Antes del primer pintado: decide si se ve el loader.
        ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
     (function (d) {
-      var h = d.documentElement, ONCE = false, seen = false;
+      var h = d.documentElement, ONCE = true, seen = false;
       h.classList.add('js');
       try { seen = sessionStorage.getItem('fondo-loader-visto') === '1'; } catch (e) {}
       if (ONCE && seen) { h.classList.add('no-loader'); return; }
@@ -36,8 +36,8 @@
       var m = d.querySelector('meta[name="theme-color"]'); if (m) m.content = '#faf3eb';
     })(document);
   </script>
-  <script src="js/loader.js?v=4b1fe7d7" defer></script>
-  <script src="js/main.js?v=5ed90df5" defer></script>
+  <script src="js/loader.js?v=e2feaa2e" defer></script>
+  <script src="js/main.js?v=5cc2c4c6" defer></script>
 </head>
 <body>
 
@@ -147,7 +147,10 @@
     <!-- Vídeo en bucle, sin sonido: el buzo en la barca.
          El script elige la versión según la pantalla antes de cargar nada:
            horizontal → 1920 o 1280; vertical → móvil 1080×1920 o 720×1280.
-         Con «reducir movimiento» o ahorro de datos se queda el póster. -->
+         Con «reducir movimiento» o ahorro de datos se queda el póster.
+         Formato: HEVC (-hevc.mp4, unas 4 veces más ligero) donde se puede
+         reproducir (Safari, iPhone, Chrome con decodificador); si no, H.264.
+         Si el HEVC falla al cargar, cambia solo al H.264. -->
     <video class="hero__img hero__video" muted loop playsinline autoplay preload="none" data-video="buzo"
       aria-hidden="true" disablepictureinpicture disableremoteplayback data-hero-video></video>
     <script>
@@ -157,20 +160,28 @@
         var save = c && c.saveData;
         var slow = c && /(^|-)2g|3g/.test(c.effectiveType || '');
         var dpr = Math.min(devicePixelRatio || 1, 2);   // más de 2× no se nota en vídeo y pesa mucho más
-        var base = 'assets/video/hero-buzo', src, poster;
+        var base = 'assets/video/hero-buzo', name, poster;
         if (innerHeight > innerWidth * 1.25) {
-          src = base + (!slow && innerWidth * dpr >= 700 ? '-movil.mp4' : '-movil-sd.mp4');
+          name = !slow && innerWidth * dpr >= 700 ? 'movil' : 'movil-sd';
           poster = base + '-poster-movil.webp';
         } else {
           var need = Math.max(innerWidth, innerHeight * 16 / 9) * dpr;   // ancho real que cubre el vídeo (16:9)
-          src = base + '-' + (slow || 1280 >= need * 0.85 ? 1280 : 1920) + '.mp4';
+          name = slow || 1280 >= need * 0.85 ? '1280' : '1920';
           poster = base + '-poster.webp';
         }
         v.poster = poster;
         if (reduce || save) { v.removeAttribute('autoplay'); return; }
+        var h264 = base + '-' + name + '.mp4';
+        var hevc = /^probably$/.test(v.canPlayType('video/mp4; codecs="hvc1.1.6.L123.B0"'));
+        var play = function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); };
         v.preload = 'auto';
-        v.src = src;
-        var p = v.play(); if (p && p.catch) p.catch(function () {});
+        if (hevc) {
+          v.addEventListener('error', function () { v.src = h264; play(); }, { once: true });
+          v.src = base + '-' + name + '-hevc.mp4';
+        } else {
+          v.src = h264;
+        }
+        play();
       })(document.currentScript.previousElementSibling);
     </script>
     <div class="hero__shade" aria-hidden="true" data-shade="0.42"></div>
@@ -188,12 +199,12 @@
     <div class="dentro__photo flipbook" data-flipbook role="img" aria-label="Momentos de Fondo: buceo, mesa y mar">
       <img src="assets/img/flip-01.webp" alt="" decoding="async" class="is-on">
       <img src="assets/img/flip-02.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-03.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-04.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-05.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-06.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-07.webp" alt="" decoding="async" loading="lazy">
-      <img src="assets/img/flip-08.webp" alt="" decoding="async" loading="lazy">
+      <img data-src="assets/img/flip-03.webp" alt="" decoding="async">
+      <img data-src="assets/img/flip-04.webp" alt="" decoding="async">
+      <img data-src="assets/img/flip-05.webp" alt="" decoding="async">
+      <img data-src="assets/img/flip-06.webp" alt="" decoding="async">
+      <img data-src="assets/img/flip-07.webp" alt="" decoding="async">
+      <img data-src="assets/img/flip-08.webp" alt="" decoding="async">
     </div>
     <div class="dentro__side">
       <p class="dentro__title">Good things <strong>take depth.</strong></p>

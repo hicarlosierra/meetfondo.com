@@ -962,21 +962,33 @@
          Cambia de foto cada 1,8 s con un fundido corto de 0,3 s (calma, como la
          propuesta de valor). Solo corre cuando está
          a la vista; con «reducir movimiento» se queda en la primera.
+         Carga: las dos primeras fotos van con src; el resto lleva data-src y
+         se descarga al acercarse al flipbook, para no competir con el hero al
+         entrar. Si la siguiente aún no ha llegado, espera en la actual.
      ======================================================================= */
   $$('[data-flipbook]').forEach((box) => {
     const imgs = $$('img', box);
     if (imgs.length < 2 || mqReduce.matches) return;
     let i = 0, timer = 0;
+    const ready = (im) => im.complete && im.naturalWidth > 0;
     // La nueva entra fundiéndose por encima; la anterior se queda debajo hasta que termina el fundido
     const step = () => {
+      const next = (i + 1) % imgs.length;
+      if (!ready(imgs[next])) return;
       const prev = imgs[i];
       prev.classList.replace('is-on', 'is-prev');
-      i = (i + 1) % imgs.length; imgs[i].classList.add('is-on');
+      i = next; imgs[i].classList.add('is-on');
       setTimeout(() => prev.classList.remove('is-prev'), 400);
     };
     new IntersectionObserver(([e]) => {
       clearInterval(timer);
-      if (e.isIntersecting) { imgs.forEach((im) => { im.loading = 'eager'; }); timer = setInterval(step, 1800); }
+      if (e.isIntersecting) {
+        imgs.forEach((im) => {
+          im.loading = 'eager';
+          if (im.dataset.src) { im.src = im.dataset.src; im.removeAttribute('data-src'); }
+        });
+        timer = setInterval(step, 1800);
+      }
     }, { rootMargin: '200px 0px' }).observe(box);
   });
 

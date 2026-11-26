@@ -74,9 +74,9 @@ Parámetros fáciles de ajustar:
 
 Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, con el marcado al principio del `<body>` y los estilos en `styles.css`. Fondo beige y logo azul con los tokens de la web (#FAF3EB y #1E57B1).
 
-- **Secuencia (unos 3 s):** «fondo» en reposo 0,6 s → se transforma en el ánfora en 1,2 s → el ánfora se asienta 0,35 s → el panel sube como un telón en 1 s. Mientras sube, la foto del hero se asienta y «fondo» sube desde abajo.
-- **Tiempo real con un mínimo.** No es un tiempo fijo: espera a que la página cargue de verdad, pero nunca sale antes de completar el gesto. Si la carga tarda, el logo sigue transformándose y sale siempre desde el ánfora. Como mucho espera 7 s (`MAX_WAIT`).
-- **Una vez por sesión.** `ONCE` en el `<head>` de `index.html`. Ahora está en `false` para que lo veas en cada recarga. En producción conviene ponerlo en `true`, así solo sale la primera vez que alguien entra.
+- **Secuencia (unos 2,5 s):** «fondo» en reposo 0,4 s → se transforma en el ánfora en 0,9 s → el ánfora se asienta 0,25 s → el panel sube como un telón en 0,8 s. Mientras sube, la foto del hero se asienta y «fondo» sube desde abajo. (Hasta el 26 nov 2026 eran unos 3,5 s; se acortó por el feedback de tiempo de carga.)
+- **Tiempo real con un mínimo.** No es un tiempo fijo: sale en cuanto el hero se puede ver bien (Inter cargada y póster o primer fotograma del vídeo listos), sin esperar al resto de la página, pero nunca antes de completar el gesto. Si tarda, el logo sigue transformándose y sale siempre desde el ánfora. Como mucho espera 4 s (`MAX_WAIT`).
+- **Una vez por sesión.** `ONCE` en el `<head>` de `index.html`, en `true`: solo sale la primera vez que alguien entra en cada pestaña; al volver a la home desde otra página ya no aparece. Para volver a verlo, abre la web en una pestaña nueva. Ponlo en `false` si quieres verlo en cada recarga mientras lo ajustas.
 - **Seguridad.** Con «reducir movimiento» pasa a un fundido simple. Si el JS no llega a cargar, el loader se aparta solo a los 9 s.
 - **Ajustes.** Tiempos, efecto líquido y salida, en el bloque 1 de `js/loader.js`.
 
@@ -88,22 +88,28 @@ Nueve roles para toda la web (variables `--t-*` en `styles.css`), en desktop / m
 
 Solo el vídeo del buzo. Los otros cinco de las pruebas (cueva, pared, mar, santorini y playa) y su selector se quitaron el 23 nov 2026; siguen en el historial de git.
 
-**Versiones.** H.264 sin audio, en bucle. El script elige la versión antes de cargar nada:
+**Versiones.** Sin audio, en bucle. Cada tamaño existe en dos formatos: HEVC (`-hevc.mp4`) y H.264 (`.mp4`). El script elige antes de cargar nada:
 
-| Versión | Para | Notas |
-|---|---|---|
-| `-1920.mp4` | Full HD y portátiles retina | |
-| `-1280.mp4` | Portátiles pequeños o conexión lenta | |
-| `-movil.mp4` | Móvil y tablet en vertical | Recorte 9:16 a 1080×1920 |
-| `-movil-sd.mp4` | Móvil con conexión lenta | 720×1280 |
+| Versión | Para | HEVC | H.264 |
+|---|---|---|---|
+| `-1920` | Full HD y portátiles retina | 3,7 MB | 7,8 MB |
+| `-1280` | Portátiles pequeños o conexión lenta | 2,1 MB | 3,7 MB |
+| `-movil` | Móvil y tablet en vertical (recorte 9:16 a 1080×1920) | 3,5 MB | 8,6 MB |
+| `-movil-sd` | Móvil con conexión lenta (720×1280) | 2,0 MB | 3,5 MB |
 
-Elige la más pequeña que cubra la pantalla (ancho real en píxeles, con densidad hasta 2×). Un móvil en horizontal no pasa de 1920. Con «reducir movimiento» o ahorro de datos no se descarga ningún vídeo: se queda el póster.
+- **Tamaño:** la más pequeña que cubra la pantalla (ancho real en píxeles, con densidad hasta 2×). Un móvil en horizontal no pasa de 1920.
+- **Formato:** HEVC si el navegador dice que lo reproduce seguro (`canPlayType` = «probably»: Safari, iPhone, iPad y Chrome con decodificador HEVC). Si no, H.264. Si el HEVC da error al cargar, cambia solo al H.264.
+- Con «reducir movimiento» o ahorro de datos no se descarga ningún vídeo: se queda el póster.
 
-Calidad máxima: sin limpieza de grano, CRF 18-19. El original del buzo es 1280×720; las versiones 1920 y móvil están reescaladas (es el límite de ese archivo).
+Calidad: sin limpieza de grano. El original del buzo es 1280×720; las versiones 1920 y móvil están reescaladas (es el límite de ese archivo). Hasta el 26 nov 2026 iban a CRF 18-19 (14 MB el de móvil), demasiado para un bucle de 15 s: no se distinguía de la versión actual y tardaba mucho en cargar en 4G. Ahora: HEVC a CRF 24 y H.264 a CRF 23, preset slow (comparadas fotograma a fotograma al 100 %, SSIM ≥ 0,99). `-movil-sd.mp4` (H.264) se dejó como estaba porque ya era más ligero.
 
 **Cabecera sobre el vídeo.** El vídeo lleva en `main.js` (`VIDEO_LUM`) un mapa 24×24 con la luminosidad mediana de todo el bucle, de la versión horizontal y de la de móvil. La cabecera usa ese mapa para ponerse blanca o negra: elige lo que mejor se lee durante la mayor parte del vídeo y no parpadea con cada plano. Si se cambia un vídeo, hay que regenerar su mapa (ffmpeg a 4 fps, celdas de 24×24, mediana en el tiempo, raíz cuadrada en base64).
 
-**Exportar un vídeo nuevo** (ejemplo 1920): `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3:deblock=-1,-1 -crf 18 -maxrate 12000k -bufsize 24000k -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
+**Exportar un vídeo nuevo** (ejemplo 1920, hacen falta los dos formatos):
+- H.264: `ffmpeg -i original.mp4 -an -c:v libx264 -preset slow -tune film -x264-params aq-mode=3:deblock=-1,-1 -crf 23 -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920.mp4`
+- HEVC: `ffmpeg -i original.mp4 -an -c:v libx265 -preset slow -crf 24 -tag:v hvc1 -pix_fmt yuv420p -movflags +faststart -vf "scale=1920:1080:flags=lanczos" hero-NOMBRE-1920-hevc.mp4`
+
+`-tag:v hvc1` es obligatorio: sin él Safari no reproduce el HEVC.
 
 ## Publicación (GitHub Pages)
 

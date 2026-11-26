@@ -27,10 +27,10 @@ window.FONDO_LOADER_CONFIG = {
 
   /* --- Tiempos (segundos) ---------------------------------------------- */
   durations: {
-    wordmark:   0.6,                     // "fondo" en reposo (lo justo para leerlo)
-    toIsotype:  1.2,                     // fondo → ánfora
-    isotype:    1.2,                     // ánfora en reposo
-    toWordmark: 1.2                      // ánfora → fondo
+    wordmark:   0.4,                     // "fondo" en reposo (lo justo para leerlo)
+    toIsotype:  0.9,                     // fondo → ánfora
+    isotype:    1.2,                     // ánfora en reposo (solo si la página tarda)
+    toWordmark: 0.9                      // ánfora → fondo (solo si la página tarda)
   },
   easing: 'expo.inOut',                  // 'expo.inOut' | 'quint.inOut' | 'quart.inOut' | 'cubic.inOut' | 'sine.inOut' | function (t) { return t; }
 
@@ -44,10 +44,10 @@ window.FONDO_LOADER_CONFIG = {
 
   /* --- Comportamiento como loader -------------------------------------- */
   mode: 'loader',                          // 'loader' (producción) | 'demo' (botones de prueba) | 'loop' (bucle limpio para grabar)
-  autoHide: true,                        // true: se oculta solo cuando la página termina de cargar (window.load)
-  minVisible: 2.15,                      // 0,6 «fondo» + 1,2 transformación + 0,35 para que el ánfora se asiente
+  autoHide: false,                       // false: lo oculta el bloque 4 en cuanto el hero está listo (no espera a window.load)
+  minVisible: 1.55,                      // 0,4 «fondo» + 0,9 transformación + 0,25 para que el ánfora se asiente
   endOn: 'isotype',                      // termina siempre en el ánfora: el gesto es «fondo» → ánfora → telón
-  exit: { type: 'slide', duration: 1.0, delay: 0.2 },   // salida del panel: 'slide' (sube como un telón) | 'fade'
+  exit: { type: 'slide', duration: 0.8, delay: 0.1 },   // salida del panel: 'slide' (sube como un telón) | 'fade'
   reducedMotion: 'auto',                 // 'auto' respeta prefers-reduced-motion · true/false lo fuerza
   lockScroll: true                       // bloquea el scroll de la página mientras el loader está visible
 };
@@ -582,7 +582,7 @@ window.FONDO_LOADER_CONFIG = {
    ========================================================================== */
 (function (win, doc) {
   'use strict';
-  var MAX_WAIT = 7;                                   // segundos: pase lo que pase, el loader sale
+  var MAX_WAIT = 4;                                   // segundos: pase lo que pase, el loader sale
   var html = doc.documentElement;
   var root = doc.getElementById('fondo-loader');
   var meta = doc.querySelector('meta[name="theme-color"]');
@@ -595,6 +595,22 @@ window.FONDO_LOADER_CONFIG = {
   if (html.classList.contains('no-loader')) { win.fondoLoader.hide({ immediate: true }); return; }
 
   win.setTimeout(function () { win.fondoLoader.hide(); }, MAX_WAIT * 1000);
+
+  // Sale en cuanto el hero se puede ver bien: tipografía cargada y póster (o primer
+  // fotograma del vídeo) listo. No espera al resto de la página (fotos de más abajo,
+  // el resto del vídeo), que sigue cargando por detrás.
+  var heroReady = new Promise(function (res) {
+    var v = doc.querySelector('[data-hero-video]');
+    if (!v) return res();
+    if (v.readyState >= 2) return res();
+    v.addEventListener('loadeddata', res, { once: true });
+    if (v.poster) { var im = new Image(); im.onload = im.onerror = res; im.src = v.poster; }
+    else res();
+  });
+  var fontsReady = !doc.fonts ? Promise.resolve() :
+    Promise.all(['400 1em Inter', '500 1em Inter', '700 1em Inter'].map(function (f) { return doc.fonts.load(f); }))
+      .then(function () { return doc.fonts.ready; }, function () {});
+  Promise.all([heroReady, fontsReady]).then(function () { win.fondoLoader.hide(); });
 
   doc.addEventListener('fondoloader:hide', function () {
     html.classList.remove('is-loading');              // el hero entra mientras sube el telón
