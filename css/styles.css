@@ -2337,3 +2337,64 @@ a:hover .mk--x { transform: translate(calc(3 * var(--zu)), calc(-3 * var(--zu)))
    de scroll (Windows) para que la página de detrás no se mueva de lado. */
 html { scrollbar-gutter: stable; }
 .wl__overlay { touch-action: none; }   /* en móvil, arrastrar sobre el fondo oscuro no mueve la página */
+
+/* ==========================================================================
+   Mar Rojo (28 nov 2026)
+   Misma plantilla que Costa Brava; aquí solo lo nuevo: el titular del hero,
+   el plan de inmersiones día a día y «Cómo reservar».
+   ========================================================================== */
+/* Hero: «Mar Rojo» es más corto que «Costa Brava». --tw = ancho del titular en em */
+.page-mar-rojo .vhero { --tw: 4.3; }
+@media (max-width: 899px) and (orientation: portrait) { .page-mar-rojo .vhero { --tw: 2.3; } }
+
+/* Plan de inmersiones: seis columnas en desktop; en móvil, carrusel con snap.
+   Las nocturnas van en bloque azul. */
+.vplan { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; scroll-snap-type: x mandatory; scroll-padding-inline: var(--pad-x); margin-inline: calc(var(--pad-x) * -1); padding-inline: var(--pad-x); }
+.vplan::-webkit-scrollbar { display: none; }
+.vplan:focus-visible { outline-offset: -2px; }
+.vplan__days { display: grid; grid-auto-flow: column; grid-auto-columns: calc(236 * var(--zu)); column-gap: var(--g); width: max-content; }
+.dia { scroll-snap-align: start; display: flex; flex-direction: column; padding-top: calc(12 * var(--zu)); border-top: 2px solid var(--negro); }
+.dia__n { font-family: var(--font-mono); font-size: calc(13 * var(--zu)); line-height: 1.2; }
+.dia__title { margin-top: calc(10 * var(--zu)); min-height: 2.28em; font-weight: 600; font-size: var(--h7); line-height: 1.14; letter-spacing: -0.01em; text-wrap: balance; }
+.dia__list { display: flex; flex-direction: column; margin-top: calc(16 * var(--zu)); }
+.inm { display: flex; flex-direction: column; gap: calc(2 * var(--zu)); padding: calc(12 * var(--zu)) 0 calc(14 * var(--zu)); border-top: 1px solid var(--negro-16); }
+.inm__name { font-weight: 500; font-size: var(--bmd); line-height: 1.25; }
+.inm__sub { font-size: var(--bsm); line-height: 1.3; color: var(--negro-64); }
+.inm--noche { padding-inline: calc(12 * var(--zu)); border-top-color: var(--azul); background: var(--azul); color: var(--beige); }
+.inm--noche .inm__sub { font-weight: 600; font-size: calc(12 * var(--zu)); letter-spacing: 0.04em; text-transform: uppercase; color: rgb(250 243 235 / 0.72); }
+.inm--noche ::selection { background: var(--beige); color: var(--azul); }
+.vplan__note { display: flex; align-items: center; gap: calc(8 * var(--zu)); font-size: var(--bsm); line-height: 1.3; color: var(--negro-64); }
+.vplan__key { flex: none; width: calc(12 * var(--zu)); height: calc(12 * var(--zu)); background: var(--azul); }
+@media (min-width: 900px) {
+  .vplan { grid-column: 1 / -1; margin: calc(52 * var(--zu)) 0 0; padding: 0; overflow: visible; }
+  .vplan__days { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); width: auto; }
+  .vplan__note { grid-column: 1 / -1; margin-top: calc(24 * var(--zu)); }
+}
+
+/* Cómo reservar (beige): los tres pagos en columnas, seguro y vuelos al lado de la entrada */
+.vpasos { display: grid; row-gap: calc(40 * var(--zu)); padding: var(--sec) var(--pad-x); background: var(--beige); }
+.vpasos__title { margin-top: calc(16 * var(--zu)); font-weight: 500; font-size: var(--h3); line-height: 1.04; letter-spacing: -0.02em; }
+.vpasos__lead { margin-top: calc(20 * var(--zu)); max-width: 28em; font-size: var(--bmd); line-height: 1.34; letter-spacing: 0.01em; }
+.vpasos__list { display: grid; }
+.paso { padding: calc(14 * var(--zu)) 0 calc(24 * var(--zu)); border-top: 1px solid var(--negro); }
+.paso:last-child { border-bottom: 1px solid var(--negro); }
+.paso__top { display: flex; justify-content: space-between; gap: calc(8 * var(--zu)); font-weight: 600; font-size: calc(14 * var(--zu)); line-height: 1.15; letter-spacing: 0.04em; }
+.paso__num { font-family: var(--font-mono); font-weight: 400; font-size: calc(13 * var(--zu)); letter-spacing: 0; }
+.paso__value { margin-top: calc(20 * var(--zu)); font-weight: 500; font-size: var(--h2); line-height: 0.96; letter-spacing: -0.04em; }
+.paso__text { margin-top: calc(12 * var(--zu)); max-width: 26em; font-size: var(--bmd); line-height: 1.34; }
+.vpasos__notes { display: grid; row-gap: calc(24 * var(--zu)); }
+.vpasos__label { font-weight: 600; font-size: calc(14 * var(--zu)); line-height: 1.15; letter-spacing: 0.04em; }
+.vpasos__note p + p { margin-top: calc(8 * var(--zu)); font-size: var(--bmd); line-height: 1.34; }
+.vpasos__legal { font-size: calc(12 * var(--zu)); line-height: 1.4; letter-spacing: 0.02em; color: var(--negro-64); }
+@media (min-width: 900px) {
+  .vpasos { grid-template-columns: repeat(12, 1fr); column-gap: var(--g); row-gap: 0; }
+  .vpasos__intro { grid-column: 1 / 6; grid-row: 1; }
+  .vpasos__notes { grid-column: 7 / 13; grid-row: 1; align-self: end; grid-template-columns: 1fr 1fr; column-gap: var(--g); }
+  .vpasos__list { grid-column: 1 / -1; grid-row: 2; grid-template-columns: repeat(3, 1fr); column-gap: var(--g); margin-top: calc(56 * var(--zu)); }
+  .paso:last-child { border-bottom: 0; }
+  .vpasos__links { grid-column: 1 / -1; grid-row: 3; margin-top: calc(32 * var(--zu)); }
+  .vpasos__legal { grid-column: 1 / -1; grid-row: 4; margin-top: calc(24 * var(--zu)); }
+}
+
+/* Tarjeta del Mar Rojo en la home: la cara de la buceadora, siempre dentro del recorte */
+.tcard__img--mr { object-position: 50% 30%; }

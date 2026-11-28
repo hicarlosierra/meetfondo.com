@@ -23,7 +23,7 @@
   <link rel="icon" href="assets/favicon.svg?v=fe84fd92" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest?v=fe84fd92">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=fe84fd92">
-  <link rel="stylesheet" href="css/styles.css?v=6a0ea001">
+  <link rel="stylesheet" href="css/styles.css?v=b5598e3d">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
        ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
@@ -37,7 +37,7 @@
     })(document);
   </script>
   <script src="js/loader.js?v=e2feaa2e" defer></script>
-  <script src="js/main.js?v=5cc2c4c6" defer></script>
+  <script src="js/main.js?v=c9fd4788" defer></script>
 </head>
 <body>
 
@@ -253,16 +253,16 @@
           <span class="tcard__link" aria-hidden="true"><span class="u">Ver campamento</span><span class="mk mk--x">↗</span></span>
           <span class="sr-only">Campamento Open Water en la Costa Brava, junio de 2027. Ver campamento.</span>
         </a>
-        <a class="tcard is-soon" href="#lista" data-type="1" data-waitlist="mar-rojo">
-          <span class="tcard__media" data-follow-area>
-            <img class="tcard__img" src="assets/img/mar-rojo.webp" width="1600" height="1200" alt="" loading="lazy" decoding="async">
-            <span class="oval oval--solid tcard__oval" data-follow aria-hidden="true"><span>Lista de<br>espera</span></span>
+        <a class="tcard" href="viajes/mar-rojo/" data-type="1">
+          <span class="tcard__media" data-follow-area data-waitlist="mar-rojo">
+            <img class="tcard__img tcard__img--mr" src="assets/img/mr-a-bordo.webp" width="1083" height="1452" alt="" loading="lazy" decoding="async">
+            <span class="oval oval--light tcard__oval" data-follow aria-hidden="true"><span>Me<br>interesa</span></span>
           </span>
-          <span class="tcard__labels" aria-hidden="true"><span>EGIPTO</span><span>MAR ROJO</span><span>2027</span></span>
-          <span class="tcard__title" aria-hidden="true">Próximamente<br>en el <strong>Mar Rojo</strong></span>
-          <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · FECHAS POR CONFIRMAR</span>
-          <span class="tcard__link" aria-hidden="true"><span class="u">Apúntame a la lista de espera</span><span class="mk mk--x">↗</span></span>
-          <span class="sr-only">Viaje para buceadores al Mar Rojo, próximamente. Apúntame a la lista de espera.</span>
+          <span class="tcard__labels" aria-hidden="true"><span>EGIPTO</span><span>MAR ROJO</span><span>VIDA A BORDO</span></span>
+          <span class="tcard__title" aria-hidden="true">Una semana a bordo<br>en el <strong>Mar Rojo</strong></span>
+          <span class="tcard__meta" aria-hidden="true">VIAJE PARA BUCEADORES · AGO 2027</span>
+          <span class="tcard__link" aria-hidden="true"><span class="u">Ver viaje</span><span class="mk mk--x">↗</span></span>
+          <span class="sr-only">Viaje para buceadores al Mar Rojo, una semana a bordo del 21 al 28 de agosto de 2027. Ver viaje.</span>
         </a>
         <a class="tcard is-soon" href="#lista" data-type="1" data-waitlist="baja-california">
           <span class="tcard__media" data-follow-area>
@@ -522,7 +522,8 @@
 
 <!-- ============ Formulario · «Me interesa» / lista de espera (lo abre cualquier [data-waitlist]) ============
      Costa Brava ([data-waitlist] vacío): «Me interesa», paso 2 opcional con tres preguntas.
-     Viajes sin fechas ([data-waitlist="mar-rojo"], etc.): lista de espera, solo paso 1. Textos en WL_TRIPS (main.js).
+     Mar Rojo ([data-waitlist="mar-rojo"]): «Me interesa», solo paso 1.
+     Viajes sin fechas ([data-waitlist="baja-california"]): lista de espera, solo paso 1. Textos en WL_TRIPS (main.js).
      Por ahora no envía nada (ver FONDO.formEndpoint en main.js). -->
 <div class="wl" id="lista" role="dialog" aria-modal="true" aria-labelledby="wl-title" aria-hidden="true" data-wl>
   <div class="wl__overlay" data-wl-close></div>

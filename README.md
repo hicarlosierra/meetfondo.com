@@ -1,4 +1,4 @@
-# Fondo · Web v4 (home, página de viaje y sobre nosotros)
+# Fondo · Web v4 (home, páginas de viaje y sobre nosotros)
 
 Hecha a partir de Figma, «Landing Dec 26»: «Home · Desktop optimizado», «Costa Brava · Desktop optimizado», «Sobre nosotros v2 · Desktop» (24 nov 2026) y «Formulario» (lista de espera). Contenido a 1344 px como máximo, márgenes de 48 px y la escala tipográfica de esos frames (bloque «v5» al final de `styles.css`). Antes de pasarlo a código se ajustó el Figma a la rejilla de 12 columnas (copia de seguridad en la página «Backup · 23 nov (antes del ajuste)»).
 Sirve para probar el responsive, las animaciones y la UX antes de pasarla a producción.
@@ -15,6 +15,7 @@ Sirve para probar el responsive, las animaciones y la UX antes de pasarla a prod
 ```
 index.html                    Home
 viajes/costa-brava/index.html Campamento Open Water (Costa Brava)
+viajes/mar-rojo/index.html    Viaje para buceadores, vida a bordo (Mar Rojo, ago 2027)
 sobre-nosotros/index.html     Sobre nosotros
 css/styles.css                Estilos de las tres páginas (mobile first; desktop desde 900 px)
 js/loader.js                  Loader («fondo» → ánfora → telón), solo en la home
@@ -24,7 +25,7 @@ assets/video/                 Vídeo del hero (buzo), en varias versiones
 assets/fonts/                 Inter 3.19 y DM Mono (autoalojadas)
 ```
 
-Las tres páginas comparten cabecera, menú móvil, footer y formulario de lista de espera.
+Todas las páginas comparten cabecera, menú móvil, footer y formulario («Me interesa» / lista de espera). Las dos de viaje usan la misma plantilla.
 
 ## Tipografía
 
@@ -52,13 +53,14 @@ Rangos probados: 360, 390 y 430 (móvil), 844 × 390 (móvil en horizontal), 768
 | Menú móvil (< 900 px) | (no aplica) | Cabecera con logo, próximo viaje e icono de menú. El menú cae como una cortina; se cierra con la X, con Escape o al elegir un enlace, que baja a su sección. Bloquea el scroll de la página, mantiene el foco dentro y tiñe de azul la barra del navegador |
 | Óvalo de la guía (home) | Óvalo blanco «Apúntame a la lista de espera»: aparece bajo el puntero al entrar en las fotos y lo sigue. Clic: abre el formulario | Fijo como sello en la foto |
 | Óvalo del hero del viaje | Igual, en todo el hero. Al bajar, «viaja» hasta la esquina inferior derecha y se queda ahí como botón «Lista de espera», siempre visible | Fijo en el hero; al bajar, botón abajo a la derecha |
-| Formulario «Lista de espera» | Cajón a la derecha (592 px). Se abre desde el óvalo, «Cuenta conmigo», el botón de la cabecera o `#lista` en la dirección. Se cierra con la X, Escape o clic fuera. Valida los obligatorios y da las gracias | Hoja a pantalla completa |
+| Formulario «Me interesa» / «Lista de espera» | Cajón a la derecha (592 px). Se abre desde el óvalo, «Cuenta conmigo», el botón de la cabecera o `#lista` en la dirección. Se cierra con la X, Escape o clic fuera. Valida los obligatorios y da las gracias. Costa Brava: beige, con un paso 2 opcional. Mar Rojo: beige, un solo paso. Viajes sin fechas: azul, lista de espera. Los textos de cada viaje están en `WL_TRIPS` (`main.js`); `data-wl-default` en el cajón fija el viaje de la página | Hoja a pantalla completa |
 | Óvalo del footer | Aparece al entrar en el footer con «Llegaste al fondo»; encima de un enlace muestra su nombre. Con teclado se ve al enfocar | Fijo como sello arriba a la derecha |
 | Manifiesto | Dos frases. La foto va siempre detrás del texto: aparece al entrar, sigue al puntero y cambia con la frase que pisas (de gris a negro) | La frase activa cambia con el scroll; foto fija detrás |
 | Viajes | Sección fija. Cada paso de scroll, con snap suave (la «fricción»), sube la siguiente tarjeta y marca su tipo de viaje (Open Water o buceadores). Clic en un tipo lleva a su primer viaje | Tipos arriba y carrusel con snap |
 | Cómo viajamos | Acordeón, una fila abierta cada vez; la abierta en celeste y con el título más grande | Igual |
 | Dónde pasa (viaje) | Carrusel: se arrastra con el ratón o el trackpad y con las flechas; encaja tarjeta a tarjeta | Tarjeta y media a la vista, con snap |
-| Preguntas (viaje) | Acordeón, una abierta cada vez. «Tengo otra pregunta» es un campo: al escribir y pulsar Enter abre WhatsApp con la pregunta | Igual |
+| Preguntas (viaje) | Acordeón, una abierta cada vez. «Tengo otra pregunta» es un campo: al escribir y pulsar Enter abre WhatsApp con la pregunta (`data-ask` dice de qué viaje) | Igual |
+| Plan de inmersiones (Mar Rojo) | Seis columnas, una por día; las nocturnas en bloque azul | Carrusel con snap, columna y media a la vista |
 | Sobre nosotros | El contador 01 → 02 → 03 se queda fijo mientras pasan los tres principios | Contador fijo bajo la cabecera |
 | Cinta de óvalos | Movimiento continuo; se para al pasar el ratón | Movimiento continuo |
 
@@ -125,6 +127,7 @@ Los enlaces pendientes muestran un aviso «Pendiente» al pulsarlos.
 - Conectar el formulario de la lista de espera (`formEndpoint` en `main.js`) y los dos de newsletter.
 - Número de WhatsApp (`whatsapp` en `main.js`). Sin número, WhatsApp abre con el texto escrito y deja elegir el contacto.
 - Instagram y textos legales.
-- Fotos y fechas de los viajes para buceadores (Mar Rojo y Baja California Sur): ahora llevan fotos de relleno.
+- Baja California Sur: sin fechas ni página, con foto de relleno y lista de espera.
+- Mar Rojo (info de Joan, 17 nov 2026): las fotos son provisionales, del Figma («Mundo visual»), no del barco ni de la ruta. Por confirmar con Joan: los nombres de las dos inmersiones del día 6 (en el PDF, «Torfa o Fanosa de Fasma»; en la web va «Dos inmersiones, de camino a puerto»), el precio de las sesiones con Pau (30 € en el cartel, 35 € en la hoja de reserva; en la web va 30 €), el nivel recomendado (la web dice Advanced o experiencia parecida, por el Thistlegorm) y si queremos nombrar a Buceo Travel / Viajes Macuvi en la web. Los datos bancarios no se publican: van en el contrato.
 - Revisar contenido: «10 plazas» (guía de la home) frente a «12 personas» (viaje); «seis inmersiones» en el texto del Open Water frente a las 4 inmersiones del gráfico; el título de «Dónde pasa» repite el de «¿Te vienes?».
 - Versión en inglés.

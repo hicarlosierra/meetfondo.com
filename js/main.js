@@ -734,7 +734,8 @@
       e.preventDefault();
       const q = input.value.trim();
       if (!q) { input.focus(); return; }
-      window.open(waUrl(`Hola, una pregunta sobre el campamento de la Costa Brava: ${q}`), '_blank', 'noopener');
+      // data-ask="el viaje al Mar Rojo" cambia el viaje del mensaje; vacío = Costa Brava
+      window.open(waUrl(`Hola, una pregunta sobre ${form.dataset.ask || 'el campamento de la Costa Brava'}: ${q}`), '_blank', 'noopener');
       input.value = '';
       form.classList.remove('has-text');
     });
@@ -757,10 +758,15 @@
     const msg = $('.wl__msg', form1);
     const behind = [$('.page'), $('[data-header]'), $('.site-header--ink'), $('[data-dock-pill]')].filter(Boolean);
     let isOpen = false, lastFocus = null, finished = false;
-    // Textos por viaje. '' = Costa Brava («Me interesa», con paso 2). El resto: lista de espera, solo paso 1.
+    // Textos por viaje. '' = Costa Brava («Me interesa», con paso 2).
+    // interest: true = viaje con fechas: «Me interesa» en beige, solo paso 1.
+    // El resto: lista de espera (cajón azul), solo paso 1.
     const WL_TRIPS = {
-      'mar-rojo': { top: 'Mar Rojo&nbsp; / &nbsp;Fechas por confirmar', viaje: 'Viaje para buceadores · Mar Rojo · Lista de espera',
-        title: 'El Mar Rojo te espera <strong>en el fondo.</strong>', toast: 'Estás en la lista de espera del Mar Rojo. Te avisaremos.' },
+      'mar-rojo': { interest: true, top: 'Mar Rojo&nbsp; / &nbsp;21–28 ago 2027', viaje: 'Viaje para buceadores · Mar Rojo · Agosto 2027 · Me interesa',
+        title: 'El Mar Rojo te espera <strong>en el fondo.</strong>',
+        intro: '¿Te interesa? Déjanos tus datos y te escribimos para contarte cómo reservar tu plaza y resolver tus dudas.',
+        submit: 'Me interesa', note: 'Sin compromiso. Te escribimos nosotros.', count: '01/01',
+        toast: 'Gracias. Te escribimos muy pronto con todo lo del Mar Rojo.' },
       'baja-california': { top: 'Baja California Sur&nbsp; / &nbsp;Fechas por confirmar', viaje: 'Viaje para buceadores · Baja California Sur · Lista de espera',
         title: 'Baja California te espera <strong>en el fondo.</strong>', toast: 'Estás en la lista de espera de Baja California. Te avisaremos.' },
     };
@@ -773,8 +779,8 @@
     const setTrip = (key) => {
       if (key === (trip ? trip.key : '')) return;
       const t = WL_TRIPS[key];
-      trip = t ? { key, ...WAIT, ...t } : null;
-      wl.classList.toggle('is-wait', !!trip);   // lista de espera: el cajón va en azul
+      trip = t ? { key, ...(t.interest ? {} : WAIT), ...t } : null;
+      wl.classList.toggle('is-wait', !!trip && !trip.interest);   // lista de espera: el cajón va en azul
       const c = trip || base;
       ['top', 'title', 'intro', 'submit', 'note', 'count'].forEach((k) => { $(`[data-wl-${k}]`, wl).innerHTML = c[k]; });
       $('[data-wl-viaje]', wl).value = c.viaje;
@@ -814,7 +820,7 @@
       if (!t && !area) return;
       if (area && e.target.closest('a, button, input')) return;
       e.preventDefault();
-      setTrip((t && t.dataset.waitlist) || '');
+      setTrip((t && t.dataset.waitlist) || wl.dataset.wlDefault || '');
       setOpen(true);
     });
     $$('[data-wl-close]', wl).forEach((b) => b.addEventListener('click', () => {
@@ -854,7 +860,7 @@
       const btn = $('.wl__submit', form1);
       btn.disabled = true;
       try {
-        await send(form1, trip ? 'lista de espera' : 'me interesa');
+        await send(form1, trip && !trip.interest ? 'lista de espera' : 'me interesa');
         if (trip) { finished = true; setOpen(false); toast(trip.toast); return; }
         show(2);
         $('[data-wl-step="2"] .wl__title', wl).focus({ preventScroll: true });
@@ -875,7 +881,8 @@
       toast('Gracias por contárnoslo. Nos vemos en el fondo.');
     });
 
-    if (location.hash === '#lista') setOpen(true);
+    // data-wl-default en el cajón: viaje por defecto de la página (p. ej. «mar-rojo»)
+    if (location.hash === '#lista') { setTrip(wl.dataset.wlDefault || ''); setOpen(true); }
   })();
 
   /* =======================================================================
