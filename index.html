@@ -23,7 +23,7 @@
   <link rel="icon" href="assets/favicon.svg?v=fe84fd92" type="image/svg+xml">
   <link rel="manifest" href="/site.webmanifest?v=fe84fd92">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=fe84fd92">
-  <link rel="stylesheet" href="css/styles.css?v=b5598e3d">
+  <link rel="stylesheet" href="css/styles.css?v=47381653">
   <script>
     /* Antes del primer pintado: decide si se ve el loader.
        ONCE = true lo enseña solo en la primera visita de cada sesión (recomendado en producción). */
@@ -37,7 +37,7 @@
     })(document);
   </script>
   <script src="js/loader.js?v=e2feaa2e" defer></script>
-  <script src="js/main.js?v=c9fd4788" defer></script>
+  <script src="js/main.js?v=9a4d8f3f" defer></script>
 </head>
 <body>
 
@@ -97,7 +97,7 @@
   <nav class="site-header__nav" aria-label="Principal">
     <a href="#viajes" data-tone="dark">Experiencias</a>
     <a href="sobre-nosotros/" data-tone="dark">Sobre fondo</a>
-    <a href="#cartas" data-tone="dark">Cartas</a>
+    <a href="cartas/" data-tone="dark">Cartas</a>
   </nav>
   <!-- Móvil: próximo viaje en el centro -->
   <a class="site-header__next site-header__next--m" href="viajes/costa-brava/" data-tone="dark"><span class="sr-only">Próximo viaje: </span>Costa Brava, Jun 27</a>
@@ -122,7 +122,7 @@
     <ol role="list">
       <li><a href="#viajes"><span class="mmenu__name">Experiencias</span><span class="mmenu__num" aria-hidden="true">01</span></a></li>
       <li><a href="sobre-nosotros/"><span class="mmenu__name">Sobre fondo</span><span class="mmenu__num" aria-hidden="true">02</span></a></li>
-      <li><a href="#cartas"><span class="mmenu__name">Cartas</span><span class="mmenu__num" aria-hidden="true">03</span></a></li>
+      <li><a href="cartas/"><span class="mmenu__name">Cartas</span><span class="mmenu__num" aria-hidden="true">03</span></a></li>
     </ol>
   </nav>
   <div class="mmenu__extra">
@@ -415,13 +415,13 @@
     <div class="news__block">
       <div class="news__cards" role="list">
         <article class="carta" role="listitem">
-          <h3 class="carta__title">Lo que se oye<br>a veinte metros</h3>
-          <img class="carta__img" src="assets/img/sillas.webp" width="735" height="975" alt="Tres sillas de plástico frente al mar" loading="lazy" decoding="async">
+          <h3 class="carta__title"><a class="carta__link" href="cartas/y-si-los-locos-son-ellos/">¿Y si los locos<br>son ellos?</a></h3>
+          <img class="carta__img" src="assets/img/velero.webp" width="949" height="957" alt="Un hombre sentado en la popa de un velero, con los pies sobre el agua, frente a unos acantilados" loading="lazy" decoding="async">
           <p class="carta__meta"><time datetime="2026-11">nov 26</time><span>#01</span></p>
         </article>
         <article class="carta" role="listitem">
-          <h3 class="carta__title">N’est-elle pas<br>belle, la vie ?</h3>
-          <img class="carta__img" src="assets/img/ferry.webp" width="640" height="804" alt="Un hombre con gorra roja mira el mar desde un ferry" loading="lazy" decoding="async">
+          <h3 class="carta__title"><a class="carta__link" href="cartas/lo-que-se-oye-a-veinte-metros/">Lo que se oye<br>a veinte metros</a></h3>
+          <img class="carta__img" src="assets/img/nadador.webp" width="1536" height="1024" alt="Un buceador acaba de saltar al agua desde el barco y flota en el centro de un remolino de espuma turquesa" loading="lazy" decoding="async">
           <p class="carta__meta"><time datetime="2026-12">dic 26</time><span>#02</span></p>
         </article>
       </div>
@@ -430,6 +430,7 @@
         <h2 class="news__title" id="news-title">nuestra newsletter</h2>
         <p class="news__desc">En Fondo nos encanta el mar, las olas, respirar bajo el agua y <em>ese silencio a veinte metros</em>. El buceo nos lleva lejos y nos acerca a nuevas historias.</p>
         <p class="news__desc">Recibe cada mes nuestras historias más personales con el mar de fondo, próximos viajes y plazas antes que nadie.</p>
+        <a class="cta news__all" href="cartas/"><span class="u">Leer todas las cartas</span><span class="mk mk--x" aria-hidden="true">↗</span></a>
         <form class="field field--dark" data-subscribe novalidate>
           <label class="sr-only" for="nl-email">Tu dirección de email</label>
           <input id="nl-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="Tu dirección de email" required>
@@ -499,7 +500,7 @@
       <li><a href="#viajes">Viajes</a></li>
       <li><a href="#como">Cómo viajamos</a></li>
       <li><a href="sobre-nosotros/">Sobre fondo</a></li>
-      <li><a href="#cartas">Cartas</a></li>
+      <li><a href="cartas/">Cartas</a></li>
     </ul>
   </nav>
 

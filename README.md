@@ -17,6 +17,8 @@ index.html                    Home
 viajes/costa-brava/index.html Campamento Open Water (Costa Brava)
 viajes/mar-rojo/index.html    Viaje para buceadores, vida a bordo (Mar Rojo, ago 2027)
 sobre-nosotros/index.html     Sobre nosotros
+cartas/index.html             Cartas desde el fondo: archivo de la newsletter
+cartas/<carta>/index.html     Una página de lectura por carta
 css/styles.css                Estilos de las tres páginas (mobile first; desktop desde 900 px)
 js/loader.js                  Loader («fondo» → ánfora → telón), solo en la home
 js/main.js                    Interacciones, sin dependencias
@@ -82,6 +84,20 @@ Es el loader que hiciste, integrado sin tocar el motor. Va en `js/loader.js`, co
 - **Seguridad.** Con «reducir movimiento» pasa a un fundido simple. Si el JS no llega a cargar, el loader se aparta solo a los 9 s.
 - **Ajustes.** Tiempos, efecto líquido y salida, en el bloque 1 de `js/loader.js`.
 
+## Cartas desde el fondo
+
+La newsletter tiene su propia sección, `/cartas/`, que hace de archivo (como un Substack muy sencillo). «Cartas» en la cabecera, el menú móvil y el footer lleva ahí desde todas las páginas, y en la home cada tarjeta del bloque de newsletter abre su carta, más el enlace «Leer todas las cartas».
+
+- **Archivo** (`cartas/index.html`): cabecera con el título y una rejilla de tarjetas, de la más nueva a la más antigua (3 columnas en escritorio, 2 en tablet, 1 en móvil). La primera tarjeta, en azul, es la próxima carta, todavía sin publicar, con el campo de suscripción; en móvil va al final y sin el hueco de la foto.
+- **Cada carta** (`cartas/<slug>/index.html`): columna de lectura centrada, foto suelta con radio 10, primer párrafo como entradilla, cita en azul con su autor, despedida y el logo como firma. Debajo, «Compártela con alguien» (comparte la carta con el menú del móvil o copia el enlace) y «Sigue leyendo» con la próxima carta y las anteriores.
+- **Imagen para compartir:** `assets/img/og-carta-NN.jpg` (1200×630), una por carta.
+
+Publicadas (fase de pruebas):
+- #01 «¿Y si los locos son ellos?» (texto de Pablo, con correcciones de ortografía y puntuación), nov 2026, foto `velero.webp`.
+- #02 «Lo que se oye a veinte metros» (texto de relleno escrito en la misma línea), dic 2026, foto `nadador.webp`.
+
+**Publicar una carta nueva:** copia la carpeta de la última, cambia textos, fecha, número, foto y `og:*`; añade su tarjeta al principio de la rejilla del archivo (después de la azul) y en «Sigue leyendo» de las demás; sube el número y la fecha de la tarjeta azul («la próxima se está escribiendo») y el contador «Todas las cartas»; y cambia las dos tarjetas de la home por las dos últimas.
+
 ## Escala tipográfica
 
 Nueve roles para toda la web (variables `--t-*` en `styles.css`), en desktop / móvil: Display 72/40, Titular 44/26, Título 32/24, Entradilla 24/20, Cuerpo L 18/17, Cuerpo 16, Pequeño 14, Etiqueta 12 (Semibold, mayúsculas, +6 %) y Mono 12 (DM Mono, solo números y fechas). Solo Inter (Instrument Sans ya no se usa) y tres pesos principales: Light para entradillas, Regular para texto y Medium para títulos, con Semibold/Bold para énfasis. Fuera de escala, a propósito: «Costa Brava» en el hero del viaje, «Queremos salvar el mundo» y «Parar, respirar y disfrutar» en Sobre nosotros, el contador, «Good things take depth.» del footer, el manifiesto y el wordmark.
@@ -124,7 +140,8 @@ Calidad: sin limpieza de grano. El original del buzo es 1280×720; las versiones
 
 Los enlaces pendientes muestran un aviso «Pendiente» al pulsarlos.
 
-- Conectar el formulario de la lista de espera (`formEndpoint` en `main.js`) y los dos de newsletter.
+- Conectar el formulario de la lista de espera (`formEndpoint` en `main.js`) y los de newsletter (home, footer y tarjeta azul de las cartas).
+- Cartas: fotos provisionales (de la web, no de Pablo); la #02 es texto de relleno y lleva fecha de diciembre.
 - Número de WhatsApp (`whatsapp` en `main.js`). Sin número, WhatsApp abre con el texto escrito y deja elegir el contacto.
 - Instagram y textos legales.
 - Baja California Sur: sin fechas ni página, con foto de relleno y lista de espera.

@@ -556,7 +556,8 @@
      ======================================================================= */
   $$('[data-share]').forEach((a) => a.addEventListener('click', async (e) => {
     e.preventDefault();
-    const data = { title: 'Fondo · Viajes de buceo', text: 'Mira esto, ¿te vienes?', url: location.href };
+    // data-share-title / data-share-text cambian el texto (p. ej. en cada carta)
+    const data = { title: a.dataset.shareTitle || 'Fondo · Viajes de buceo', text: a.dataset.shareText || 'Mira esto, ¿te vienes?', url: location.href };
     try {
       if (navigator.share) { await navigator.share(data); return; }
       await navigator.clipboard.writeText(location.href);
