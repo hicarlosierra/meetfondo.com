@@ -42,7 +42,7 @@ Es la **Inter 3.19**, la misma que usa Figma, autoalojada en la carpeta de fuent
   - Hero: 100 % de la pantalla.
   - Viajes: fija mientras se recorre.
   - Guía Costa Brava y Campamento: entre 520 y 852 px, y nunca más que la pantalla.
-- **Hero.** El wordmark va de margen a margen y se hunde por abajo un 5 %, como en Figma. En pantallas bajas (portátiles, móvil en horizontal) se hunde hasta un 15 % para no ocupar más de la mitad del hero, y si aun así no cabe, se reduce.
+- **Hero.** Regla fija: el hero de la home ocupa siempre exactamente la pantalla visible (100svh) en cualquier pantalla y navegador. Nunca asoma la sección siguiente ni hay que hacer scroll para verlo entero. El wordmark va de margen a margen y se hunde por abajo siempre un 5 %, como en Figma (nunca más). Como mucho ocupa la mitad del alto: en pantallas bajas y anchas se reduce y se centra en vez de cortarse. El claim va justo encima del wordmark.
 - **Viajes.** En desktop (≥ 900 de ancho y ≥ 600 de alto) la sección queda fija y cada paso de scroll activa un destino y mueve la tira de postales. La postal se escala con el alto de la pantalla para verse siempre entera, con la anterior y la siguiente asomando. En móvil, tablet vertical y pantallas bajas se convierte en lista más carrusel.
 
 Rangos probados: 360, 390 y 430 (móvil), 844 × 390 (móvil en horizontal), 768 y 1024 (tablet), 1280 × 720, 1366 × 657, 1440 × 780, 1536 × 864, 1920 × 1080 y 2560 × 1440.
